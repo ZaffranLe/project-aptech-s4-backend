@@ -1,0 +1,1 @@
+C:\mxv_master\vision-foundation\Entity\obj\Release\Entity.csproj.CoreCompileInputs.cache

@@ -1,0 +1,4 @@
+C:\mxv_master\vision-foundation\BaseUtils\obj\Release\BaseUtils.csprojAssemblyReference.cache
+C:\mxv_master\vision-foundation\BaseUtils\obj\Release\BaseUtils.Form1.resources
+C:\mxv_master\vision-foundation\BaseUtils\obj\Release\BaseUtils.csproj.GenerateResource.cache
+C:\mxv_master\vision-foundation\BaseUtils\obj\Release\BaseUtils.csproj.CoreCompileInputs.cache

@@ -1,0 +1,5 @@
+﻿{
+  "WorkingConnectionString": "Data Source=10.8.6.87;Initial Catalog=DataBaseWorkingNVC;User ID=lemon;Password=admin;Persist Security Info=True",
+  "ArchiveConnectionString": "Data Source=10.8.6.87;Initial Catalog=DataBaseHistNVC;User ID=lemon;Password=admin;Persist Security Info=True",
+  "ReportConnectionString": "Data Source=10.8.6.87;Initial Catalog=DatabaseReport;User ID=lemon;Password=admin;Persist Security Info=True"
+}
