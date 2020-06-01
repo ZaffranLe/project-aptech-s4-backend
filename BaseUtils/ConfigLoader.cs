@@ -56,6 +56,7 @@ namespace BaseUtils
         private static string GetAppPath()
         {
             string path = Assembly.GetExecutingAssembly().Location;
+            path = System.AppDomain.CurrentDomain.BaseDirectory; //Dung iss phai lay local path qua func nay
             path = path.Remove(path.LastIndexOf('\\'));
             return path;
         }
