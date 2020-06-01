@@ -1,2 +1,0 @@
-C:\mxv_master\vision-foundation\DataLayer\obj\Release\DataLayer.csprojAssemblyReference.cache
-C:\mxv_master\vision-foundation\DataLayer\obj\Release\DataLayer.csproj.CoreCompileInputs.cache

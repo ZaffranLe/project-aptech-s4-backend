@@ -1,2 +1,0 @@
-C:\mxv_master\vision-foundation\DatabaseDAL\obj\Release\DatabaseDAL.csprojAssemblyReference.cache
-C:\mxv_master\vision-foundation\DatabaseDAL\obj\Release\DatabaseDAL.csproj.CoreCompileInputs.cache
