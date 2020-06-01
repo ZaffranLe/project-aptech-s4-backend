@@ -41,9 +41,24 @@ namespace ElectricShop.DatabaseDAL.Common
 
         public EntityBaseSql GetMyEntity(string entityName)
         {
-            
-            #region EquixSyncOrder
-            if (entityName.Equals(YdspLme.EntityName())) { return new YdspLmeSql(); }
+
+            #region GetMyEntity
+            if (entityName.Equals(Customer.EntityName())) { return new CustomerSql(); }
+            if (entityName.Equals(Image.EntityName())) { return new ImageSql(); }
+            if (entityName.Equals(ImportReceipt.EntityName())) { return new ImportReceiptSql(); }
+            if (entityName.Equals(Manufacturer.EntityName())) { return new ManufacturerSql(); }
+            if (entityName.Equals(OrderDetail.EntityName())) { return new OrderDetailSql(); }
+            if (entityName.Equals(Permission.EntityName())) { return new PermissionSql(); }
+            if (entityName.Equals(Product.EntityName())) { return new ProductSql(); }
+            if (entityName.Equals(ProductType.EntityName())) { return new ProductTypeSql(); }
+            if (entityName.Equals(Property.EntityName())) { return new PropertySql(); }
+            if (entityName.Equals(Provider.EntityName())) { return new ProviderSql(); }
+            if (entityName.Equals(Role.EntityName())) { return new RoleSql(); }
+            if (entityName.Equals(RolePermission.EntityName())) { return new RolePermissionSql(); }
+            if (entityName.Equals(UserInfo.EntityName())) { return new UserInfoSql(); }
+            if (entityName.Equals(UserLogin.EntityName())) { return new UserLoginSql(); }
+            if (entityName.Equals(UserRole.EntityName())) { return new UserRoleSql(); }
+
 
 
             #endregion
