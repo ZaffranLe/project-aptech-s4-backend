@@ -1,0 +1,38 @@
+﻿// 11h04 ngày 25/06: Bỏ entity ConfigEmailSms, 
+
+//16:30 26/06 thêm bảng ManualPrice
+//17h00 26/06/2014. 
+//Thuc hienj them trường IsManualOrder: vào các bảng : 
+//OrderTransaction,OrderTransactionHist,OrderTransactionAction,
+//TradingDeal, TradingDealAction, TradingDealHist,
+//Thực hiện thêm cột TotalAmount vào bảng MemberPnL.
+
+16:30 26/06 thêm bảng ManualPrice
+
+15:04 30/06: thêm các trường OverDraftLimit, HoldOverDraft, DnOrverDraft trong entity AccountTransaction, sử dụng trong form lịch sử thấu chi
+15:04 01/07: Thêm bảng lịch sử giá thị trường
+14:00 17/07: Them bang OpenPositionDetailDaily
+14:00 17/07: Them truong vao bang OpenPositionDaily
+14:00 17/07: Them truong vao bang TradingDealHist
+18:00 1707: xoa truong bang OpenPositionDetailDaily va OpenPositionDaily
+
+09:40 26/07: Them truong RoleTye vao bang Role
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+09/20:	- Thêm quyền xem báo cáo trạng thái mở VTB tại đối tác
+		- Thêm systemconfig default về cập nhật biên độ tỷ giá ngoại tệ: 
+			Insert into SystemConfig values(26, 'OverForexRate', '50','OverForexRate', 0, GETDATE())
+
+		- Thêm quyen: 
+			INSERT dbo.Role VALUES(N'VGC_System_SendEmailSmsConfig10',N'Xem cấu hỉnh gửi cảnh báo tỷ lệ KQ KH vi phạm hạn mức cắt lỗ - Email, SMS',1,1,GetDate(),107)
+			INSERT dbo.Role VALUES(N'VGC_System_SendEmailSmsConfig110_Edit',N'Sửa cấu hình gửi cảnh báo tỷ lệ KQ KH vi phạm hạn mức cắt lỗ - Email, SMS',1,1,GetDate(),107)
+			INSERT dbo.Role VALUES(N'VTC_Report_SaoKeTaiKhoanKyQuyTaiDoiTac',N'Xuất báo cáo sao kê tài khoản ký quỹ ViettinBank tại đối tác',1,1,GetDate(),107)
+			INSERT dbo.Role VALUES(N'VGC_System_SendEmailSmsConfig110_Edit',N'Sửa cấu hình gửi chỉ dẫn tất toán trạng thái tự động qua e-mail',1,1,GetDate(),107)
+			INSERT dbo.Role VALUES(N'VGC_System_SendEmailSmsConfig10',N'Xem cấu hình gửi chỉ dẫn tất toán trạng thái tự động qua e-mail',1,1,GetDate(),107)
+			INSERT dbo.Role VALUES(N'VTC_ListAccountTransactionsPatner',N'Xem quản lý TKKQ của ĐT',1,1,GetDate(),107)
+09/22:	- Sửa tên quyền
+		UPDATE Role SET Description = N'Xem báo cáo lịch sử giao dịch HDTLHH của khách hàng' WHERE Name = N'VTC_Report_VC_BaoCaoLichSuGiaoDichHDTLHHKhachHang'
+09/25: - Them script update SessionDate cho bang LinkedTransactionHist.Script duoc de trong Folder Script va ten File la UpdateSessionDateForLinked.Sql
+
+
+#Thêm sessionId trên ManualPrice
