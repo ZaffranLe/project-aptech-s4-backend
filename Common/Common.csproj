@@ -90,6 +90,7 @@
     <Compile Include="Enum\EntityAction.cs" />
     <Compile Include="Enum\EntityGet.cs" />
     <Compile Include="Enum\WithdrawRuleType.cs" />
+    <Compile Include="Enum\ErrorCodeEnum.cs" />
     <Compile Include="Enum\WorkerType.cs" />
     <Compile Include="Object\Descriptor.cs" />
     <Compile Include="Object\DescriptorColection.cs" />

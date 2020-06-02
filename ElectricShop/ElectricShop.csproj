@@ -135,7 +135,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Const\ErrorCodeDef.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -143,10 +142,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
-    <Compile Include="Models\AccountInfo.cs" />
-    <Compile Include="Models\CashTranfer.cs" />
+    <Compile Include="Memory\Memory.cs" />
+    <Compile Include="Memory\MemoryInfo.Get.cs" />
+    <Compile Include="Memory\MemoryInfo.GetAll.cs" />
+    <Compile Include="Memory\MemoryInfo.GetByField.cs" />
+    <Compile Include="Memory\MemoryInfo.IsExist.cs" />
+    <Compile Include="Memory\MemorySet.Entity.cs" />
+    <Compile Include="Memory\MemorySet.SetAndRemove.cs" />
     <Compile Include="Models\ErrorCode.cs" />
-    <Compile Include="Models\WebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderDatabase\ProcessReadDatabaseUtils.cs" />
   </ItemGroup>
@@ -183,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Const\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
