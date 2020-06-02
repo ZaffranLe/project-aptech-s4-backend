@@ -136,17 +136,17 @@
     <Content Include="Script\CreateDBEmpty\01_CreateTable.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\project-aptech-s4-foundation\Common\Common.csproj">
-      <Project>{6bc6ee66-df73-4dff-b3ea-6c2542c6b11e}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\project-aptech-s4-foundation\Entity\Entity.csproj">
-      <Project>{62dd8e15-037b-4af3-99ac-41be4fb6e4b6}</Project>
-      <Name>Entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BaseUtils\BaseUtils.csproj">
       <Project>{485e3b87-b815-448b-8d29-b8804a9c4856}</Project>
       <Name>BaseUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{6bc6ee66-df73-4dff-b3ea-6c2542c6b11e}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{62dd8e15-037b-4af3-99ac-41be4fb6e4b6}</Project>
+      <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
