@@ -1,0 +1,40 @@
+﻿public static DateTime TimeInit { get; set; }
+        public static void InitDatabaseByTime(DateTime timeInit)
+        {
+            try
+            {
+				LogTo.Info("-------------==========================------------------");
+				LogTo.Info("-------------CHECK MEMORY BY TIME : {0}------------------", timeInit);
+                //ClearDatabase
+                ClearMemory();
+                TimeInit = timeInit;
+                //Lấy thông tin Query
+                var listQueries = new List<EntityQuery>();
+                var list = RegisterMemory();
+                if (list != null && list.Any())
+                {
+                    listQueries.AddRange(list.Select(entityName => new EntityQuery
+                    {
+                        EntityName = entityName,
+                        QueryAction = EntityGet.GetAllValues
+                    }));
+                }
+
+                listQueries = ProcessReadDatabaseUtils.GetListEntityQuery(listQueries);
+                foreach (EntityQuery entityQuery in listQueries)
+                {
+                    string entityName = entityQuery.EntityName;
+                    if (string.IsNullOrEmpty(entityName)) continue;
+                    if (entityQuery.ReturnValue == null) continue;
+
+                    foreach (BaseEntity entity in entityQuery.ReturnValue)
+                    {
+                        UpdateAndInsertEntity(entity);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTo.Error(ex.ToString());
+            }
+        }

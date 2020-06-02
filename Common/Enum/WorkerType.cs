@@ -1,0 +1,48 @@
+namespace ElectricShop.Common.Enum
+{
+    public enum WorkerType
+    {
+        None = 1,
+        Database = 2,
+        CommunicationMemory = 3,
+        User = 4,
+        System = 5,
+        PreTrade = 6,
+        Session = 7,
+        Risk = 8,
+        Dealing = 9,
+        DataProvider = 10,
+        Update = 11,
+        SOR = 12,
+        PostTrade = 13,
+        Pricing = 14,
+        Task = 15,
+        Report = 16,
+        Alert = 17,
+        CqgFixConnector = 18,
+        Sinker = 19,
+        CqgWebApiConnector = 20,
+        FTPSync = 21,
+        Authentication = 22,
+        WebServices = 23,
+        CqgFixConverter = 24,
+        CqgWebApiConverter = 25,
+        Business = 26,
+        PricingUpdater = 27,
+        ControlLogWorker = 28,
+        AlertSms = 29,
+        CqgFixImport = 30,
+        EquixSyncOrder = 31,
+        EquixSyncFromCore = 32,
+        CoreSyncCashBalance = 34,
+        CoreSyncAccountInfo = 35,
+        CoreSyncAssignSymbol = 36,
+        CoreSyncFee = 37,
+        CoreSyncFxRate = 38,
+        CoreSyncHolding = 39,
+        EquixSyncAvail = 40,
+        EquixSyncSettlement = 41,
+        CoreSyncCommodityInfo = 42
+    }
+}
+

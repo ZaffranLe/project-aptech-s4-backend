@@ -1,0 +1,81 @@
+﻿using System;
+using HK.APIHander.NetworkClient;
+using HK.CommonMessage.ResponseMessage;
+using HK.Entity.Processor;
+using log4net;
+
+namespace HK.APIHander.WorkerClient
+{
+    public partial class AccountClient : MessageQueue
+    {
+        private static readonly ILog log = LogManager.GetLogger(typeof(AccountClient));
+        public AccountClient()
+        {
+            if (Worker.AccountManager.AppGlobal.IsUseNetwork)
+                TerminalNetworkClient.Instance.OnAccountMessageReceived += ProcessOnAccountMessageReceived;
+        }
+
+        public void Disconnect()
+        {
+            try
+            {
+                if (Worker.AccountManager.AppGlobal.IsUseNetwork)
+                {
+                    TerminalNetworkClient.Instance.OnAccountMessageReceived -= ProcessOnAccountMessageReceived;
+                    TerminalNetworkClient.Instance.StopNetwork();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+            }
+        }
+
+        public virtual void ProcessOnAccountMessageReceived(Response response)
+        {
+            if(Worker.AccountManager.AppGlobal.IsUseNetwork)
+                EnQueue(response);
+        }
+
+        public override void ProcessMessage(object message)
+        {
+            try
+            {
+                if (!(message is Response))
+                    return;
+
+                var response = message as Response;
+                response = ProcessBroadcast(response);
+                if (response == null)
+                    return;
+
+                response = ProcessResponse(response);
+                if (response == null)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+
+        public void ProcessMessageResponseNotNetwork(Response response)
+        {
+            try
+            {
+                response = ProcessBroadcast(response);
+                if (response == null)
+                    return;
+
+                response = ProcessResponse(response);
+                if (response == null)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+    }
+}

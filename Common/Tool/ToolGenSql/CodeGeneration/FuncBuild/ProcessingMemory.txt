@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Anotar.Log4Net;
+using QuantEdge.Common.Enum;
+using QuantEdge.Entity;
+using QuantEdge.Entity.Entities;
+using QuantEdge.Lib.Memory;
+using QuantEdge.Message.Broadcast.Event;
+using QuantEdge.Message.Broadcast.Session;
+using QuantEdge.Message.Common;
+using QuantEdge.Message.Request;
+using QuantEdge.Message.Request.Session;
+using QuantEdge.Worker.CommunicationMemory.LoadMemory;
+using QuantEdge.Worker.CommunicationMemory.ProcessCheck.FunctionCheckMemory;
+
+namespace QuantEdge.Worker.CommunicationMemory.ProcessCheck
+{
+    public class ProcessingMemory
+    {
+        public static WorkerResponse CheckMemoryInfo(CommunicationMemoryRequest request)
+        {
+            try
+            {
+                if (request.ServerTime != MemorySet.TimeInit)
+                {
+                    Console.WriteLine(@"Check memory for worker {0} and entity {1} not success for time {2}",
+                    request.WorkerSender, request.EntityName, request.ServerTime);
+                    return null;
+                }
+
+                Console.WriteLine(@"Check memory for worker {0} and entity {1}",
+                    request.WorkerSender, request.EntityName);
+
+                var listEntityCommand = new List<EntityCommand>();
+                #region Xử lý func check memory
+                #FUNCTION_CHECK_MEMORY
+                #endregion
+
+                if (listEntityCommand.Count > 0)
+                {
+                    //Insert thông tin lỗi vào database
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTo.Error(ex.ToString());
+            }
+            return null;
+        }
+
+        public static bool IsErrorTimeInit(DateTime timeChangedDatabase)
+        {
+            //Check xem có vượt quá TimeInit (Thời gian lấy thông tin Database hay không?)
+            if (timeChangedDatabase.Ticks > MemorySet.TimeInit.Ticks)
+                return true;
+
+            //Mặc định là không báo lỗi
+            return false;
+        }
+
+public WorkerResponse ProcessMessageCommunicationMemory(CommunicationMemoryBroadcast communicationMemoryBroadcast, 
+            bool sameBroadcast, List<string> listEntity, WorkerType workerType)
+        {
+            if (communicationMemoryBroadcast == null)
+                return null;
+
+            if (workerType == WorkerType.CommunicationMemory)
+            {
+                Publish(new BroadcastCommunicationMemoryEvent
+                {
+                    ServerTime = communicationMemoryBroadcast.ServerTime,
+                });
+            }
+            else
+            {
+                #region Nếu là worker khác thì gửi message sang check Data
+                var wrkResponse = new WorkerResponse();
+                //Tạo các message theo từng entity subscribe sang memory để check
+                foreach (var entityName in listEntity)
+                {
+                    var request = GetMesssageCommunicationMemory(communicationMemoryBroadcast.ServerTime, entityName, workerType);
+                    if (request != null)
+                        wrkResponse.ListMsgWorker.Add(request);
+                }
+
+                return wrkResponse;
+                #endregion
+            }
+
+            return null;
+        }
+
+        public Request GetMesssageCommunicationMemory(DateTime serverTime, string entityName, WorkerType workerType)
+        {
+            List<BaseEntity> listBaseEntity = null;
+			#region Cast list BaseEntity
+                #FUNCTION_CAST_MEMORY
+                #endregion
+            
+
+            if (listBaseEntity != null)
+            {
+                var request = new CommunicationMemoryRequest
+                {
+                    WorkerSender = workerType,
+                    SendingTopic = BaseWorker.TopicFactory(WorkerType.CommunicationMemory),
+                    ListEntitys = listBaseEntity,
+                    ServerTime = serverTime,
+                    EntityName = entityName,
+                };
+                return request;
+            }
+            return null;
+        }
+    }
+}

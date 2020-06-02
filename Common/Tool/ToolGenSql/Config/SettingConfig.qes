@@ -1,0 +1,17 @@
+{
+   "$type" : "CommonicationMemory.Config.SettingConfig, OracleGenagator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+   "DataBase_SqlServer" : "34.92.152.57",
+   "Database_Catalog" : "AptechProjectS4",
+   "Database_SqlAuthentication" : true,
+   "Database_UserName" : "lemon",
+   "Database_Password" : "admin",
+   "Setting_ProjectName" : "DAL",
+   "Setting_ClassPrefix" : "",
+   "Setting_SpPrefix" : "",
+   "Setting_OutputDirectory" : "C:\\QuantEdge\\",
+   "Setting_FoudationLink" : "E:\\ProjectCode\\NightVisionCore\\vision-foundation",
+   "Setting_MemoryWorkerBase" : "E:\\ProjectCode\\NightVisionCore\\vision-worker-base\\Common\\BaseWorker\\Memory",
+   "Setting_CheckGenByForder" : false,
+   "Setting_ConnectionString" : "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=db_oracle.qe)(PORT=1521))(CONNECT_DATA=(SID=vtbfx)));User Id=lemon3;Password=admin;",
+   "Setting_EntityPath" : "E:\\ProjectCode\\NightVisionCore\\vision-foundation\\Entity"
+}

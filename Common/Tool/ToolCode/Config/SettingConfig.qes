@@ -1,0 +1,16 @@
+﻿{
+	"DataBase_SqlServer" : "10.8.6.87",
+	"Database_Catalog" : "DatabaseWorkingNVC",
+	"Database_SqlAuthentication" : true,
+	"Database_UserName" : "lemon",
+	"Database_Password" : "Quantedge@123",
+	"Setting_ProjectName" : "DAL",
+	"Setting_ClassPrefix" : "",
+	"Setting_SpPrefix" : "",
+	"Setting_OutputDirectory" : "E:\\QuantEdge\\",
+	"Setting_FoudationLink" : "E:\\ProjectCode\\NightVisionCore\\vision-foundation",
+	"Setting_MemoryWorkerBase" : "E:\\ProjectCode\\NightVisionCore\\vision-worker-base\\Common\\BaseWorker\\Memory",
+	"Setting_CheckGenByForder" : true,
+	"Setting_ConnectionString" : "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=db_oracle.qe)(PORT=1521))(CONNECT_DATA=(SID=vtbfx)));User Id=lemon3;Password=admin;",
+	"Setting_EntityPath" : "E:\\ProjectCode\\NightVisionCore\\vision-foundation\\Entity"
+}

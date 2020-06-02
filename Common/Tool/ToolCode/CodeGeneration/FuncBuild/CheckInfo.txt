@@ -1,0 +1,88 @@
+﻿		public static List<EntityCommand> CheckInfo(List<TABLE_NAME> listTABLE_NAME, WorkerType workerSender)
+        {
+            var listCommands = new List<EntityCommand>();
+            try
+            {
+                var listValueDatabase = MemoryInfo.GetAllTABLE_NAME();
+				if (listValueDatabase.Count != listTABLE_NAME.Count)
+                {
+                    LogTo.Info("Chenh lech memory TABLE_NAME gui tu WorkerSender : {0}. Database{1}_Worker{2} ", workerSender,
+								listValueDatabase.Count, listTABLE_NAME.Count);
+                }
+				var listFail = new List<TABLE_NAME>();
+                #region CHECK DỮ LIỆU WORKER CÓ GIỐNG DATABASE HAY KHÔNG?
+                foreach (var valueData in listValueDatabase)
+                {
+                    //Nếu có thông tin thì check
+                    TABLE_NAME valueWorker = listTABLE_NAME.ToList().Find(value => value.KEY_NAME.Equals(valueData.KEY_NAME));
+                    if (valueWorker == null)
+                    {
+                        //Nếu database có thông tin mà worker không có thông tin thì báo lỗi
+                        LogTo.Error("Không có thông tin {0} trong Memory Worker {1}!", valueData.GetName(), workerSender);
+                        continue;
+                    }
+
+                    if (!ProcessingMemory.IsErrorTimeInit(valueWorker.TimeChanged))
+                    {
+                        //Nếu valueWorker nằm trong khoảng cho phép thì check thông tin
+                        string valueFail;
+                        string keyValue;
+                        string columnFail = CompareInfo(valueData, valueWorker, out valueFail, out keyValue);
+                        if (!string.IsNullOrEmpty(columnFail))
+                        {
+                            listFail.Add(valueData);
+                            string error = "\n1.------------------------------------------------------\r\n";
+                            error += "Column Fail  : " + columnFail + "\r\n";
+                            error += "Key Value    : " + keyValue + "\r\n";
+                            error += "Value Fail   : " + valueFail + "\r\n";
+                            error += "WorkerSender : " + workerSender + "\r\n";
+                            LogTo.Error(error);
+                           
+						    listCommands.Add(EntityCommandUtils.GetEntityCommandMemroy(TABLE_NAME.EntityName(),
+                                columnFail, valueFail, string.Format("WorkerSender is {0}", workerSender), workerSender));
+                        }
+                    }
+                }
+
+                foreach (var valueWorker in listTABLE_NAME)
+                {
+                    //Nếu có thông tin thì check
+                    if (!MemoryInfo.IsExistTABLE_NAME(valueWorker.KEY_NAME))
+                        continue;
+
+					//Nếu đã check fail rồi thì bỏ qua
+                    TABLE_NAME objFail = listFail.ToList().Find(value => value.KEY_NAME.Equals(valueWorker.KEY_NAME));
+                    if (objFail != null)
+                        continue;
+
+                    //Check time xem có vượt qua time lấy thông tin database hay không
+                    if (!ProcessingMemory.IsErrorTimeInit(valueWorker.TimeChanged))
+                    {
+                        //Nếu valueWorker nằm trong khoảng cho phép thì check thông tin
+                        TABLE_NAME valueData = MemoryInfo.GetTABLE_NAME(valueWorker.KEY_NAME);
+                        string valueFail;
+                        string keyValue;
+                        string columnFail = CompareInfo(valueData, valueWorker, out valueFail, out keyValue);
+                        if (!string.IsNullOrEmpty(columnFail))
+                        {
+                            listFail.Add(valueData);
+                            string error = "\n2.------------------------------------------------------\r\n";
+                            error += "Column Fail  : " + columnFail + "\r\n";
+                            error += "Key Value    : " + keyValue + "\r\n";
+                            error += "Value Fail   : " + valueFail + "\r\n";
+                            error += "WorkerSender : " + workerSender + "\r\n";
+                            LogTo.Error(error);
+
+                            listCommands.Add(EntityCommandUtils.GetEntityCommandMemroy(TABLE_NAME.EntityName(),
+                                columnFail, valueFail, string.Format("WorkerSender is {0}", workerSender), workerSender));
+                        }
+                    }
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                LogTo.Error(ex.ToString());
+            }
+            return listCommands;
+        }

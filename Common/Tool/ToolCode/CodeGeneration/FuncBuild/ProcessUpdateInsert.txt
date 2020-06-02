@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using HK.CommonMessage.RequestMessage.Account;
+using HK.CommonMessage.ResponseMessage.Account;
+using HK.CommonMessage.Utils;
+using HK.Entity;
+using HK.Entity.Entities;
+using HK.Entity.Enums;
+using log4net;
+using Worker.AccountManager.MessageProcess;
+using Worker.AccountManager.Utils;
+
+namespace Worker.AccountManager.Process.Update
+{
+    public class ProcessUpdateENTITY_NAME
+    {
+        private static readonly ILog log = LogManager.GetLogger(typeof(ProcessUpdateENTITY_NAME));
+
+        public UpdateENTITY_NAMEResponse UpdateENTITY_NAME(UpdateENTITY_NAMERequest request)
+        {
+            var response = new UpdateENTITY_NAMEResponse
+            {
+                MessageType = ZMQMessageType.Account,
+                ResourcesKeyEnum = ResourcesKeyEnum.Success,
+            };
+            try
+            {
+                #region Check thông tin
+                var resourcesKey = CheckInfo(request.ENTITY_NAME, request.RequestType, request.UserLoginId);
+                if (resourcesKey != ResourcesKeyEnum.Success)
+                {
+                    response.ResourcesKeyEnum = resourcesKey;
+                    return response;
+                }
+                #endregion
+
+                if (request.RequestType == RequestType.Insert ||
+                    request.RequestType == RequestType.Update ||
+                    request.RequestType == RequestType.Delete)
+                {
+                    #region Process Info
+                    var value = request.ENTITY_NAME.Clone() as ENTITY_NAME;
+                    if (value != null)
+                    {
+                        value.ActorChanged = request.UserLoginId;
+                        value.TimeChanged = AppGlobal.GetServerTime();
+
+                        var listEntityCommand = new List<EntityCommand>();
+                        var entityCommand = new EntityCommand
+                        {
+                            BaseEntity = new Entity.Entity(value),
+                            EntityAction = AccountManagerUtils.GetEntityAction(request.RequestType),
+                        };
+                        listEntityCommand.Add(entityCommand);
+
+                        var actionValue = string.Concat(ActionLogUtils.GetDisplayUser(request.UserLoginId), "#",
+                                          ActionLogUtils.GetDisplayUser(value.UserId));
+                        var commandActionLog = ActionLogUtils.GetEntityActionLog(request.UserLoginId, 0,
+                                                   GetResourcesKeyEnum_ActionLog(request.RequestType), actionValue);
+                        if (commandActionLog != null)
+                            listEntityCommand.Add(commandActionLog);
+
+                        bool isOk = ProcessWriteDatabaseUtils.UpdateDefault(listEntityCommand, request.UserLoginId, request.RequestKey);
+                        if (!isOk)
+                        {
+                            response.ResourcesKeyEnum = ResourcesKeyEnum.Fail;
+                        }
+
+                        return response;
+                    }
+                    #endregion
+                }
+
+                log.Error("Not support RequestType " + request.RequestType + " in action info!");
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return null;
+        }
+
+        private ResourcesKeyEnum CheckInfo(ENTITY_NAME ENTITY_NAME, RequestType requestType, long actor)
+        {
+            var resourcesKey = ResourcesKeyEnum.Success;
+            try
+            {
+                if (requestType == RequestType.None)
+                {
+                    resourcesKey = ResourcesKeyEnum.Fail;
+                    return resourcesKey;
+                }
+
+                if (ENTITY_NAME == null)
+                {
+                    resourcesKey = ResourcesKeyEnum.ValueNull;
+                    return resourcesKey;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return resourcesKey;
+        }
+
+        private ResourcesKeyEnum GetResourcesKeyEnum_ActionLog(RequestType requestType)
+        {
+            if (requestType == RequestType.Insert)
+                return ResourcesKeyEnum.ActionLog_ENTITY_NAME_Create;
+            if (requestType == RequestType.Update)
+                return ResourcesKeyEnum.ActionLog_ENTITY_NAME_Update;
+            if (requestType == RequestType.Delete)
+                return ResourcesKeyEnum.ActionLog_ENTITY_NAME_Delete;
+
+            return ResourcesKeyEnum.None;
+        }
+    }
+}

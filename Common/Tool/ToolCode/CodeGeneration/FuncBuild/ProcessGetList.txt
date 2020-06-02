@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using HK.CommonMessage.RequestMessage.Account;
+using HK.CommonMessage.ResponseMessage.Account;
+using HK.CommonMessage.Utils;
+using HK.Entity;
+using HK.Entity.Entities;
+using HK.Entity.Enums;
+using HK.Entity.Object;
+using log4net;
+using Worker.AccountManager.MessageProcess;
+
+namespace Worker.AccountManager.Process.GetList
+{
+    public class ProcessGetListENTITY_NAME
+    {
+        private static readonly ILog log = LogManager.GetLogger(typeof(ProcessGetListENTITY_NAME));
+
+        public GetListENTITY_NAMEResponse GetListENTITY_NAME(GetListENTITY_NAMERequest request)
+        {
+            var response = new GetListENTITY_NAMEResponse
+            {
+                MessageType = ZMQMessageType.Account,
+                RequestType = request.RequestType,
+                RequestId = request.RequestId,
+            };
+            try
+            {
+                #region Tạo EntityQuery
+                var entityQry = new EntityQuery
+                        {
+                            EntityName = ENTITY_NAME.EntityName(),
+                            QueryAction = EntityGet.GetCustomValues
+                        };
+                var colection = new DescriptorColection { Logical = LogicalOperator.AND };
+
+                if (request.RequestType == RequestType.RequestAll)
+                {
+                    #region RequestAll
+                    //Nếu lấy all dữ liệu
+                    entityQry.QueryAction = EntityGet.GetAllValues;
+
+                    #endregion
+                }
+                else if (request.RequestType == RequestType.RequestByTime)
+                {
+                    #region GetByTime
+                    DateTime fromTime = request.FromTime;
+                    DateTime toTime = request.ToTime;
+                    var descriptionTime = new Descriptor { Logical = LogicalOperator.AND };
+                    descriptionTime.Descriptors.Add(new Descriptor
+                    {
+                        FieldName = ENTITY_NAME.ENTITY_NAMEFields.TimeChanged.ToString(),
+                        FieldValue = Descriptor.GetInputValue(fromTime),
+                        Operator = DataOperator.IsGreaterThanOrEqualTo
+                    });
+                    descriptionTime.Descriptors.Add(new Descriptor
+                    {
+                        FieldName = ENTITY_NAME.ENTITY_NAMEFields.TimeChanged.ToString(),
+                        FieldValue = Descriptor.GetInputValue(toTime),
+                        Operator = DataOperator.IsLessThanOrEqualTo
+                    });
+                    colection.Descriptors.Add(descriptionTime);
+                    #endregion
+                } 
+                #endregion
+
+                if(AppGlobal.IsUseMemoryWorker(entityQry.EntityName))
+                {
+                    #region Lấy thông tin trong memory
+                    var listAll = MemoryWorker.MemoryInfo.GetAllENTITY_NAME();
+                    if (request.RequestType == RequestType.RequestAll)
+                        response.ListENTITY_NAME = listAll;
+                    else if (request.RequestType == RequestType.RequestByTime)
+                    {
+                        response.ListENTITY_NAME = listAll.FindAll(l =>
+                                                                        (request.FromTime <= l.TimeChanged && l.TimeChanged <= request.ToTime));
+                    }
+                    #endregion
+                }
+                else
+                {
+                    #region Lấy thông tin trong Database
+                    entityQry.DescriptorColection = colection;
+                    entityQry = ProcessReadDatabaseUtils.GetEntityQuery(entityQry);
+                    var listValue = new List<ENTITY_NAME>();
+                    if (entityQry.ReturnValue != null)
+                    {
+                        listValue = entityQry.ReturnValue.Select(baseEntity =>
+                                                    baseEntity as ENTITY_NAME).ToList();
+                    }
+                    response.ListENTITY_NAME = listValue; 
+                    #endregion
+                }
+                
+                return response;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return null;
+        }
+    }
+}
+
