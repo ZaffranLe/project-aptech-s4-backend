@@ -134,7 +134,6 @@ namespace CommonicationMemory
             this.txtCatalog2.Name = "txtCatalog2";
             this.txtCatalog2.Size = new System.Drawing.Size(172, 20);
             this.txtCatalog2.TabIndex = 14;
-            this.txtCatalog2.Text = "DatabaseHistNVC";
             // 
             // gbSQLServerCredential
             // 
@@ -159,7 +158,7 @@ namespace CommonicationMemory
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(172, 20);
             this.txtPort.TabIndex = 6;
-            this.txtPort.Text = "3306";
+            this.txtPort.Text = "1433";
             // 
             // label2
             // 
@@ -178,7 +177,7 @@ namespace CommonicationMemory
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(172, 20);
             this.txtPassword.TabIndex = 3;
-            this.txtPassword.Text = "Quantedge@123";
+            this.txtPassword.Text = "admin";
             // 
             // lblPassword
             // 
@@ -240,7 +239,7 @@ namespace CommonicationMemory
             this.txtCatalog.Name = "txtCatalog";
             this.txtCatalog.Size = new System.Drawing.Size(172, 20);
             this.txtCatalog.TabIndex = 10;
-            this.txtCatalog.Text = "DataBaseWorking";
+            this.txtCatalog.Text = "AptechProjectS4";
             // 
             // txtSqlServer
             // 
@@ -249,7 +248,7 @@ namespace CommonicationMemory
             this.txtSqlServer.Name = "txtSqlServer";
             this.txtSqlServer.Size = new System.Drawing.Size(172, 20);
             this.txtSqlServer.TabIndex = 8;
-            this.txtSqlServer.Text = "10.8.6.87";
+            this.txtSqlServer.Text = "34.92.152.57";
             // 
             // lblCatalog
             // 

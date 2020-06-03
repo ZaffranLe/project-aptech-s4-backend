@@ -462,8 +462,6 @@
             // chkGeneratorByFolder
             // 
             this.chkGeneratorByFolder.AutoSize = true;
-            this.chkGeneratorByFolder.Checked = true;
-            this.chkGeneratorByFolder.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkGeneratorByFolder.Location = new System.Drawing.Point(38, 205);
             this.chkGeneratorByFolder.Name = "chkGeneratorByFolder";
             this.chkGeneratorByFolder.Size = new System.Drawing.Size(452, 17);
@@ -475,8 +473,6 @@
             // chkBL
             // 
             this.chkBL.AutoSize = true;
-            this.chkBL.Checked = true;
-            this.chkBL.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkBL.Enabled = false;
             this.chkBL.Location = new System.Drawing.Point(38, 170);
             this.chkBL.Name = "chkBL";
@@ -504,7 +500,7 @@
             this.txtOutputDir.Name = "txtOutputDir";
             this.txtOutputDir.Size = new System.Drawing.Size(295, 20);
             this.txtOutputDir.TabIndex = 7;
-            this.txtOutputDir.Text = "D:\\Tiger";
+            this.txtOutputDir.Text = "C:\\Quantedge";
             // 
             // lblOutputDir
             // 
@@ -559,7 +555,7 @@
             this.txtProjectName.Name = "txtProjectName";
             this.txtProjectName.Size = new System.Drawing.Size(319, 20);
             this.txtProjectName.TabIndex = 1;
-            this.txtProjectName.Text = "Default";
+            this.txtProjectName.Text = "DAL";
             // 
             // lblProjectName
             // 

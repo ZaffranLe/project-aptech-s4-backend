@@ -4,7 +4,8 @@ namespace ElectricShop.Common.Enum
     {
         None = 1,
         DataInputWrong = 2,
-        UnknownError = 3
+        UnknownError = 3,
+        DataIsExist = 4
     }
 }
 

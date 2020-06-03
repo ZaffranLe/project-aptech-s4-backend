@@ -34,6 +34,28 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.Commonication
                 sw.WriteLine(headerclassBuilder.ToString());
                 //Insert func ở đây
 
+                #region GetListEntityNameRegistry
+                var customerFunction = new StringBuilder();
+                customerFunction.AppendLine(@"#region Dang ki memory");
+                customerFunction.AppendLine(@"public static List<string> GetListEntityNameInit()");
+                customerFunction.AppendLine(@"{");
+                customerFunction.AppendLine(@"return new List<string>");
+                customerFunction.AppendLine(@"{");
+                foreach (var table in listTable)
+                {
+                    if (table.IsSelected)
+                    {
+                        string tableName = table.TableName;
+                        customerFunction.AppendLine(tableName + ".EntityName(),");
+                    }
+                }
+                customerFunction.AppendLine(@"};");
+                customerFunction.AppendLine(@"}");
+                customerFunction.AppendLine(@"#endregion");
+                sw.WriteLine(customerFunction.ToString());
+                #endregion
+
+                sw.WriteLine(@"public static Dictionary<string, int> DicMaxKeyEntity = new Dictionary<string, int>();");
                 foreach (var table in listTable)
                 {
                     if (table.IsSelected)
@@ -63,7 +85,6 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.Commonication
                             //Trường hợp lớn hơn 1 key  (GoldPositionMemberKeys)
                             keyName = tableName + "Keys";
                         }
-
                         sw.WriteLine(FunctionBuild_DicMemory(tableName, keyName).ToString());
                     }
                 }
@@ -84,9 +105,6 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.Commonication
             var functionBuild = new StringBuilder();
             try
             {
-                //Đối với table thường thì keyName là kiểu dữ liệu (string, long,..)
-                //Đối với table nhiều khóa thì keyName là objectKey (GoldPositionMemberKeys)
-
                 functionBuild.AppendLine("public static Dictionary<" + keyName + ", "
                     + tableName + "> Dic" + tableName +
                     " = new Dictionary<" + keyName + ", "
@@ -98,6 +116,8 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.Commonication
             }
             return functionBuild;
         }
+
+        
 
         private string GetKeyName(DatabaseColumn column)
         {

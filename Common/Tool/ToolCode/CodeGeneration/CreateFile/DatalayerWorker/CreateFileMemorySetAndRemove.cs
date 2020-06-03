@@ -17,16 +17,10 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.DatalayerWorker
                 listTable.Sort((l, r) => String.Compare(l.TableName, r.TableName, StringComparison.Ordinal));
                 var stringBuild = new StringBuilder(); 
                 var headerFile = new StringBuilder();
-                headerFile.AppendLine(@"using System;
-                                        using System.Collections.Generic;
-                                        using System.Globalization;
-                                        using QuantEdge.Entity.Keys;
-                                        using System.Linq;
-                                        using QuantEdge.Common.Enum;
-                                        using QuantEdge.Entity.Entities;
-                                        using QuantEdge.Lib.Broadcast;
+                headerFile.AppendLine(@"using ElectricShop.Entity.Entities;
+                                        using ElectricShop.Entity.Keys;
                                         ");
-                headerFile.AppendLine("namespace QuantEdge.Lib.Memory");
+                headerFile.AppendLine("namespace ElectricShop.Memory");
                 headerFile.AppendLine("{");
                 var endFile = new StringBuilder();
                 endFile.AppendLine("}");
@@ -212,6 +206,16 @@ namespace CommonicationMemory.CodeGeneration.CreateFile.DatalayerWorker
                     //Lưu như cũ
                     functionBuild.AppendLine("internal static void SetMemory(" + tableName + " objectValue)");
                     functionBuild.AppendLine("{");
+                    functionBuild.AppendLine("string entityName = objectValue.GetName();");
+                    functionBuild.AppendLine("// chua co thi khoi tao");
+                    functionBuild.AppendLine("if (!DicMaxKeyEntity.ContainsKey(entityName))");
+                    functionBuild.AppendLine("DicMaxKeyEntity[entityName] = 0;");
+                    functionBuild.AppendLine("// co roi thi so sanh roi set max key vao dic");
+                    functionBuild.AppendLine("if (DicMaxKeyEntity[entityName] < objectValue."+ keyName +")");
+                    functionBuild.AppendLine("{");
+                    functionBuild.AppendLine("DicMaxKeyEntity[entityName] = objectValue." + keyName + ";");
+                    functionBuild.AppendLine("}");
+
                     functionBuild.AppendLine("Dic" + tableName + "[objectValue." + keyName + "] = objectValue;");
                     functionBuild.AppendLine("}");
                     functionBuild.AppendLine("internal static void RemoveMemory(" + tableName + " objectValue)");

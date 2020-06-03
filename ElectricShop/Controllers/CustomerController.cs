@@ -10,6 +10,7 @@ using ElectricShop.Common.Object;
 using ElectricShop.DatabaseDAL.Common;
 using ElectricShop.Entity;
 using ElectricShop.Entity.Entities;
+using ElectricShop.Memory;
 using ElectricShop.Models;
 using ElectricShop.ReaderDatabase;
 
@@ -22,32 +23,8 @@ namespace ElectricShop.Controllers
         {
             try
             {
-                var entityQry = new EntityQuery
-                {
-                    EntityName = Customer.EntityName(),
-                    QueryAction = EntityGet.GetAllValues
-                };
-                var colection = new DescriptorColection
-                {
-                    Logical = LogicalOperator.AND
-                };
-                colection.Descriptors.Add(new Descriptor
-                {
-                    FieldName = Customer.CustomerFields.Id.ToString(),
-                    FieldValue = Descriptor.GetInputValue(id),
-                    Operator = DataOperator.IsEqualTo
-                });
-                entityQry.DescriptorColection = colection;
-                entityQry.IsGetMaxKey = true;
-                entityQry = ProcessReadDatabaseUtils.GetEntityQuery(entityQry);
-                var listValue = new List<Customer>();
-                if (entityQry.ReturnValue != null)
-                {
-                    listValue = entityQry.ReturnValue.Select(baseEntity =>
-                        baseEntity.GetEntity() as Customer).ToList();
-                }
-
-                return Ok(listValue);
+                var res = MemoryInfo.GetCustomer(id);
+                return Ok(res);
             }
             catch (Exception ex)
             {
@@ -71,7 +48,19 @@ namespace ElectricShop.Controllers
                 }
                 #endregion
 
+                #region Tạo key
+
+                if (MemoryInfo.IsExistCustomer(req.Id))
+                {
+                    errorCode = ErrorCodeEnum.DataIsExist.ToString();
+                    errorMessage = "Dữ liệu đã tồn tại";
+                    return Ok(new RequestErrorCode(false, errorCode, errorMessage));
+                }
+                #endregion
+
                 #region Process
+                // update memory
+                MemorySet.UpdateAndInsertEntity(req);
                 UpdateEntitySql updateEntitySql = new UpdateEntitySql();
                 var lstCommand = new List<EntityCommand>();
                 lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });

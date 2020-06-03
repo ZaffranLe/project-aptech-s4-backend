@@ -52,7 +52,7 @@ namespace ElectricShop.Memory
             catch (Exception ex) { LogTo.Error(ex.ToString()); }
         }
 
-        private static void UpdateAndInsertEntity(BaseEntity entity)
+        public static void UpdateAndInsertEntity(BaseEntity entity)
         {
             #region Bảng sinh key bằng tay
             if (entity is Customer)
@@ -89,7 +89,7 @@ namespace ElectricShop.Memory
             #region Bảng tự sinh Key
             #endregion
         }
-        private static void RemoveEntity(BaseEntity entity)
+        public static void RemoveEntity(BaseEntity entity)
         {
             #region Bảng sinh key bằng tay
             if (entity is Customer)

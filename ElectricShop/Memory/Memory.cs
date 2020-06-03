@@ -9,6 +9,31 @@ namespace ElectricShop.Memory
 {
     public class Memory
     {
+        #region Dang ki memory
+        public static List<string> GetListEntityNameInit()
+        {
+            return new List<string>
+            {
+                Customer.EntityName(),
+                Image.EntityName(),
+                ImportReceipt.EntityName(),
+                Manufacturer.EntityName(),
+                OrderDetail.EntityName(),
+                Permission.EntityName(),
+                Product.EntityName(),
+                ProductType.EntityName(),
+                Property.EntityName(),
+                Provider.EntityName(),
+                Role.EntityName(),
+                RolePermission.EntityName(),
+                UserInfo.EntityName(),
+                UserLogin.EntityName(),
+                UserRole.EntityName()
+            };
+        }
+        #endregion
+
+        public static Dictionary<string, int> DicMaxKeyEntity = new Dictionary<string, int>();
         public static Dictionary<int, Customer> DicCustomer = new Dictionary<int, Customer>();
 
         public static Dictionary<int, Image> DicImage = new Dictionary<int, Image>();
@@ -39,9 +64,20 @@ namespace ElectricShop.Memory
 
         public static Dictionary<UserRoleKeys, UserRole> DicUserRole = new Dictionary<UserRoleKeys, UserRole>();
 
-        #region Dang ki memory
-        
 
-        #endregion
+        public static int GetMaxKey(string entityName)
+        {
+            try
+            {
+                if (!DicMaxKeyEntity.ContainsKey(entityName))
+                    return 0;
+                return DicMaxKeyEntity[entityName];
+            }
+            catch (Exception ex)
+            {
+                Logger.Write(ex.ToString());
+                throw;
+            }
+        }
     }
 }

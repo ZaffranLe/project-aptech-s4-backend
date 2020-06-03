@@ -7,6 +7,15 @@ namespace ElectricShop.Memory
     {
         internal static void SetMemory(Customer objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicCustomer[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Customer objectValue)
@@ -17,6 +26,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Image objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicImage[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Image objectValue)
@@ -27,6 +45,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(ImportReceipt objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicImportReceipt[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(ImportReceipt objectValue)
@@ -37,6 +64,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Manufacturer objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicManufacturer[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Manufacturer objectValue)
@@ -47,6 +83,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(OrderDetail objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicOrderDetail[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(OrderDetail objectValue)
@@ -57,6 +102,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Permission objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicPermission[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Permission objectValue)
@@ -67,6 +121,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Product objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicProduct[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Product objectValue)
@@ -77,6 +140,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(ProductType objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicProductType[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(ProductType objectValue)
@@ -87,6 +159,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Property objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicProperty[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Property objectValue)
@@ -97,6 +178,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Provider objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicProvider[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Provider objectValue)
@@ -107,6 +197,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(Role objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicRole[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(Role objectValue)
@@ -137,6 +236,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(UserInfo objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.IdUserLogin)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.IdUserLogin;
+            }
             DicUserInfo[objectValue.IdUserLogin] = objectValue;
         }
         internal static void RemoveMemory(UserInfo objectValue)
@@ -147,6 +255,15 @@ namespace ElectricShop.Memory
 
         internal static void SetMemory(UserLogin objectValue)
         {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
             DicUserLogin[objectValue.Id] = objectValue;
         }
         internal static void RemoveMemory(UserLogin objectValue)
