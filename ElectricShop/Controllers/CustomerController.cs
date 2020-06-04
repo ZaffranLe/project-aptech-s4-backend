@@ -162,12 +162,10 @@ namespace ElectricShop.Controllers
 
                 #region Tạo key
 
-                if (MemoryInfo.IsExistCustomer(req.Id))
-                {
-                    errorCode = ErrorCodeEnum.DataIsExist.ToString();
-                    errorMessage = "Dữ liệu đã tồn tại";
-                    return Ok(new RequestErrorCode(false, errorCode, errorMessage));
-                }
+                var oldKey = MemoryInfo.GetMaxKey(req.GetName());
+                int newKey = oldKey + 1;
+                // set key
+                req.Id = newKey;
                 #endregion
 
                 #region Process
