@@ -5,7 +5,7 @@ namespace ElectricShop.Common.Enum
         None = 1,
         DataInputWrong = 2,
         UnknownError = 3,
-        DataIsExist = 4,
+        DataNotExist = 4,
         ErrorEmailFormat = 5,
         ErrorPasswordFormat = 6,
         Error_PassWordNew_Number = 7,
@@ -15,6 +15,8 @@ namespace ElectricShop.Common.Enum
         Error_PasswordWrong = 11,
         Error_UserinfoIsNull = 12,
         Error_InvalidToken = 13,
+        Error_ObjectNotExist = 14,
+        Error_NotHavePermision = 15
 
     }
 }
