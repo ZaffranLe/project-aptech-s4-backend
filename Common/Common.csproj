@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonGlobalConfig.cs" />
+    <Compile Include="Config\ElectricConfig.cs" />
     <Compile Include="Config\DatabaseConfig.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="ConsoleLog.cs" />

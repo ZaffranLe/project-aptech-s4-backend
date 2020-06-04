@@ -12,6 +12,11 @@ namespace ElectricShop
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            if (!AppGlobal.InitConfig())
+            {
+                Logger.Write("Khong init duoc config!",true);
+                return;
+            }
             if (!AppGlobal.InitMemory())
             {
                 Logger.Write("Khong init duoc du lieu!");
