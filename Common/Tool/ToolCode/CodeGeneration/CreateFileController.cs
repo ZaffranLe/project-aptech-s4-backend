@@ -10,13 +10,17 @@ using CommonicationMemory.Properties;
 
 namespace CommonicationMemory.CodeGeneration
 {
-    public class CreateFileController
+    public class CreateFileEntity
     {
         public static void GenerateEntites(DatabaseTable table, string BusinessLayerRootPath)
         {
-            string forderEntity = BusinessLayerRootPath + Path.DirectorySeparatorChar + "ControllerApi\\";
+            string forderEntity = BusinessLayerRootPath + Path.DirectorySeparatorChar + "Entities\\";
             if (!Directory.Exists(forderEntity))
                 Directory.CreateDirectory(forderEntity);
+
+            string forderKeyEntity = BusinessLayerRootPath + Path.DirectorySeparatorChar + "Keys\\";
+            if (TierGeneratorSettings.Instance.GenObjectKeys && !Directory.Exists(forderKeyEntity))
+                Directory.CreateDirectory(forderKeyEntity);
 
             string file = forderEntity + table.ClassName + ".cs";
             string className = table.ClassName;
@@ -25,7 +29,7 @@ namespace CommonicationMemory.CodeGeneration
             Dictionary<string, string> dicComment = null;
             Dictionary<string, string> dicFields = null;
             string customMethodString = "";
-            string fileCs = ConfigGlobal.SettingConfig.Setting_FoudationLink + "\\ControllerApi\\" + className + "Controller.cs";
+            string fileCs = ConfigGlobal.SettingConfig.Setting_FoudationLink + "\\Entity\\Entities\\" + className + ".cs";
             if (!string.IsNullOrEmpty(ConfigGlobal.SettingConfig.Setting_FoudationLink) && ConfigGlobal.SettingConfig.Setting_CheckGenByForder)
             {
                 if (File.Exists(fileCs))
@@ -43,140 +47,190 @@ namespace CommonicationMemory.CodeGeneration
                     //dicFields = FindFieldInEntity(text, out dicComment, out customMethodString);
                 }
             }
+            if (dicComment == null) dicComment = new Dictionary<string, string>();
+            if (dicFields == null) dicFields = new Dictionary<string, string>();
             #endregion
 
             var stringBuild = new StringBuilder();
+            //using (StreamWriter sw = new StreamWriter(file))
             {
                 #region Header
                 stringBuild.Append("using System;");
-                stringBuild.AppendLine("using System.Collections.Generic;");
-                stringBuild.AppendLine("using System.Threading.Tasks;");
-                stringBuild.AppendLine("using System.Web.Http;");
-                stringBuild.AppendLine("using ElectricShop.Common.Enum;");
-                stringBuild.AppendLine("using ElectricShop.DatabaseDAL.Common;");
-                stringBuild.AppendLine("using ElectricShop.Entity;");
-                stringBuild.AppendLine("using ElectricShop.Entity.Entities;");
-                stringBuild.AppendLine("using ElectricShop.Memory;");
-                stringBuild.AppendLine("using ElectricShop.Models;");
-                stringBuild.AppendLine("using ElectricShop.Utils;");
+                stringBuild.AppendLine("using System.IO;");
+                stringBuild.AppendLine("using System.Text;");
+                stringBuild.AppendLine("using System.Data;");
+                stringBuild.AppendLine("");
 
-                stringBuild.AppendLine("namespace ElectricShop.Controllers");
+                stringBuild.AppendLine("namespace ElectricShop.Entity.Entities");
                 stringBuild.AppendLine("{");
-                stringBuild.AppendLine("\tpublic class " + className + "Controller" + ": ApiController");
+                stringBuild.AppendLine("\tpublic class " + className + ": BaseEntity");
                 stringBuild.AppendFormat("\t{{");
                 #endregion
 
                 stringBuild.AppendLine("");
+                #region Enumeration For Column Name
 
-                #region get all
-                stringBuild.AppendLine("\t\tpublic async Task<IHttpActionResult> Get()");
+                stringBuild.AppendLine("\t\t#region InnerClass");
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\tpublic enum " + className + "Fields");
                 stringBuild.AppendLine("\t\t{");
-                stringBuild.AppendLine("\t\t\ttry");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t#region token");
-                stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
-                stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
-                stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
-                stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
-                stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
-                stringBuild.AppendLine("\t\t\t\t}");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine($"\t\t\t\tvar lstData = MemoryInfo.GetAll{className}();");
-                stringBuild.AppendLine("\t\t\t\tvar res = new RequestErrorCode(true, null, null);");
-                stringBuild.AppendLine("\t\t\t\tres.ListDataResult.AddRange(lstData);");
-                stringBuild.AppendLine("\t\t\t\treturn Ok(res);");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\tcatch (Exception ex)");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\tLogger.Write(ex.ToString());");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\treturn BadRequest(\"Unknow\");");
+
+                var listColums = new List<DatabaseColumn>();
+                table.Columns = table.Columns.OrderBy(x => x.Name).ToList();
+                for (int i = 0; i < table.Columns.Count; i++)
+                {
+                    DatabaseColumn column = table.Columns[i];
+                    string end = ",";
+                    if (i == table.Columns.Count - 1) end = "";
+                    stringBuild.AppendLine("\t\t\t" + column.PropertyName + end);
+
+                    if (column.IsPK || column.IsFK)
+                    {
+                        listColums.Add(column); //Key
+                    }
+                }
                 stringBuild.AppendLine("\t\t}");
+                stringBuild.AppendLine("");
+
+                //lưu thông tin public enum column key
+                stringBuild.AppendLine("\t\tpublic enum " + className + "Key");
+                stringBuild.AppendLine("\t\t{");
+                for (int i = 0; i < listColums.Count; i++)
+                {
+                    if (i != listColums.Count - 1)
+                        stringBuild.AppendLine("\t\t\t" + listColums[i].Name + ",");
+                    else
+                    {
+                        stringBuild.AppendLine("\t\t\t" + listColums[i].Name);
+                    }
+                }
+                stringBuild.AppendLine("\t\t}");
+
+                //Tạo hàm lấy khóa nếu có nhiều keys
+                if (listColums.Count > 1)
+                {
+                    stringBuild.Insert(0, "using ElectricShop.Entity.Keys;\r\n");
+
+                    stringBuild.AppendLine("\t\tpublic " + className + "Keys Get" + className + "Keys()");
+                    stringBuild.AppendLine("\t\t{");
+                    stringBuild.AppendLine("\t\t\treturn new " + className + "Keys");
+                    stringBuild.AppendLine("\t\t\t{");
+                    for (int i = 0; i < listColums.Count; i++)
+                    {
+                        if (i != listColums.Count - 1)
+                            stringBuild.AppendLine("\t\t\t\t" +listColums[i].Name + " = " + listColums[i].Name + ",");
+                        else
+                        {
+                            stringBuild.AppendLine("\t\t\t\t" +listColums[i].Name + " = " + listColums[i].Name);
+                        }
+                    }
+                    stringBuild.AppendLine("\t\t\t};");
+                    stringBuild.AppendLine("\t\t}");
+                }
+                
+
+                stringBuild.AppendLine("\t\t#endregion");
+
                 #endregion
 
                 stringBuild.AppendLine("");
-                #region get by id
-                stringBuild.AppendLine("\t\tpublic async Task<IHttpActionResult> Get(int id)");
-                stringBuild.AppendLine("\t\t{");
-                stringBuild.AppendLine("\t\t\ttry");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t#region token");
-                stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
-                stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
-                stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
-                stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
-                stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
-                stringBuild.AppendLine("\t\t\t\t}");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("\t\t\t\tvar res = MemoryInfo.GetCustomer(id);");
-                stringBuild.AppendLine("\t\t\t\treturn Ok(res);");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\tcatch (Exception ex)");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\tLogger.Write(ex.ToString());");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\treturn BadRequest(\"Unknow\");");
-                stringBuild.AppendLine("\t\t}");
+                #region Contructor
 
+                stringBuild.AppendLine("\t\t#region Contructor");
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\tpublic " + className + "()");
+                stringBuild.AppendLine("\t\t{");
+                if (TierGeneratorSettings.Instance.GenObjectKeys)
+                {
+                    var key = GetKeyTable(table);
+                    stringBuild.AppendLine("\t\t\t" + key + " = new " + key + "();");
+                }
+                stringBuild.AppendLine("\t\t}");
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\t#endregion");
 
                 #endregion
 
                 stringBuild.AppendLine("");
-                #region Post
-                stringBuild.AppendLine($"\t\tpublic async Task<IHttpActionResult> Post([FromBody]{table.ClassName} req)");
-                stringBuild.AppendLine("\t\t{");
-                stringBuild.AppendLine("\t\t\ttry");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\tstring errorMessage = \"UnknowError\";");
-                stringBuild.AppendLine("\t\t\t\tstring errorCode = ErrorCodeEnum.UnknownError.ToString();");
-                stringBuild.AppendLine("\t\t\t\t#region token");
-                stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
-                stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
-                stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
-                stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
-                stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
-                stringBuild.AppendLine("\t\t\t\t}");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("");
-                stringBuild.AppendLine("\t\t\t\t#region Validate");
-                stringBuild.AppendLine("\t\t\t\tif (!Validate(req, out errorCode, out errorMessage))");
-                stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, errorCode, errorMessage));");
-                stringBuild.AppendLine("\t\t\t\t}");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("");
-                stringBuild.AppendLine("\t\t\t\t#region Tạo key");
-                stringBuild.AppendLine("\t\t\t\tvar oldKey = Memory.Memory.GetMaxKey(req.GetName());");
-                stringBuild.AppendLine("\t\t\t\tint newKey = oldKey + 1;");
-                stringBuild.AppendLine("\t\t\t\t// set key");
-                stringBuild.AppendLine("\t\t\t\treq.Id = newKey;");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("");
-                stringBuild.AppendLine("\t\t\t\t#region Process");
-                stringBuild.AppendLine("\t\t\t\t// update memory");
-                stringBuild.AppendLine("\t\t\t\tMemorySet.UpdateAndInsertEntity(req);");
-                stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
-                stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
-                stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });");
-                stringBuild.AppendLine("\t\t\t\tbool isOkDone = updateEntitySql.UpdateDefault(lstCommand);");
-                stringBuild.AppendLine("\t\t\t\tif (!isOkDone)");
-                stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, errorCode, errorMessage));");
-                stringBuild.AppendLine("\t\t\t\t}");
-                stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("\t\t\t\tvar result = new RequestErrorCode(true);");
-                stringBuild.AppendLine("\t\t\t\treturn Ok(result);");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\tcatch (Exception ex)");
-                stringBuild.AppendLine("\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\tLogger.Write(ex.ToString());");
-                stringBuild.AppendLine("\t\t\t}");
-                stringBuild.AppendLine("\t\t\treturn BadRequest(\"Unknow\");");
-                stringBuild.AppendLine("\t\t}");
+                #region Properties
 
+                stringBuild.AppendLine("\t\t#region Properties");
+                stringBuild.AppendLine("");
+
+                var isMultiKey = table.Columns.Count(x => x.IsPK) > 1;
+                if (isMultiKey && TierGeneratorSettings.Instance.GenObjectKeys)
+                {
+                    #region Tạo khóa nhiều fields
+                    var key = GetKeyTable(table);
+                    stringBuild.AppendLine("\t\tpublic " + key + "  " + key + " { get; set; }//Key");
+
+                    string fileKey = forderKeyEntity + table.ClassName + "Keys.cs";
+                    using (StreamWriter swKey = new StreamWriter(fileKey))
+                    {
+                        var fileTemp = Resources.Keys;
+                        var stringPropertices = new StringBuilder();
+                        var stringHashCode = new StringBuilder();
+                        var stringEqual = new StringBuilder();
+
+                        var i = 0;
+                        var listKey = table.Columns.Where(x => x.IsPK).ToList();
+                        foreach (var column in listKey.OrderBy(x => x.Name))
+                        {
+                            if (i == 0)
+                            {
+                                stringPropertices.AppendLine("public " + column.CSharpDataTypeName + "  " + column.PropertyName + " { get; set; }//Key");
+                                stringHashCode.AppendLine("int result = " + column.PropertyName + ".GetHashCode();");
+                            }
+                            else
+                            {
+                                stringPropertices.AppendLine("\t\tpublic " + column.CSharpDataTypeName + "  " + column.PropertyName + " { get; set; }//Key");
+                                stringHashCode.AppendLine("\t\t\t\tresult = (result * 397) ^ " + column.PropertyName + ".GetHashCode();");
+                            }
+                            if (i < listKey.Count - 1)
+                                stringEqual.Append(column.PropertyName + " == item." + column.PropertyName + " && ");
+                            else
+                                stringEqual.Append(column.PropertyName + " == item." + column.PropertyName);
+                            i++;
+                        }
+                        fileTemp = fileTemp.Replace("%KeysEquals%", stringEqual.ToString());
+                        fileTemp = fileTemp.Replace("%KeysProperties%", stringPropertices.ToString());
+                        fileTemp = fileTemp.Replace("%KeysHashCode%", stringHashCode.ToString());
+                        fileTemp = fileTemp.Replace("%EntityName%", table.TableName);
+                        swKey.Write(fileTemp);
+                    }
+                    #endregion
+                }
+
+                foreach (var column in table.Columns.OrderBy(x => x.Name))
+                {
+                    if (isMultiKey && column.IsPK && TierGeneratorSettings.Instance.GenObjectKeys) continue;
+                    string comment = "";
+                    if (dicComment.ContainsKey(column.PropertyName))
+                        comment = " " + dicComment[column.PropertyName];
+                    string dataType = column.CSharpDataTypeName;
+                    if (dicFields.ContainsKey(column.PropertyName))
+                    {
+                        //Chuyển type thành type? 
+                        if (dicFields[column.PropertyName].Replace("?", "") == dataType.Replace("?", ""))
+                        {
+                            dataType = dicFields[column.PropertyName]; //Nếu ko đổi kiểu dữ liệu thì dữ liệu theo như trong entity cũ
+                        }
+                    }
+
+                    if (column.IsPK)
+                    {
+                        comment = " //Key " + comment.Replace("//Key", "").Trim();
+                        stringBuild.AppendLine("\t\tpublic " + dataType + "  " + column.PropertyName +
+                                               " { get; set; }" + comment);
+                    }
+                    else
+                    {
+                        stringBuild.AppendLine("\t\tpublic " + dataType + "  " + column.PropertyName + " { get; set; }" + comment);
+                    }
+                }
+
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\t#endregion");
 
                 #endregion
 
@@ -207,6 +261,40 @@ namespace CommonicationMemory.CodeGeneration
 
                 stringBuild.AppendLine("");
                 stringBuild.AppendLine("\t\t#endregion");
+
+                #endregion
+
+                stringBuild.AppendLine("");
+                #region EntityName, GetName
+
+                stringBuild.AppendLine("\t\t#region EntityName, GetName");
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\tpublic static string EntityName()");
+                stringBuild.AppendLine("\t\t{");
+                stringBuild.AppendLine(string.Format("\t\t\treturn typeof({0}).Name;", table.TableName));
+                stringBuild.AppendLine("\t\t}");
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\tpublic override string GetName()");
+                stringBuild.AppendLine("\t\t{");
+                stringBuild.AppendLine("\t\t\treturn EntityName();");
+                stringBuild.AppendLine("\t\t}");
+
+
+                stringBuild.AppendLine("");
+                stringBuild.AppendLine("\t\t#endregion");
+
+                #endregion
+
+                stringBuild.AppendLine("");
+                #region Custom Method
+                //Đọc file để lấy thông tin custom method
+                //Ví dụ FxDeal thì có hàm IsLenhVangLai, IsLenhDelayTrade...
+                if (string.IsNullOrEmpty(customMethodString))
+                {
+                    customMethodString = "#region Custom Method\r\n";
+                    customMethodString += "#endregion\r\n";
+                }
+                stringBuild.AppendLine(customMethodString);
 
                 #endregion
 
