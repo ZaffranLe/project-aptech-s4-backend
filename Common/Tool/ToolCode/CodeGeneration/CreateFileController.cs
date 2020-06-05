@@ -156,8 +156,6 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");
                 stringBuild.AppendLine("\t\t\t\t#region Process");
-                stringBuild.AppendLine("\t\t\t\t// update memory");
-                stringBuild.AppendLine("\t\t\t\tMemorySet.UpdateAndInsertEntity(req);");
                 stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
                 stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
                 stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });");
@@ -167,6 +165,8 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, errorCode, errorMessage));");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
+                stringBuild.AppendLine("\t\t\t\t// update memory");
+                stringBuild.AppendLine("\t\t\t\tMemorySet.UpdateAndInsertEntity(req);");
                 stringBuild.AppendLine("\t\t\t\tvar result = new RequestErrorCode(true);");
                 stringBuild.AppendLine("\t\t\t\treturn Ok(result);");
                 stringBuild.AppendLine("\t\t\t}");
@@ -212,8 +212,6 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("\t\t\t\treq.Id = obj.Id; // gan lai id de update");
                 stringBuild.AppendLine("\t\t\t\t#region Process");
-                stringBuild.AppendLine("\t\t\t\t// update memory");
-                stringBuild.AppendLine("\t\t\t\tMemorySet.UpdateAndInsertEntity(req);");
                 stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
                 stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
                 stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });");
@@ -223,6 +221,8 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, errorCode, errorMessage));");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
+                stringBuild.AppendLine("\t\t\t\t// update memory");
+                stringBuild.AppendLine("\t\t\t\tMemorySet.UpdateAndInsertEntity(req);");
                 stringBuild.AppendLine("\t\t\t\tvar result = new RequestErrorCode(true);");
                 stringBuild.AppendLine("\t\t\t\treturn Ok(result);");
                 stringBuild.AppendLine("\t\t\t}");
@@ -267,8 +267,6 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("");
                 stringBuild.AppendLine("\t\t\t\t#region Process");
-                stringBuild.AppendLine("\t\t\t\t// update memory");
-                stringBuild.AppendLine("\t\t\t\tMemorySet.RemoveEntity(obj);");
                 stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
                 stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
                 stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(obj), EntityAction = EntityAction.Delete });");
@@ -278,6 +276,8 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, errorCode, errorMessage));");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
+                stringBuild.AppendLine("\t\t\t\t// update memory");
+                stringBuild.AppendLine("\t\t\t\tMemorySet.RemoveEntity(obj);");
                 stringBuild.AppendLine("\t\t\t\tvar result = new RequestErrorCode(true);");
                 stringBuild.AppendLine("\t\t\t\treturn Ok(result);");
                 stringBuild.AppendLine("\t\t\t}");
@@ -292,7 +292,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("");
                 #region Custom Function
                 stringBuild.AppendLine("\t\t#region Validation");
-                stringBuild.AppendLine("\t\tprivate bool Validate(Customer customer, out string errorCode, out string errorMess)");
+                stringBuild.AppendLine($"\t\tprivate bool Validate({table.ClassName} obj, out string errorCode, out string errorMess)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\terrorCode = null;");
                 stringBuild.AppendLine("\t\t\terrorMess = null;");
@@ -309,7 +309,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t}");
                 stringBuild.AppendLine("");
                 
-                stringBuild.AppendLine("\t\tprivate bool ValidateUpdate(Customer customer, out string errorCode, out string errorMess)");
+                stringBuild.AppendLine($"\t\tprivate bool ValidateUpdate({table.ClassName} obj, out string errorCode, out string errorMess)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\terrorCode = null;");
                 stringBuild.AppendLine("\t\t\terrorMess = null;");

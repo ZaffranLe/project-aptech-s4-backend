@@ -91,8 +91,6 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Process
-				// update memory
-				MemorySet.UpdateAndInsertEntity(req);
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
@@ -102,6 +100,8 @@ namespace ElectricShop.Controllers
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
 				}
 				#endregion
+				// update memory
+				MemorySet.UpdateAndInsertEntity(req);
 				var result = new RequestErrorCode(true);
 				return Ok(result);
 			}
@@ -144,8 +144,6 @@ namespace ElectricShop.Controllers
 				#endregion
 				req.Id = obj.Id; // gan lai id de update
 				#region Process
-				// update memory
-				MemorySet.UpdateAndInsertEntity(req);
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
@@ -155,6 +153,8 @@ namespace ElectricShop.Controllers
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
 				}
 				#endregion
+				// update memory
+				MemorySet.UpdateAndInsertEntity(req);
 				var result = new RequestErrorCode(true);
 				return Ok(result);
 			}
@@ -196,8 +196,6 @@ namespace ElectricShop.Controllers
 				}
 
 				#region Process
-				// update memory
-				MemorySet.RemoveEntity(obj);
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(obj), EntityAction = EntityAction.Delete });
@@ -207,6 +205,8 @@ namespace ElectricShop.Controllers
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
 				}
 				#endregion
+				// update memory
+				MemorySet.RemoveEntity(obj);
 				var result = new RequestErrorCode(true);
 				return Ok(result);
 			}

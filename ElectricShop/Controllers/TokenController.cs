@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ElectricShop.Common.Enum;
-using ElectricShop.DatabaseDAL.Common;
-using ElectricShop.Entity;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Memory;
 using ElectricShop.Models;
-using ElectricShop.ReaderDatabase;
 using ElectricShop.Utils;
 
 namespace ElectricShop.Controllers
