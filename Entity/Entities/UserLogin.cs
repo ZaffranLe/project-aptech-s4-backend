@@ -12,7 +12,8 @@ namespace ElectricShop.Entity.Entities
 		{
 			Id,
 			Password,
-			Username
+			Username,
+			UserStatus
 		}
 
 		public enum UserLoginKey
@@ -34,6 +35,7 @@ namespace ElectricShop.Entity.Entities
 		public int  Id { get; set; } //Key 
 		public string  Password { get; set; }
 		public string  Username { get; set; }
+		public int  UserStatus { get; set; }
 
 		#endregion
 

@@ -18,8 +18,7 @@ namespace ElectricShop.Entity.Entities
 			Name,
 			Phone,
 			UpdatedAt,
-			UpdatedBy,
-			UserStatus
+			UpdatedBy
 		}
 
 		public enum UserInfoKey
@@ -47,7 +46,6 @@ namespace ElectricShop.Entity.Entities
 		public string  Phone { get; set; }
 		public DateTime?  UpdatedAt { get; set; }
 		public int  UpdatedBy { get; set; }
-		public int  UserStatus { get; set; }
 
 		#endregion
 
