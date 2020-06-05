@@ -218,7 +218,7 @@ namespace ElectricShop.Controllers
 		}
 
 		#region Validation
-		private bool Validate(Customer customer, out string errorCode, out string errorMess)
+		private bool Validate(Property obj, out string errorCode, out string errorMess)
 		{
 			errorCode = null;
 			errorMess = null;
@@ -234,7 +234,7 @@ namespace ElectricShop.Controllers
 			return true;
 		}
 
-		private bool ValidateUpdate(Customer customer, out string errorCode, out string errorMess)
+		private bool ValidateUpdate(Property obj, out string errorCode, out string errorMess)
 		{
 			errorCode = null;
 			errorMess = null;
