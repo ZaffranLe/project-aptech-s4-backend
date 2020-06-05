@@ -22,6 +22,11 @@ namespace ElectricShop
                 Logger.Write("Khong init duoc du lieu!");
                 return;
             }
+            if (!AppGlobal.InitOrReloadUserPermission("Init Start Services"))
+            {
+                Logger.Write("Khong init duoc permission!");
+                return;
+            }
             
             // Web API routes
             config.MapHttpAttributeRoutes();

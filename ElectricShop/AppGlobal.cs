@@ -9,6 +9,7 @@ using Anotar.NLog;
 using Antlr.Runtime.Misc;
 using ElectricShop.Common.Config;
 using ElectricShop.Entity;
+using ElectricShop.Entity.Entities;
 using ElectricShop.Memory;
 using ElectricShop.ReaderDatabase;
 using Newtonsoft.Json;
@@ -41,6 +42,46 @@ namespace ElectricShop
             }
             catch (Exception ex)
             {
+                Logger.Write(ex.ToString());
+                return false;
+            }
+            return true;
+        }
+        public static bool InitOrReloadUserPermission(string reason)
+        {
+            try
+            {
+                // init bang memory
+                // lay tat ca user cua he thong
+                var lstUserInfo = MemoryInfo.GetAllUserInfo();
+                foreach (var userInfo in lstUserInfo)
+                {
+                    // check xem user thuoc nhom quyen nao
+                    var lstUserRole =
+                        MemoryInfo.GetListUserRoleByField(userInfo.IdUserLogin.ToString(), UserRole.UserRoleFields.IdUserLogin);
+                    if(lstUserRole.Count == 0)
+                        continue;//chua dc gan quyen
+                    var userRole = lstUserRole.FirstOrDefault(x => x.IdUserLogin == userInfo.IdUserLogin);
+                    if(userRole == null)
+                        continue; // chua duoc gan quyen
+                    var lstRolePermission = MemoryInfo.GetListRolePermissionByField(userRole.IdRole.ToString(),RolePermission.RolePermissionFields.IdRole);
+                    if(lstRolePermission.Count == 0)
+                        continue; // nhom quyen chua duoc them permission
+                    Dictionary<int,int> dicPermissionRole = new Dictionary<int, int>();
+                    foreach (var rolePermission in lstRolePermission)
+                    {
+                        dicPermissionRole[rolePermission.IdPermission] = 1;
+                    }
+                    var lstPermission = MemoryInfo.GetAllPermission().Where(x => dicPermissionRole.ContainsKey(x.Id)).Select(x => x.Name).ToList();
+                    Memory.Memory.DicUserPermission[userInfo.IdUserLogin] = new List<string>();
+                    if(lstPermission.Count == 0)
+                        continue; // khong co permission nao ca
+                    Memory.Memory.DicUserPermission[userInfo.IdUserLogin].AddRange(lstPermission);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Write(string.Format("Init Permission voi resson:{0} that bai",reason));
                 Logger.Write(ex.ToString());
                 return false;
             }

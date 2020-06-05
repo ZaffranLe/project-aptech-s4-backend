@@ -467,6 +467,16 @@ namespace ElectricShop.Memory
         {
             if (string.IsNullOrEmpty(fieldValue)) fieldValue = "";
             var listValue = new List<RolePermission>();
+            if (fieldName == RolePermission.RolePermissionFields.IdRole)
+            {
+                listValue = DicRolePermission.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.IdRole.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            else if (fieldName == RolePermission.RolePermissionFields.IdPermission)
+            {
+                listValue = DicRolePermission.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.IdPermission.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
             return listValue.Select(value => value.Clone() as RolePermission).ToList();
         }
         #endregion
@@ -511,11 +521,6 @@ namespace ElectricShop.Memory
                 listValue = DicUserInfo.Values.ToList().FindAll(obj =>
                 fieldValue.Equals(obj.UpdatedBy.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
             }
-            else if (fieldName == UserInfo.UserInfoFields.UserStatus)
-            {
-                listValue = DicUserInfo.Values.ToList().FindAll(obj =>
-                fieldValue.Equals(obj.UserStatus.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
-            }
             return listValue.Select(value => value.Clone() as UserInfo).ToList();
         }
         #endregion
@@ -540,6 +545,11 @@ namespace ElectricShop.Memory
                 listValue = DicUserLogin.Values.ToList().FindAll(obj =>
                 fieldValue.Equals(obj.Username.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
             }
+            else if (fieldName == UserLogin.UserLoginFields.UserStatus)
+            {
+                listValue = DicUserLogin.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.UserStatus.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
             return listValue.Select(value => value.Clone() as UserLogin).ToList();
         }
         #endregion
@@ -549,6 +559,15 @@ namespace ElectricShop.Memory
         {
             if (string.IsNullOrEmpty(fieldValue)) fieldValue = "";
             var listValue = new List<UserRole>();
+            if (fieldName == UserRole.UserRoleFields.IdRole)
+            {
+                listValue = DicUserRole.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.IdRole.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }else if (fieldName == UserRole.UserRoleFields.IdUserLogin)
+            {
+                listValue = DicUserRole.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.IdUserLogin.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
             return listValue.Select(value => value.Clone() as UserRole).ToList();
         }
         #endregion

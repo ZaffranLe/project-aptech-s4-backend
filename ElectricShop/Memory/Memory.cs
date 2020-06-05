@@ -9,6 +9,13 @@ namespace ElectricShop.Memory
 {
     public class Memory
     {
+        #region DicRole
+        public static Dictionary<int,List<string>> DicUserPermission = new Dictionary<int, List<string>>();
+        
+
+        #endregion
+
+
         #region Dang ki memory
         public static List<string> GetListEntityNameInit()
         {

@@ -78,7 +78,7 @@ namespace RoleGen
                 var stringBuild = new StringBuilder();
                 stringBuild.AppendLine("namespace ElectricShop.Common.Enum");
                 stringBuild.AppendLine("{");
-                stringBuild.AppendLine("\tpublic enum RoleDefinition");
+                stringBuild.AppendLine("\tpublic enum RoleDefinitionEnum");
                 stringBuild.AppendLine("\t{");
 
                 for (var i = 2; i <= 250; i++)
