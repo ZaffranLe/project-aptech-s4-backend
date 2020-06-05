@@ -47,6 +47,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
 				sqlCommand.Parameters.Add(new SqlParameter("@Password", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Password));
 				sqlCommand.Parameters.Add(new SqlParameter("@Username", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Username));
+				sqlCommand.Parameters.Add(new SqlParameter("@UserStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UserStatus));
 
 
 				}
@@ -83,6 +84,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
 				sqlCommand.Parameters.Add(new SqlParameter("@Password", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Password));
 				sqlCommand.Parameters.Add(new SqlParameter("@Username", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Username));
+				sqlCommand.Parameters.Add(new SqlParameter("@UserStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UserStatus));
 
 				
 				}
@@ -152,6 +154,9 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 
 			if (GetIndex(UserLogin.UserLoginFields.Username.ToString()) != -1)
 				businessObject.Username = dataReader.GetString(GetIndex(UserLogin.UserLoginFields.Username.ToString()));
+
+			if (GetIndex(UserLogin.UserLoginFields.UserStatus.ToString()) != -1)
+				businessObject.UserStatus = dataReader.GetInt32(GetIndex(UserLogin.UserLoginFields.UserStatus.ToString()));
 
 
         }

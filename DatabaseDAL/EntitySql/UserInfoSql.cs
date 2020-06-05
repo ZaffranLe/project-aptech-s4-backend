@@ -53,7 +53,6 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 				sqlCommand.Parameters.Add(new SqlParameter("@Phone", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Phone));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedBy));
-				sqlCommand.Parameters.Add(new SqlParameter("@UserStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UserStatus));
 
 
 				}
@@ -96,7 +95,6 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 				sqlCommand.Parameters.Add(new SqlParameter("@Phone", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Phone));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedBy));
-				sqlCommand.Parameters.Add(new SqlParameter("@UserStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UserStatus));
 
 				
 				}
@@ -199,9 +197,6 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 
 			if (GetIndex(UserInfo.UserInfoFields.UpdatedBy.ToString()) != -1)
 				businessObject.UpdatedBy = dataReader.GetInt32(GetIndex(UserInfo.UserInfoFields.UpdatedBy.ToString()));
-
-			if (GetIndex(UserInfo.UserInfoFields.UserStatus.ToString()) != -1)
-				businessObject.UserStatus = dataReader.GetInt32(GetIndex(UserInfo.UserInfoFields.UserStatus.ToString()));
 
 
         }

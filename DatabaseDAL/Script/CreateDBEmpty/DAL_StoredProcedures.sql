@@ -587,6 +587,95 @@ DELETE FROM [dbo].[Permission]
 
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'Post_Insert') and OBJECTPROPERTY(id, N'IsProcedure') = 1) drop procedure Post_Insert
+GO
+CREATE PROCEDURE Post_Insert
+	@Content text = null ,
+	@CreatedAt datetime = null ,
+	@CreatedBy int ,
+	@Id int ,
+	@Tittle varchar(255) ,
+	@UpdatedAt datetime = null ,
+	@UpdatedBy int 
+
+AS
+
+INSERT [dbo].[Post]
+(
+	[Content],
+	[CreatedAt],
+	[CreatedBy],
+	[Id],
+	[Tittle],
+	[UpdatedAt],
+	[UpdatedBy]
+
+)
+VALUES
+(
+	@Content,
+	@CreatedAt,
+	@CreatedBy,
+	@Id,
+	@Tittle,
+	@UpdatedAt,
+	@UpdatedBy
+
+)
+
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'Post_Update') and OBJECTPROPERTY(id, N'IsProcedure') = 1) drop procedure Post_Update
+GO
+CREATE PROCEDURE Post_Update
+	@Content text = null,
+	@CreatedAt datetime = null,
+	@CreatedBy int,
+	@Id int,
+	@Tittle varchar(255),
+	@UpdatedAt datetime = null,
+	@UpdatedBy int
+
+AS
+
+UPDATE [dbo].[Post]
+SET
+	[Content] = @Content,
+	[CreatedAt] = @CreatedAt,
+	[CreatedBy] = @CreatedBy,
+	[Id] = @Id,
+	[Tittle] = @Tittle,
+	[UpdatedAt] = @UpdatedAt,
+	[UpdatedBy] = @UpdatedBy
+ WHERE 
+	[Id] = @Id
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'Post_SelectAll') and OBJECTPROPERTY(id, N'IsProcedure') = 1) drop procedure Post_SelectAll
+GO
+CREATE PROCEDURE Post_SelectAll
+AS
+
+	SELECT 
+		[Content], [CreatedAt], [CreatedBy], [Id], [Tittle], [UpdatedAt], [UpdatedBy]
+	FROM [dbo].[Post]
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'Post_DeleteByPrimaryKey') and OBJECTPROPERTY(id, N'IsProcedure') = 1) drop procedure Post_DeleteByPrimaryKey
+GO
+CREATE PROCEDURE Post_DeleteByPrimaryKey
+	@Id int
+AS
+
+DELETE FROM [dbo].[Post]
+ WHERE 
+	[Id] = @Id
+
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'Product_Insert') and OBJECTPROPERTY(id, N'IsProcedure') = 1) drop procedure Product_Insert
 GO
 CREATE PROCEDURE Product_Insert
@@ -1150,8 +1239,7 @@ CREATE PROCEDURE UserInfo_Insert
 	@Name nvarchar(255) ,
 	@Phone varchar(255) = null ,
 	@UpdatedAt datetime = null ,
-	@UpdatedBy int ,
-	@UserStatus int 
+	@UpdatedBy int 
 
 AS
 
@@ -1165,8 +1253,7 @@ INSERT [dbo].[UserInfo]
 	[Name],
 	[Phone],
 	[UpdatedAt],
-	[UpdatedBy],
-	[UserStatus]
+	[UpdatedBy]
 
 )
 VALUES
@@ -1179,8 +1266,7 @@ VALUES
 	@Name,
 	@Phone,
 	@UpdatedAt,
-	@UpdatedBy,
-	@UserStatus
+	@UpdatedBy
 
 )
 
@@ -1198,8 +1284,7 @@ CREATE PROCEDURE UserInfo_Update
 	@Name nvarchar(255),
 	@Phone varchar(255) = null,
 	@UpdatedAt datetime = null,
-	@UpdatedBy int,
-	@UserStatus int
+	@UpdatedBy int
 
 AS
 
@@ -1213,8 +1298,7 @@ SET
 	[Name] = @Name,
 	[Phone] = @Phone,
 	[UpdatedAt] = @UpdatedAt,
-	[UpdatedBy] = @UpdatedBy,
-	[UserStatus] = @UserStatus
+	[UpdatedBy] = @UpdatedBy
  WHERE 
 	[IdUserLogin] = @IdUserLogin
 
@@ -1226,7 +1310,7 @@ CREATE PROCEDURE UserInfo_SelectAll
 AS
 
 	SELECT 
-		[Address], [CreatedAt], [CreatedBy], [Email], [IdUserLogin], [Name], [Phone], [UpdatedAt], [UpdatedBy], [UserStatus]
+		[Address], [CreatedAt], [CreatedBy], [Email], [IdUserLogin], [Name], [Phone], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[UserInfo]
 
 GO
@@ -1248,7 +1332,8 @@ GO
 CREATE PROCEDURE UserLogin_Insert
 	@Id int ,
 	@Password varchar(255) ,
-	@Username varchar(255) 
+	@Username varchar(255) ,
+	@UserStatus int 
 
 AS
 
@@ -1256,14 +1341,16 @@ INSERT [dbo].[UserLogin]
 (
 	[Id],
 	[Password],
-	[Username]
+	[Username],
+	[UserStatus]
 
 )
 VALUES
 (
 	@Id,
 	@Password,
-	@Username
+	@Username,
+	@UserStatus
 
 )
 
@@ -1275,7 +1362,8 @@ GO
 CREATE PROCEDURE UserLogin_Update
 	@Id int,
 	@Password varchar(255),
-	@Username varchar(255)
+	@Username varchar(255),
+	@UserStatus int
 
 AS
 
@@ -1283,7 +1371,8 @@ UPDATE [dbo].[UserLogin]
 SET
 	[Id] = @Id,
 	[Password] = @Password,
-	[Username] = @Username
+	[Username] = @Username,
+	[UserStatus] = @UserStatus
  WHERE 
 	[Id] = @Id
 
@@ -1295,7 +1384,7 @@ CREATE PROCEDURE UserLogin_SelectAll
 AS
 
 	SELECT 
-		[Id], [Password], [Username]
+		[Id], [Password], [Username], [UserStatus]
 	FROM [dbo].[UserLogin]
 
 GO

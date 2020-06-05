@@ -146,6 +146,28 @@ GO
 
 
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Post') AND type in (N'U')) DROP TABLE [dbo].[Post]
+GO
+
+BEGIN
+CREATE TABLE [dbo].[Post](
+
+	[Content] [text] NULL  ,
+	[CreatedAt] [datetime] NULL  ,
+	[CreatedBy] [int] NOT NULL  ,
+	[Id] [int] NOT NULL  ,
+	[Tittle] [varchar](255)  NOT NULL  ,
+	[UpdatedAt] [datetime] NULL  ,
+	[UpdatedBy] [int] NOT NULL  
+CONSTRAINT [PK_Post] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY] ) ON [PRIMARY] 
+END
+GO
+
+
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Product') AND type in (N'U')) DROP TABLE [dbo].[Product]
 GO
 
@@ -296,8 +318,7 @@ CREATE TABLE [dbo].[UserInfo](
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[Phone] [varchar](255)  NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
-	[UpdatedBy] [int] NOT NULL  ,
-	[UserStatus] [int] NOT NULL  
+	[UpdatedBy] [int] NOT NULL  
 CONSTRAINT [PK_UserInfo] PRIMARY KEY CLUSTERED 
 (
 	[IdUserLogin] ASC
@@ -315,6 +336,7 @@ CREATE TABLE [dbo].[UserLogin](
 
 	[Id] [int] NOT NULL  ,
 	[Password] [varchar](255)  NOT NULL  ,
+	[UserStatus] [int] NOT NULL  ,
 	[Username] [varchar](255)  NOT NULL  
 CONSTRAINT [PK_UserLogin] PRIMARY KEY CLUSTERED 
 (
