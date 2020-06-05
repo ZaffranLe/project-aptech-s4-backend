@@ -143,6 +143,7 @@ namespace CommonicationMemory.CodeGeneration
                 #region Generate DataLayer
 
                 CreateFileEntity.GenerateEntites(table, BusinessLayerRootPath);
+                CreateFileController.GenerateControllerApi(table, BusinessLayerRootPath);
                 GenerateFileDal(table);
 
                 #endregion
