@@ -10,7 +10,7 @@ using ElectricShop.Models;
 using ElectricShop.Utils;
 namespace ElectricShop.Controllers
 {
-	public class CustomerController: ApiController
+	public class RolePermissionController: ApiController
 	{
 		public async Task<IHttpActionResult> Get()
 		{
@@ -25,7 +25,7 @@ namespace ElectricShop.Controllers
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
 				}
 				#endregion
-				var lstData = MemoryInfo.GetAllCustomer();
+				var lstData = MemoryInfo.GetAllRolePermission();
 				var res = new RequestErrorCode(true, null, null);
 				res.ListDataResult.AddRange(lstData);
 				return Ok(res);
@@ -60,7 +60,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
-		public async Task<IHttpActionResult> Post([FromBody]Customer req)
+		public async Task<IHttpActionResult> Post([FromBody]RolePermission req)
 		{
 			try
 			{
@@ -112,7 +112,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
-		public async Task<IHttpActionResult> Put(int id,[FromBody]Customer req)
+		public async Task<IHttpActionResult> Put(int id,[FromBody]RolePermission req)
 		{
 			try
 			{
@@ -136,7 +136,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Check exist
-				var obj = MemoryInfo.GetCustomer(id);
+				var obj = MemoryInfo.GetRolePermission(id);
 				if (obj == null)
 				{
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
@@ -182,7 +182,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Check exist
-				var obj = MemoryInfo.GetCustomer(id);
+				var obj = MemoryInfo.GetRolePermission(id);
 				if (obj == null)
 				{
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
