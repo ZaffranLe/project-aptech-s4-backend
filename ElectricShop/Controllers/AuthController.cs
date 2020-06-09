@@ -10,7 +10,7 @@ using ElectricShop.Utils;
 
 namespace ElectricShop.Controllers
 {
-    public class TokenController : ApiController
+    public class AuthController : ApiController
     {
         public async Task<IHttpActionResult> Post([FromBody]UserLogin req)
         {
@@ -33,7 +33,7 @@ namespace ElectricShop.Controllers
                 var passEncrypt = PasswordGenerator.EncodePassword(req.Password);
                 if (userLogin.Password != passEncrypt)
                 {
-                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.ErrorPasswordFormat.ToString(), "Sai password"));
+                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_PasswordWrong.ToString(), "Sai password"));
                 }
 
                 var userInfo = MemoryInfo.GetUserInfo(userLogin.Id);
@@ -42,9 +42,12 @@ namespace ElectricShop.Controllers
                     return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_UserinfoIsNull.ToString(), "Khong co thong tin Userinfo"));
                 }
 
-                #region Gen token va tra userInfo ve
+                #region Gen token va tra userInfo ve kem voi list quyen
+
+                var lstPermission = MemoryInfo.GetListPermission(userInfo.IdUserLogin);
                 var token = TokenManager.GenerateToken(userInfo, -1);
                 var tokenRes = new TokenResponse(token,userInfo);
+                tokenRes.ListPermission.AddRange(lstPermission);
                 #endregion
                 var result = new RequestErrorCode(true);
                 result.ListDataResult.Add(tokenRes);

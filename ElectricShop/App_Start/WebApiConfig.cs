@@ -22,7 +22,7 @@ namespace ElectricShop
                 Logger.Write("Khong init duoc du lieu!");
                 return;
             }
-            if (!AppGlobal.InitOrReloadUserPermission("Init Start Services"))
+            if (!AppGlobal.InitUserPermission("Init Start Services"))
             {
                 Logger.Write("Khong init duoc permission!");
                 return;

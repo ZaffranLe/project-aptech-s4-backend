@@ -149,7 +149,7 @@
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\TokenController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Memory\Memory.cs" />
+    <Compile Include="Memory\MemoryInfo.GetCustom.cs" />
     <Compile Include="Memory\MemoryInfo.Get.cs" />
     <Compile Include="Memory\MemoryInfo.GetAll.cs" />
     <Compile Include="Memory\MemoryInfo.GetByField.cs" />
