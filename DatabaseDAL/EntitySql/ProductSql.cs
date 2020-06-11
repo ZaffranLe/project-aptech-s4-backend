@@ -51,6 +51,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 				sqlCommand.Parameters.Add(new SqlParameter("@IdDisplay", SqlDbType.VarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdDisplay));
 				sqlCommand.Parameters.Add(new SqlParameter("@IdManufacturer", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdManufacturer));
 				sqlCommand.Parameters.Add(new SqlParameter("@IdProductType", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdProductType));
+				sqlCommand.Parameters.Add(new SqlParameter("@ImageId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.ImageId));
 				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
 				sqlCommand.Parameters.Add(new SqlParameter("@Quantity", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Quantity));
 				sqlCommand.Parameters.Add(new SqlParameter("@SupportDuration", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.SupportDuration));
@@ -97,6 +98,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 				sqlCommand.Parameters.Add(new SqlParameter("@IdDisplay", SqlDbType.VarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdDisplay));
 				sqlCommand.Parameters.Add(new SqlParameter("@IdManufacturer", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdManufacturer));
 				sqlCommand.Parameters.Add(new SqlParameter("@IdProductType", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdProductType));
+				sqlCommand.Parameters.Add(new SqlParameter("@ImageId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.ImageId));
 				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
 				sqlCommand.Parameters.Add(new SqlParameter("@Quantity", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Quantity));
 				sqlCommand.Parameters.Add(new SqlParameter("@SupportDuration", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.SupportDuration));
@@ -190,6 +192,12 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 
 			if (GetIndex(Product.ProductFields.IdProductType.ToString()) != -1)
 				businessObject.IdProductType = dataReader.GetInt32(GetIndex(Product.ProductFields.IdProductType.ToString()));
+
+			if (GetIndex(Product.ProductFields.ImageId.ToString()) != -1)
+				if (!dataReader.IsDBNull(GetIndex(Product.ProductFields.ImageId.ToString())))
+				{
+					businessObject.ImageId = dataReader.GetString(GetIndex(Product.ProductFields.ImageId.ToString()));
+				}
 
 			if (GetIndex(Product.ProductFields.Name.ToString()) != -1)
 				businessObject.Name = dataReader.GetString(GetIndex(Product.ProductFields.Name.ToString()));

@@ -15,6 +15,7 @@ namespace ElectricShop.Entity.Entities
 			CreatedBy,
 			Email,
 			IdUserLogin,
+			ImageId,
 			Name,
 			Phone,
 			UpdatedAt,
@@ -42,6 +43,7 @@ namespace ElectricShop.Entity.Entities
 		public int  CreatedBy { get; set; }
 		public string  Email { get; set; }
 		public int  IdUserLogin { get; set; } //Key 
+		public string  ImageId { get; set; }
 		public string  Name { get; set; }
 		public string  Phone { get; set; }
 		public DateTime?  UpdatedAt { get; set; }
@@ -59,6 +61,9 @@ namespace ElectricShop.Entity.Entities
 
 			if (Email != null && Email.Length > 255 )
 				throw new InvalidDataException("Field: Email in entity: UserInfo is over-size: 255, value=" + Email);
+
+			if (ImageId != null && ImageId.Length > 255 )
+				throw new InvalidDataException("Field: ImageId in entity: UserInfo is over-size: 255, value=" + ImageId);
 			if (Name == null)
 				throw new NoNullAllowedException("Field: Name in entity: UserInfo is Null");
 

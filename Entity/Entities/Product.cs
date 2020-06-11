@@ -17,6 +17,7 @@ namespace ElectricShop.Entity.Entities
 			IdDisplay,
 			IdManufacturer,
 			IdProductType,
+			ImageId,
 			Name,
 			Quantity,
 			SupportDuration,
@@ -48,6 +49,7 @@ namespace ElectricShop.Entity.Entities
 		public string  IdDisplay { get; set; }
 		public int  IdManufacturer { get; set; }
 		public int  IdProductType { get; set; }
+		public string  ImageId { get; set; }
 		public string  Name { get; set; }
 		public int?  Quantity { get; set; }
 		public int?  SupportDuration { get; set; }
@@ -69,6 +71,9 @@ namespace ElectricShop.Entity.Entities
 
 			if (IdDisplay != null && IdDisplay.Length > 50 )
 				throw new InvalidDataException("Field: IdDisplay in entity: Product is over-size: 50, value=" + IdDisplay);
+
+			if (ImageId != null && ImageId.Length > 255 )
+				throw new InvalidDataException("Field: ImageId in entity: Product is over-size: 255, value=" + ImageId);
 			if (Name == null)
 				throw new NoNullAllowedException("Field: Name in entity: Product is Null");
 

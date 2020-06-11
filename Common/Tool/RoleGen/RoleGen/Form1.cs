@@ -63,6 +63,7 @@ namespace RoleGen
 
                 txtDisplay.Text = txtDisplay.Text + "DELETE Role;  " + "\r\n";
                 txtDisplay.Text = txtDisplay.Text + "INSERT INTO [dbo].[Role]([CreatedAt], [CreatedBy], [Description], [Id], [Name], [UpdatedAt], [UpdatedBy]) VALUES ('2020-06-05 13:57:24.000', 1, N'Nhóm Admin', 1, N'Admin', '2020-06-05 13:57:42.000', 1);" + "\r\n";
+                txtDisplay.Text = txtDisplay.Text + "INSERT INTO [dbo].[UserRole]([IdRole],[IdUserLogin]) VALUES (1,1)" + "\r\n";
 
                 txtDisplay.Text = txtDisplay.Text + "DELETE Permission;" + "\r\n";
                 txtDisplay.Text = txtDisplay.Text + "DELETE RolePermission;" + "\r\n";
@@ -80,6 +81,7 @@ namespace RoleGen
                 stringBuild.AppendLine("{");
                 stringBuild.AppendLine("\tpublic enum RoleDefinitionEnum");
                 stringBuild.AppendLine("\t{");
+                stringBuild.AppendLine("\t\tNone" + " = " + id + ",");
 
                 for (var i = 2; i <= 250; i++)
                 {
@@ -101,7 +103,7 @@ namespace RoleGen
                     txtDisplay.Text = txtDisplay.Text + strAddFull + "\r\n";
 
                     #region gen file Enum
-                    stringBuild.AppendLine("\t\t" + name + " = " + i + ",");
+                    stringBuild.AppendLine("\t\t" + name + " = " + (int)(id + 1) + ",");
                     #endregion
 
                     id++;

@@ -9,7 +9,7 @@ namespace ElectricShop.Utils
     {
         public static readonly string SPECIAL_CHARS = "~@#$%^()_[]{}";
 
-        public static bool HasPermision(int userId, RoleDefinition role)
+        public static bool HasPermision(int userId, RoleDefinitionEnum role)
         {
             if (Memory.Memory.DicUserPermission.ContainsKey(userId))
             {

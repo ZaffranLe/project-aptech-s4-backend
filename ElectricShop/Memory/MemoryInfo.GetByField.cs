@@ -62,16 +62,6 @@ namespace ElectricShop.Memory
                 listValue = DicImage.Values.ToList().FindAll(obj =>
                 fieldValue.Equals(obj.Id.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
             }
-            else if (fieldName == Image.ImageFields.IdProduct)
-            {
-                listValue = DicImage.Values.ToList().FindAll(obj =>
-                fieldValue.Equals(obj.IdProduct.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
-            }
-            else if (fieldName == Image.ImageFields.Name)
-            {
-                listValue = DicImage.Values.ToList().FindAll(obj =>
-                fieldValue.Equals(obj.Name.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
-            }
             else if (fieldName == Image.ImageFields.UpdatedBy)
             {
                 listValue = DicImage.Values.ToList().FindAll(obj =>

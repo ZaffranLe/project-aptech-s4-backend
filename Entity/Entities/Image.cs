@@ -13,8 +13,7 @@ namespace ElectricShop.Entity.Entities
 			CreatedAt,
 			CreatedBy,
 			Id,
-			IdProduct,
-			Name,
+			ImageUrl,
 			UpdatedAt,
 			UpdatedBy
 		}
@@ -38,8 +37,7 @@ namespace ElectricShop.Entity.Entities
 		public DateTime?  CreatedAt { get; set; }
 		public int  CreatedBy { get; set; }
 		public int  Id { get; set; } //Key 
-		public int  IdProduct { get; set; }
-		public string  Name { get; set; }
+		public string  ImageUrl { get; set; }
 		public DateTime?  UpdatedAt { get; set; }
 		public int  UpdatedBy { get; set; }
 
@@ -49,11 +47,11 @@ namespace ElectricShop.Entity.Entities
 
 		public override bool IsValid()
 		{
-			if (Name == null)
-				throw new NoNullAllowedException("Field: Name in entity: Image is Null");
+			if (ImageUrl == null)
+				throw new NoNullAllowedException("Field: ImageUrl in entity: Image is Null");
 
-			if (Name != null && Name.Length > 255 )
-				throw new InvalidDataException("Field: Name in entity: Image is over-size: 255, value=" + Name);
+			if (ImageUrl != null && ImageUrl.Length > 255 )
+				throw new InvalidDataException("Field: ImageUrl in entity: Image is over-size: 255, value=" + ImageUrl);
 			return true;
 		}
 

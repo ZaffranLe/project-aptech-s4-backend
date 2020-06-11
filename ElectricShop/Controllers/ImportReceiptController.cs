@@ -190,7 +190,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				// check role 
-				if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinition.None))
+				if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.None))
 				{
 				return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen xoa"));
 				}

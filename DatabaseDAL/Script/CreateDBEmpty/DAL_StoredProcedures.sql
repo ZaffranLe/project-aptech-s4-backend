@@ -103,8 +103,7 @@ CREATE PROCEDURE Image_Insert
 	@CreatedAt datetime = null ,
 	@CreatedBy int ,
 	@Id int ,
-	@IdProduct int ,
-	@Name varchar(255) ,
+	@ImageUrl varchar(255) ,
 	@UpdatedAt datetime = null ,
 	@UpdatedBy int 
 
@@ -115,8 +114,7 @@ INSERT [dbo].[Image]
 	[CreatedAt],
 	[CreatedBy],
 	[Id],
-	[IdProduct],
-	[Name],
+	[ImageUrl],
 	[UpdatedAt],
 	[UpdatedBy]
 
@@ -126,8 +124,7 @@ VALUES
 	@CreatedAt,
 	@CreatedBy,
 	@Id,
-	@IdProduct,
-	@Name,
+	@ImageUrl,
 	@UpdatedAt,
 	@UpdatedBy
 
@@ -142,8 +139,7 @@ CREATE PROCEDURE Image_Update
 	@CreatedAt datetime = null,
 	@CreatedBy int,
 	@Id int,
-	@IdProduct int,
-	@Name varchar(255),
+	@ImageUrl varchar(255),
 	@UpdatedAt datetime = null,
 	@UpdatedBy int
 
@@ -154,8 +150,7 @@ SET
 	[CreatedAt] = @CreatedAt,
 	[CreatedBy] = @CreatedBy,
 	[Id] = @Id,
-	[IdProduct] = @IdProduct,
-	[Name] = @Name,
+	[ImageUrl] = @ImageUrl,
 	[UpdatedAt] = @UpdatedAt,
 	[UpdatedBy] = @UpdatedBy
  WHERE 
@@ -169,7 +164,7 @@ CREATE PROCEDURE Image_SelectAll
 AS
 
 	SELECT 
-		[CreatedAt], [CreatedBy], [Id], [IdProduct], [Name], [UpdatedAt], [UpdatedBy]
+		[CreatedAt], [CreatedBy], [Id], [ImageUrl], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Image]
 
 GO
@@ -296,6 +291,7 @@ CREATE PROCEDURE Manufacturer_Insert
 	@CreatedAt datetime = null ,
 	@CreatedBy int ,
 	@Id int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@UpdatedAt datetime = null ,
 	@UpdatedBy int 
@@ -307,6 +303,7 @@ INSERT [dbo].[Manufacturer]
 	[CreatedAt],
 	[CreatedBy],
 	[Id],
+	[ImageId],
 	[Name],
 	[UpdatedAt],
 	[UpdatedBy]
@@ -317,6 +314,7 @@ VALUES
 	@CreatedAt,
 	@CreatedBy,
 	@Id,
+	@ImageId,
 	@Name,
 	@UpdatedAt,
 	@UpdatedBy
@@ -332,6 +330,7 @@ CREATE PROCEDURE Manufacturer_Update
 	@CreatedAt datetime = null,
 	@CreatedBy int,
 	@Id int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@UpdatedAt datetime = null,
 	@UpdatedBy int
@@ -343,6 +342,7 @@ SET
 	[CreatedAt] = @CreatedAt,
 	[CreatedBy] = @CreatedBy,
 	[Id] = @Id,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[UpdatedAt] = @UpdatedAt,
 	[UpdatedBy] = @UpdatedBy
@@ -357,7 +357,7 @@ CREATE PROCEDURE Manufacturer_SelectAll
 AS
 
 	SELECT 
-		[CreatedAt], [CreatedBy], [Id], [Name], [UpdatedAt], [UpdatedBy]
+		[CreatedAt], [CreatedBy], [Id], [ImageId], [Name], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Manufacturer]
 
 GO
@@ -686,6 +686,7 @@ CREATE PROCEDURE Product_Insert
 	@IdDisplay varchar(50) ,
 	@IdManufacturer int ,
 	@IdProductType int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@Quantity int = null ,
 	@SupportDuration int = null ,
@@ -704,6 +705,7 @@ INSERT [dbo].[Product]
 	[IdDisplay],
 	[IdManufacturer],
 	[IdProductType],
+	[ImageId],
 	[Name],
 	[Quantity],
 	[SupportDuration],
@@ -721,6 +723,7 @@ VALUES
 	@IdDisplay,
 	@IdManufacturer,
 	@IdProductType,
+	@ImageId,
 	@Name,
 	@Quantity,
 	@SupportDuration,
@@ -743,6 +746,7 @@ CREATE PROCEDURE Product_Update
 	@IdDisplay varchar(50),
 	@IdManufacturer int,
 	@IdProductType int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@Quantity int = null,
 	@SupportDuration int = null,
@@ -761,6 +765,7 @@ SET
 	[IdDisplay] = @IdDisplay,
 	[IdManufacturer] = @IdManufacturer,
 	[IdProductType] = @IdProductType,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[Quantity] = @Quantity,
 	[SupportDuration] = @SupportDuration,
@@ -778,7 +783,7 @@ CREATE PROCEDURE Product_SelectAll
 AS
 
 	SELECT 
-		[CreatedAt], [CreatedBy], [Description], [Id], [IdDisplay], [IdManufacturer], [IdProductType], [Name], [Quantity], [SupportDuration], [UnitPrice], [UpdatedAt], [UpdatedBy]
+		[CreatedAt], [CreatedBy], [Description], [Id], [IdDisplay], [IdManufacturer], [IdProductType], [ImageId], [Name], [Quantity], [SupportDuration], [UnitPrice], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Product]
 
 GO
@@ -801,6 +806,7 @@ CREATE PROCEDURE ProductType_Insert
 	@CreatedAt datetime = null ,
 	@CreatedBy int ,
 	@Id int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@UpdatedAt datetime = null ,
 	@UpdatedBy int 
@@ -812,6 +818,7 @@ INSERT [dbo].[ProductType]
 	[CreatedAt],
 	[CreatedBy],
 	[Id],
+	[ImageId],
 	[Name],
 	[UpdatedAt],
 	[UpdatedBy]
@@ -822,6 +829,7 @@ VALUES
 	@CreatedAt,
 	@CreatedBy,
 	@Id,
+	@ImageId,
 	@Name,
 	@UpdatedAt,
 	@UpdatedBy
@@ -837,6 +845,7 @@ CREATE PROCEDURE ProductType_Update
 	@CreatedAt datetime = null,
 	@CreatedBy int,
 	@Id int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@UpdatedAt datetime = null,
 	@UpdatedBy int
@@ -848,6 +857,7 @@ SET
 	[CreatedAt] = @CreatedAt,
 	[CreatedBy] = @CreatedBy,
 	[Id] = @Id,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[UpdatedAt] = @UpdatedAt,
 	[UpdatedBy] = @UpdatedBy
@@ -862,7 +872,7 @@ CREATE PROCEDURE ProductType_SelectAll
 AS
 
 	SELECT 
-		[CreatedAt], [CreatedBy], [Id], [Name], [UpdatedAt], [UpdatedBy]
+		[CreatedAt], [CreatedBy], [Id], [ImageId], [Name], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[ProductType]
 
 GO
@@ -887,6 +897,7 @@ CREATE PROCEDURE Property_Insert
 	@Data nvarchar(255) ,
 	@Id int ,
 	@IdProduct int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@UpdatedAt datetime = null ,
 	@UpdatedBy int 
@@ -900,6 +911,7 @@ INSERT [dbo].[Property]
 	[Data],
 	[Id],
 	[IdProduct],
+	[ImageId],
 	[Name],
 	[UpdatedAt],
 	[UpdatedBy]
@@ -912,6 +924,7 @@ VALUES
 	@Data,
 	@Id,
 	@IdProduct,
+	@ImageId,
 	@Name,
 	@UpdatedAt,
 	@UpdatedBy
@@ -929,6 +942,7 @@ CREATE PROCEDURE Property_Update
 	@Data nvarchar(255),
 	@Id int,
 	@IdProduct int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@UpdatedAt datetime = null,
 	@UpdatedBy int
@@ -942,6 +956,7 @@ SET
 	[Data] = @Data,
 	[Id] = @Id,
 	[IdProduct] = @IdProduct,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[UpdatedAt] = @UpdatedAt,
 	[UpdatedBy] = @UpdatedBy
@@ -956,7 +971,7 @@ CREATE PROCEDURE Property_SelectAll
 AS
 
 	SELECT 
-		[CreatedAt], [CreatedBy], [Data], [Id], [IdProduct], [Name], [UpdatedAt], [UpdatedBy]
+		[CreatedAt], [CreatedBy], [Data], [Id], [IdProduct], [ImageId], [Name], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Property]
 
 GO
@@ -981,6 +996,7 @@ CREATE PROCEDURE Provider_Insert
 	@CreatedBy int ,
 	@Email varchar(255) = null ,
 	@Id int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@Phone varchar(255) = null ,
 	@UpdatedAt datetime = null ,
@@ -995,6 +1011,7 @@ INSERT [dbo].[Provider]
 	[CreatedBy],
 	[Email],
 	[Id],
+	[ImageId],
 	[Name],
 	[Phone],
 	[UpdatedAt],
@@ -1008,6 +1025,7 @@ VALUES
 	@CreatedBy,
 	@Email,
 	@Id,
+	@ImageId,
 	@Name,
 	@Phone,
 	@UpdatedAt,
@@ -1026,6 +1044,7 @@ CREATE PROCEDURE Provider_Update
 	@CreatedBy int,
 	@Email varchar(255) = null,
 	@Id int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@Phone varchar(255) = null,
 	@UpdatedAt datetime = null,
@@ -1040,6 +1059,7 @@ SET
 	[CreatedBy] = @CreatedBy,
 	[Email] = @Email,
 	[Id] = @Id,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[Phone] = @Phone,
 	[UpdatedAt] = @UpdatedAt,
@@ -1055,7 +1075,7 @@ CREATE PROCEDURE Provider_SelectAll
 AS
 
 	SELECT 
-		[Address], [CreatedAt], [CreatedBy], [Email], [Id], [Name], [Phone], [UpdatedAt], [UpdatedBy]
+		[Address], [CreatedAt], [CreatedBy], [Email], [Id], [ImageId], [Name], [Phone], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Provider]
 
 GO
@@ -1236,6 +1256,7 @@ CREATE PROCEDURE UserInfo_Insert
 	@CreatedBy int ,
 	@Email varchar(255) = null ,
 	@IdUserLogin int ,
+	@ImageId nvarchar(255) = null ,
 	@Name nvarchar(255) ,
 	@Phone varchar(255) = null ,
 	@UpdatedAt datetime = null ,
@@ -1250,6 +1271,7 @@ INSERT [dbo].[UserInfo]
 	[CreatedBy],
 	[Email],
 	[IdUserLogin],
+	[ImageId],
 	[Name],
 	[Phone],
 	[UpdatedAt],
@@ -1263,6 +1285,7 @@ VALUES
 	@CreatedBy,
 	@Email,
 	@IdUserLogin,
+	@ImageId,
 	@Name,
 	@Phone,
 	@UpdatedAt,
@@ -1281,6 +1304,7 @@ CREATE PROCEDURE UserInfo_Update
 	@CreatedBy int,
 	@Email varchar(255) = null,
 	@IdUserLogin int,
+	@ImageId nvarchar(255) = null,
 	@Name nvarchar(255),
 	@Phone varchar(255) = null,
 	@UpdatedAt datetime = null,
@@ -1295,6 +1319,7 @@ SET
 	[CreatedBy] = @CreatedBy,
 	[Email] = @Email,
 	[IdUserLogin] = @IdUserLogin,
+	[ImageId] = @ImageId,
 	[Name] = @Name,
 	[Phone] = @Phone,
 	[UpdatedAt] = @UpdatedAt,
@@ -1310,7 +1335,7 @@ CREATE PROCEDURE UserInfo_SelectAll
 AS
 
 	SELECT 
-		[Address], [CreatedAt], [CreatedBy], [Email], [IdUserLogin], [Name], [Phone], [UpdatedAt], [UpdatedBy]
+		[Address], [CreatedAt], [CreatedBy], [Email], [IdUserLogin], [ImageId], [Name], [Phone], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[UserInfo]
 
 GO

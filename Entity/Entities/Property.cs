@@ -15,6 +15,7 @@ namespace ElectricShop.Entity.Entities
 			Data,
 			Id,
 			IdProduct,
+			ImageId,
 			Name,
 			UpdatedAt,
 			UpdatedBy
@@ -41,6 +42,7 @@ namespace ElectricShop.Entity.Entities
 		public string  Data { get; set; }
 		public int  Id { get; set; } //Key 
 		public int  IdProduct { get; set; }
+		public string  ImageId { get; set; }
 		public string  Name { get; set; }
 		public DateTime?  UpdatedAt { get; set; }
 		public int  UpdatedBy { get; set; }
@@ -56,6 +58,9 @@ namespace ElectricShop.Entity.Entities
 
 			if (Data != null && Data.Length > 255 )
 				throw new InvalidDataException("Field: Data in entity: Property is over-size: 255, value=" + Data);
+
+			if (ImageId != null && ImageId.Length > 255 )
+				throw new InvalidDataException("Field: ImageId in entity: Property is over-size: 255, value=" + ImageId);
 			if (Name == null)
 				throw new NoNullAllowedException("Field: Name in entity: Property is Null");
 

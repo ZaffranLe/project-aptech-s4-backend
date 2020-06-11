@@ -36,8 +36,7 @@ CREATE TABLE [dbo].[Image](
 	[CreatedAt] [datetime] NULL  ,
 	[CreatedBy] [int] NOT NULL  ,
 	[Id] [int] NOT NULL  ,
-	[IdProduct] [int] NOT NULL  ,
-	[Name] [varchar](255)  NOT NULL  ,
+	[ImageUrl] [varchar](255)  NOT NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
 	[UpdatedBy] [int] NOT NULL  
 CONSTRAINT [PK_Image] PRIMARY KEY CLUSTERED 
@@ -83,6 +82,7 @@ CREATE TABLE [dbo].[Manufacturer](
 	[CreatedAt] [datetime] NULL  ,
 	[CreatedBy] [int] NOT NULL  ,
 	[Id] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
 	[UpdatedBy] [int] NOT NULL  
@@ -181,6 +181,7 @@ CREATE TABLE [dbo].[Product](
 	[IdDisplay] [varchar](50)  NOT NULL  ,
 	[IdManufacturer] [int] NOT NULL  ,
 	[IdProductType] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[Quantity] [int] NULL  ,
 	[SupportDuration] [int] NULL  ,
@@ -205,6 +206,7 @@ CREATE TABLE [dbo].[ProductType](
 	[CreatedAt] [datetime] NULL  ,
 	[CreatedBy] [int] NOT NULL  ,
 	[Id] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
 	[UpdatedBy] [int] NOT NULL  
@@ -228,6 +230,7 @@ CREATE TABLE [dbo].[Property](
 	[Data] [nvarchar](255)  NOT NULL  ,
 	[Id] [int] NOT NULL  ,
 	[IdProduct] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
 	[UpdatedBy] [int] NOT NULL  
@@ -251,6 +254,7 @@ CREATE TABLE [dbo].[Provider](
 	[CreatedBy] [int] NOT NULL  ,
 	[Email] [varchar](255)  NULL  ,
 	[Id] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[Phone] [varchar](255)  NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
@@ -315,6 +319,7 @@ CREATE TABLE [dbo].[UserInfo](
 	[CreatedBy] [int] NOT NULL  ,
 	[Email] [varchar](255)  NULL  ,
 	[IdUserLogin] [int] NOT NULL  ,
+	[ImageId] [nvarchar](255)  NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[Phone] [varchar](255)  NULL  ,
 	[UpdatedAt] [datetime] NULL  ,

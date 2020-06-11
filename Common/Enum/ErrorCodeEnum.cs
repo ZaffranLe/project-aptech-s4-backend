@@ -16,7 +16,9 @@ namespace ElectricShop.Common.Enum
         Error_UserinfoIsNull = 12,
         Error_InvalidToken = 13,
         Error_ObjectNotExist = 14,
-        Error_NotHavePermision = 15
+        Error_NotHavePermision = 15,
+        Error_UsernameIsExist = 16,
+
 
     }
 }

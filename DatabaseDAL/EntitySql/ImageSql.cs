@@ -47,8 +47,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedBy));
 				sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
-				sqlCommand.Parameters.Add(new SqlParameter("@IdProduct", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdProduct));
-				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
+				sqlCommand.Parameters.Add(new SqlParameter("@ImageUrl", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.ImageUrl));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedBy));
 
@@ -87,8 +86,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedBy));
 				sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
-				sqlCommand.Parameters.Add(new SqlParameter("@IdProduct", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.IdProduct));
-				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
+				sqlCommand.Parameters.Add(new SqlParameter("@ImageUrl", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.ImageUrl));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@UpdatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.UpdatedBy));
 
@@ -164,11 +162,8 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 
 				businessObject.Id = dataReader.GetInt32(GetIndex(Image.ImageFields.Id.ToString()));
 
-			if (GetIndex(Image.ImageFields.IdProduct.ToString()) != -1)
-				businessObject.IdProduct = dataReader.GetInt32(GetIndex(Image.ImageFields.IdProduct.ToString()));
-
-			if (GetIndex(Image.ImageFields.Name.ToString()) != -1)
-				businessObject.Name = dataReader.GetString(GetIndex(Image.ImageFields.Name.ToString()));
+			if (GetIndex(Image.ImageFields.ImageUrl.ToString()) != -1)
+				businessObject.ImageUrl = dataReader.GetString(GetIndex(Image.ImageFields.ImageUrl.ToString()));
 
 			if (GetIndex(Image.ImageFields.UpdatedAt.ToString()) != -1)
 				if (!dataReader.IsDBNull(GetIndex(Image.ImageFields.UpdatedAt.ToString())))
