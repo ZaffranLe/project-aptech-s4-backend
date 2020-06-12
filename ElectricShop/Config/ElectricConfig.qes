@@ -1,5 +1,7 @@
 ﻿{
   "Secret": "QirJsqTK22Q87CYnqoFHoz5GN2-zAEtVNI8sB2_9FsFmCjIAsLbVIIQhWMNqnu1RKcg_tNZ8ZF1W",
   "Port": 5673,
-  "SendConfirmEmail":  true 
+  "SendConfirmEmail": true,
+  "FolderSaveImages": "C:\\KhoiVuData\\Resources",
+  "BaseUrl": "http://localhost:2000/" 
 }

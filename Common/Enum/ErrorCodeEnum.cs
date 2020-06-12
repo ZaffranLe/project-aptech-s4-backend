@@ -18,8 +18,8 @@ namespace ElectricShop.Common.Enum
         Error_ObjectNotExist = 14,
         Error_NotHavePermision = 15,
         Error_UsernameIsExist = 16,
-
-
+        Error_NameIsNull = 17,
+        ErrorPhoneFormat = 18,
     }
 }
 

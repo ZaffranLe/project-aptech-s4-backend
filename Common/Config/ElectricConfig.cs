@@ -5,6 +5,8 @@
         public string Secret { get; set; }
         public int Port { get; set; }
         public bool SendConfirmEmail { get; set; }
+        public string FolderSaveImages { get; set; }
+        public string BaseUrl { get; set; }
 
         public void Dispose()
         {

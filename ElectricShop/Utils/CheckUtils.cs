@@ -81,7 +81,7 @@ namespace ElectricShop.Utils
         /// <summary>
         /// Kiểm tra email
         /// </summary>
-        public static ErrorCodeEnum ValidateEmail(string email)
+        public static bool ValidateEmail(string email)
         {
             //Check định dạng email
             const string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
@@ -90,8 +90,8 @@ namespace ElectricShop.Utils
 
             var re = new Regex(strRegex);
             if (!re.IsMatch(email))
-                return ErrorCodeEnum.ErrorEmailFormat;
-            return ErrorCodeEnum.None;
+                return false;
+            return true;
         }
         
 

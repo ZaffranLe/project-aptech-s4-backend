@@ -46,7 +46,12 @@ namespace ElectricShop.Controllers
 
                 var lstPermission = MemoryInfo.GetListPermission(userInfo.IdUserLogin);
                 var token = TokenManager.GenerateToken(userInfo, -1);
-                var tokenRes = new TokenResponse(token,userInfo);
+                var userInfoRes = new UserInfoResponse
+                {
+                    UserInfo = userInfo,
+                    ListImagesUrl = ImagesUtils.GetImagesUrl(userInfo.ImageId)
+                };
+                var tokenRes = new TokenResponse(token,userInfoRes);
                 tokenRes.ListPermission.AddRange(lstPermission);
                 #endregion
                 var result = new RequestErrorCode(true);
