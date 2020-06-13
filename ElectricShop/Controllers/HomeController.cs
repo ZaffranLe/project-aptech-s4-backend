@@ -29,11 +29,6 @@ namespace ElectricShop.Controllers
                 listValue = entityQry.ReturnValue.Select(baseEntity =>
                     baseEntity.GetEntity() as Customer).ToList();
             }
-
-            foreach (var customer in listValue)
-            {
-                Logger.Write(customer.ToString());
-            }
             return View();
         }
     }

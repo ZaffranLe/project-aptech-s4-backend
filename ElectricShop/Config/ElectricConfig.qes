@@ -3,5 +3,6 @@
   "Port": 5673,
   "SendConfirmEmail": true,
   "FolderSaveImages": "C:\\KhoiVuData\\Resources",
-  "BaseUrl": "http://localhost:2000/" 
+  "BaseUrl": "http://localhost:2000/",
+  "IsSendLogToBot": true
 }

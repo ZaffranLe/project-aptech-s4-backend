@@ -7,6 +7,7 @@
         public bool SendConfirmEmail { get; set; }
         public string FolderSaveImages { get; set; }
         public string BaseUrl { get; set; }
+        public bool IsSendLogToBot { get; set; }
 
         public void Dispose()
         {
