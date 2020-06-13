@@ -115,6 +115,7 @@
     <Compile Include="EntitySql\ManufacturerSql.cs" />
     <Compile Include="EntitySql\OrderDetailSql.cs" />
     <Compile Include="EntitySql\PermissionSql.cs" />
+    <Compile Include="EntitySql\PostSql.cs" />
     <Compile Include="EntitySql\ProductSql.cs" />
     <Compile Include="EntitySql\ProductTypeSql.cs" />
     <Compile Include="EntitySql\PropertySql.cs" />

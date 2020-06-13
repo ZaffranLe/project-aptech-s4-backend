@@ -91,6 +91,8 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Process
+				req.CreatedAt = DateTime.Now;
+				req.CreatedBy = userInfo.IdUserLogin;
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
@@ -144,6 +146,8 @@ namespace ElectricShop.Controllers
 				#endregion
 				req.Id = obj.Id; // gan lai id de update
 				#region Process
+				req.UpdatedAt = DateTime.Now;
+				req.UpdatedBy = userInfo.IdUserLogin;
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });

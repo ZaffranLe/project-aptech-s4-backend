@@ -119,6 +119,25 @@ namespace ElectricShop.Memory
                 DicPermission.Remove(objectValue.Id);
         }
 
+        internal static void SetMemory(Post objectValue)
+        {
+            string entityName = objectValue.GetName();
+            // chua co thi khoi tao
+            if (!DicMaxKeyEntity.ContainsKey(entityName))
+                DicMaxKeyEntity[entityName] = 0;
+            // co roi thi so sanh roi set max key vao dic
+            if (DicMaxKeyEntity[entityName] < objectValue.Id)
+            {
+                DicMaxKeyEntity[entityName] = objectValue.Id;
+            }
+            DicPost[objectValue.Id] = objectValue;
+        }
+        internal static void RemoveMemory(Post objectValue)
+        {
+            if (DicPost.ContainsKey(objectValue.Id))
+                DicPost.Remove(objectValue.Id);
+        }
+
         internal static void SetMemory(Product objectValue)
         {
             string entityName = objectValue.GetName();

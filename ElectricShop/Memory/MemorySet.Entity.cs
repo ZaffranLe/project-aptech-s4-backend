@@ -67,6 +67,8 @@ namespace ElectricShop.Memory
                 SetMemory(entity as OrderDetail);
             else if (entity is Permission)
                 SetMemory(entity as Permission);
+            else if (entity is Post)
+                SetMemory(entity as Post);
             else if (entity is Product)
                 SetMemory(entity as Product);
             else if (entity is ProductType)
@@ -104,6 +106,8 @@ namespace ElectricShop.Memory
                 RemoveMemory(entity as OrderDetail);
             else if (entity is Permission)
                 RemoveMemory(entity as Permission);
+            else if (entity is Post)
+                RemoveMemory(entity as Post);
             else if (entity is Product)
                 RemoveMemory(entity as Product);
             else if (entity is ProductType)

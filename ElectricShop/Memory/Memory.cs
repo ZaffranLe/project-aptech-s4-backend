@@ -27,6 +27,7 @@ namespace ElectricShop.Memory
                 Manufacturer.EntityName(),
                 OrderDetail.EntityName(),
                 Permission.EntityName(),
+                Post.EntityName(),
                 Product.EntityName(),
                 ProductType.EntityName(),
                 Property.EntityName(),
@@ -44,6 +45,7 @@ namespace ElectricShop.Memory
         public static Dictionary<int, Customer> DicCustomer = new Dictionary<int, Customer>();
 
         public static Dictionary<int, Image> DicImage = new Dictionary<int, Image>();
+        public static Dictionary<int, Post> DicPost = new Dictionary<int, Post>();
 
         public static Dictionary<int, ImportReceipt> DicImportReceipt = new Dictionary<int, ImportReceipt>();
 

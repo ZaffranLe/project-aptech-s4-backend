@@ -139,6 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RegistryController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImportReceiptController.cs" />
@@ -192,6 +193,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Config\DatabaseConfig.qes" />
     <Content Include="Config\ElectricConfig.qes" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

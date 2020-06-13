@@ -20,6 +20,10 @@ namespace ElectricShop.Memory
         {
             return DicImportReceipt.Select(obj => obj.Value.Clone() as ImportReceipt).ToList();
         }
+        public static List<Post> GetAllPost()
+        {
+            return DicPost.Select(obj => obj.Value.Clone() as Post).ToList();
+        }
 
         public static List<Manufacturer> GetAllManufacturer()
         {

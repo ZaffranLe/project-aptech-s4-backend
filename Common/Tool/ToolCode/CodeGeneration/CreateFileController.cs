@@ -156,6 +156,8 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");
                 stringBuild.AppendLine("\t\t\t\t#region Process");
+                stringBuild.AppendLine("\t\t\t\treq.CreatedAt = DateTime.Now;");
+                stringBuild.AppendLine("\t\t\t\treq.CreatedBy = userInfo.IdUserLogin;");
                 stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
                 stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
                 stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });");
@@ -212,6 +214,8 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("\t\t\t\treq.Id = obj.Id; // gan lai id de update");
                 stringBuild.AppendLine("\t\t\t\t#region Process");
+                stringBuild.AppendLine("\t\t\t\treq.UpdatedAt = DateTime.Now;");
+                stringBuild.AppendLine("\t\t\t\treq.UpdatedBy = userInfo.IdUserLogin;");
                 stringBuild.AppendLine("\t\t\t\tUpdateEntitySql updateEntitySql = new UpdateEntitySql();");
                 stringBuild.AppendLine("\t\t\t\tvar lstCommand = new List<EntityCommand>();");
                 stringBuild.AppendLine("\t\t\t\tlstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });");
@@ -261,7 +265,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");
                 stringBuild.AppendLine("\t\t\t\t// check role ");
-                stringBuild.AppendLine("\t\t\t\tif (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinition.None))");
+                stringBuild.AppendLine("\t\t\t\tif (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.None))");
                 stringBuild.AppendLine("\t\t\t\t{");
                 stringBuild.AppendLine("\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), \"Khong co quyen xoa\"));");
                 stringBuild.AppendLine("\t\t\t\t}");

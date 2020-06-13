@@ -18,6 +18,13 @@ namespace ElectricShop.Memory
             return false;
         }
 
+        public static bool IsExistPost(int id)
+        {
+            if (DicPost.ContainsKey(id))
+                return true;
+            return false;
+        }
+
         public static bool IsExistImportReceipt(int id)
         {
             if (DicImportReceipt.ContainsKey(id))

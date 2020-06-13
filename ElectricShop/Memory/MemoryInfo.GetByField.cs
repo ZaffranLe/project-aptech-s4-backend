@@ -241,6 +241,39 @@ namespace ElectricShop.Memory
             return listValue.Select(value => value.Clone() as Permission).ToList();
         }
         #endregion
+        #region Post
+        public static List<Post> GetListPostByField(string fieldValue, Post.PostFields fieldName)
+        {
+            if (string.IsNullOrEmpty(fieldValue)) fieldValue = "";
+            var listValue = new List<Post>();
+            if (fieldName == Post.PostFields.Content)
+            {
+                listValue = DicPost.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.Content.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            else if (fieldName == Post.PostFields.CreatedBy)
+            {
+                listValue = DicPost.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.CreatedBy.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            else if (fieldName == Post.PostFields.Id)
+            {
+                listValue = DicPost.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.Id.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            else if (fieldName == Post.PostFields.Tittle)
+            {
+                listValue = DicPost.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.Tittle.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            else if (fieldName == Post.PostFields.UpdatedBy)
+            {
+                listValue = DicPost.Values.ToList().FindAll(obj =>
+                    fieldValue.Equals(obj.UpdatedBy.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCultureIgnoreCase));
+            }
+            return listValue.Select(value => value.Clone() as Post).ToList();
+        }
+        #endregion
 
         #region Product
         public static List<Product> GetListProductByField(string fieldValue, Product.ProductFields fieldName)

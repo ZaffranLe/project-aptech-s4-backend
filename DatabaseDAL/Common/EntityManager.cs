@@ -49,6 +49,7 @@ namespace ElectricShop.DatabaseDAL.Common
             if (entityName.Equals(Manufacturer.EntityName())) { return new ManufacturerSql(); }
             if (entityName.Equals(OrderDetail.EntityName())) { return new OrderDetailSql(); }
             if (entityName.Equals(Permission.EntityName())) { return new PermissionSql(); }
+            if (entityName.Equals(Post.EntityName())) { return new PostSql(); }
             if (entityName.Equals(Product.EntityName())) { return new ProductSql(); }
             if (entityName.Equals(ProductType.EntityName())) { return new ProductTypeSql(); }
             if (entityName.Equals(Property.EntityName())) { return new PropertySql(); }

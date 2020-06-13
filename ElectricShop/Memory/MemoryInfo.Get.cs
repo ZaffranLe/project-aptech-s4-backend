@@ -22,6 +22,13 @@ namespace ElectricShop.Memory
             return null;
         }
 
+        public static Post GetPost(int id)
+        {
+            if (DicPost.ContainsKey(id))
+                return DicPost[id].Clone() as Post;
+            LogTo.Error("Not get Post by id = " + id);
+            return null;
+        }
         public static ImportReceipt GetImportReceipt(int id)
         {
             if (DicImportReceipt.ContainsKey(id))

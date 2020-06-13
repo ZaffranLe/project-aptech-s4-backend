@@ -10,7 +10,7 @@ using ElectricShop.Models;
 using ElectricShop.Utils;
 namespace ElectricShop.Controllers
 {
-	public class PermissionController: ApiController
+	public class PostController: ApiController
 	{
 		public async Task<IHttpActionResult> Get()
 		{
@@ -25,7 +25,7 @@ namespace ElectricShop.Controllers
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
 				}
 				#endregion
-				var lstData = MemoryInfo.GetAllPermission();
+				var lstData = MemoryInfo.GetAllPost();
 				var res = new RequestErrorCode(true, null, null);
 				res.ListDataResult.AddRange(lstData);
 				return Ok(res);
@@ -60,7 +60,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
-		public async Task<IHttpActionResult> Post([FromBody]Permission req)
+		public async Task<IHttpActionResult> Post([FromBody]Post req)
 		{
 			try
 			{
@@ -114,7 +114,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
-		public async Task<IHttpActionResult> Put(int id,[FromBody]Permission req)
+		public async Task<IHttpActionResult> Put(int id,[FromBody]Post req)
 		{
 			try
 			{
@@ -138,7 +138,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Check exist
-				var obj = MemoryInfo.GetPermission(id);
+				var obj = MemoryInfo.GetPost(id);
 				if (obj == null)
 				{
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
@@ -186,7 +186,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Check exist
-				var obj = MemoryInfo.GetPermission(id);
+				var obj = MemoryInfo.GetPost(id);
 				if (obj == null)
 				{
 					return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
@@ -222,7 +222,7 @@ namespace ElectricShop.Controllers
 		}
 
 		#region Validation
-		private bool Validate(Permission obj, out string errorCode, out string errorMess)
+		private bool Validate(Post obj, out string errorCode, out string errorMess)
 		{
 			errorCode = null;
 			errorMess = null;
@@ -238,7 +238,7 @@ namespace ElectricShop.Controllers
 			return true;
 		}
 
-		private bool ValidateUpdate(Permission obj, out string errorCode, out string errorMess)
+		private bool ValidateUpdate(Post obj, out string errorCode, out string errorMess)
 		{
 			errorCode = null;
 			errorMess = null;

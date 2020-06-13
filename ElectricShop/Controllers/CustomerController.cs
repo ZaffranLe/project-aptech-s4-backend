@@ -91,6 +91,8 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Process
+				req.CreatedAt = DateTime.Now;
+				req.CreatedBy = userInfo.IdUserLogin;
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
@@ -144,6 +146,8 @@ namespace ElectricShop.Controllers
 				#endregion
 				req.Id = obj.Id; // gan lai id de update
 				#region Process
+				req.UpdatedAt = DateTime.Now;
+				req.UpdatedBy = userInfo.IdUserLogin;
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
@@ -190,7 +194,7 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				// check role 
-				if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.ViewListCustomer))
+				if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.None))
 				{
 				return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen xoa"));
 				}
