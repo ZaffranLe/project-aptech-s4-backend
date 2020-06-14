@@ -2,6 +2,7 @@ using System;using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ElectricShop.Common.Enum;
+using System.Web.Http.Cors;
 using ElectricShop.DatabaseDAL.Common;
 using ElectricShop.Entity;
 using ElectricShop.Entity.Entities;
@@ -12,6 +13,7 @@ namespace ElectricShop.Controllers
 {
 	public class ManufacturerController: ApiController
 	{
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Get()
 		{
 			try
@@ -37,6 +39,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Get(int id)
 		{
 			try
@@ -60,6 +63,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Post([FromBody]Manufacturer req)
 		{
 			try
@@ -114,6 +118,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Put(int id,[FromBody]Manufacturer req)
 		{
 			try
@@ -169,6 +174,7 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Delete(int id)
 		{
 			try

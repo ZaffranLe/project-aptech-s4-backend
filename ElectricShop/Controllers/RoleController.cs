@@ -1,6 +1,7 @@
 using System;using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using ElectricShop.Common.Enum;
 using ElectricShop.DatabaseDAL.Common;
 using ElectricShop.Entity;
@@ -12,7 +13,8 @@ namespace ElectricShop.Controllers
 {
 	public class RoleController: ApiController
 	{
-		public async Task<IHttpActionResult> Get()
+	    [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public async Task<IHttpActionResult> Get()
 		{
 			try
 			{

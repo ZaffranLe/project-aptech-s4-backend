@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using ElectricShop.Common.Enum;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Memory;
@@ -12,6 +13,7 @@ namespace ElectricShop.Controllers
 {
     public class AuthController : ApiController
     {
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public async Task<IHttpActionResult> Post([FromBody]UserLogin req)
         {
             try

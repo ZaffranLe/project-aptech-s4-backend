@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Cors;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Memory;
 
@@ -11,6 +13,8 @@ namespace ElectricShop
     {
         public static void Register(HttpConfiguration config)
         {
+            
+            config.EnableCors();
             // Web API configuration and services
             if (!AppGlobal.InitConfig())
             {

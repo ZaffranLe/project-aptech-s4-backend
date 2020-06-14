@@ -53,6 +53,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("using System.Threading.Tasks;");
                 stringBuild.AppendLine("using System.Web.Http;");
                 stringBuild.AppendLine("using ElectricShop.Common.Enum;");
+                stringBuild.AppendLine("using System.Web.Http.Cors;");
                 stringBuild.AppendLine("using ElectricShop.DatabaseDAL.Common;");
                 stringBuild.AppendLine("using ElectricShop.Entity;");
                 stringBuild.AppendLine("using ElectricShop.Entity.Entities;");
@@ -69,6 +70,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("");
 
                 #region get all
+                stringBuild.AppendLine("\t\t[EnableCors(origins: \"*\", headers: \"*\", methods: \"*\")]");
                 stringBuild.AppendLine("\t\tpublic async Task<IHttpActionResult> Get()");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\ttry");
@@ -97,6 +99,7 @@ namespace CommonicationMemory.CodeGeneration
 
                 stringBuild.AppendLine("");
                 #region get by id
+                stringBuild.AppendLine("\t\t[EnableCors(origins: \"*\", headers: \"*\", methods: \"*\")]");
                 stringBuild.AppendLine("\t\tpublic async Task<IHttpActionResult> Get(int id)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\ttry");
@@ -125,6 +128,7 @@ namespace CommonicationMemory.CodeGeneration
 
                 stringBuild.AppendLine("");
                 #region Post
+                stringBuild.AppendLine("\t\t[EnableCors(origins: \"*\", headers: \"*\", methods: \"*\")]");
                 stringBuild.AppendLine($"\t\tpublic async Task<IHttpActionResult> Post([FromBody]{table.ClassName} req)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\ttry");
@@ -182,6 +186,7 @@ namespace CommonicationMemory.CodeGeneration
 
                 stringBuild.AppendLine("");
                 #region put
+                stringBuild.AppendLine("\t\t[EnableCors(origins: \"*\", headers: \"*\", methods: \"*\")]");
                 stringBuild.AppendLine($"\t\tpublic async Task<IHttpActionResult> Put(int id,[FromBody]{table.ClassName} req)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\ttry");
@@ -240,6 +245,7 @@ namespace CommonicationMemory.CodeGeneration
 
                 stringBuild.AppendLine("");
                 #region delete
+                stringBuild.AppendLine("\t\t[EnableCors(origins: \"*\", headers: \"*\", methods: \"*\")]");
                 stringBuild.AppendLine("\t\tpublic async Task<IHttpActionResult> Delete(int id)");
                 stringBuild.AppendLine("\t\t{");
                 stringBuild.AppendLine("\t\t\ttry");

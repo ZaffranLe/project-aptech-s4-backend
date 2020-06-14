@@ -134,7 +134,7 @@ namespace ElectricShop
                     Logger.Write(strMsg);
                     throw new Exception(strMsg);
                 }
-                else Logger.Write("path  CashTranferWebAPi : " + path, true);
+                else Logger.Write("path  ElectricConfig : " + path, true);
                 var fullText = File.ReadAllText(path);
 
 
