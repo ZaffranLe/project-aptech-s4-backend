@@ -17,7 +17,7 @@ namespace ElectricShop.Controllers
 	public class ImageController: ApiController
 	{
 		[EnableCors(origins: "*", headers: "*", methods: "*")]
-		public async Task<IHttpActionResult> Post([FromBody]Image req)
+		public async Task<IHttpActionResult> Post()
 		{
 			try
 			{
@@ -34,16 +34,14 @@ namespace ElectricShop.Controllers
 				#endregion
 
 				#region Tạo key
-				var oldKey = Memory.Memory.GetMaxKey(req.GetName());
+				var oldKey = Memory.Memory.GetMaxKey(Image.EntityName());
 				int newKey = oldKey + 1;
-				// set key
-				req.Id = newKey;
                 #endregion
 
 
                 #region Luu vao forlder resource
                 var httpRequest = HttpContext.Current.Request;
-
+                Dictionary<HttpPostedFile,string> dicUpload = new Dictionary<HttpPostedFile, string>();
                 foreach (string file in httpRequest.Files)
                 {
                     var postedFile = httpRequest.Files[file];
@@ -68,33 +66,40 @@ namespace ElectricShop.Controllers
                         }
                         else
                         {
-                            var filePath = HttpContext.Current.Server.MapPath(AppGlobal.ElectricConfig.FolderSaveImages + postedFile.FileName + extension);
-                            postedFile.SaveAs(filePath);
-
+                            dicUpload[postedFile] = PasswordGenerator.GetRandomString(12,true) + extension;
                         }
                     }
-
-                    var message1 = string.Format("Image Updated Successfully.");
                 }
                 #endregion
 
                 #region Process
-
-
-
-                req.CreatedAt = DateTime.Now;
-				req.CreatedBy = userInfo.IdUserLogin;
+			    var lstCommand = new List<EntityCommand>();
+                foreach (var temp in dicUpload)
+			    {
+			        var filePath = AppGlobal.ElectricConfig.FolderSaveImages + "/" + temp.Value;
+                    var filePosted = temp.Key;
+                    filePosted.SaveAs(filePath);
+			        var data = new Image
+			        {
+			            CreatedAt = DateTime.Now,
+			            CreatedBy = userInfo.IdUserLogin,
+			            Id = newKey,
+			            ImageUrl = temp.Value
+			        };
+			        lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(data), EntityAction = EntityAction.Insert });
+			        // update memory
+			        MemorySet.UpdateAndInsertEntity(data);
+                    newKey++;
+			    }
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
-				var lstCommand = new List<EntityCommand>();
-				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
+				
+				
 				bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
 				if (!isOkDone)
 				{
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
 				}
 				#endregion
-				// update memory
-				MemorySet.UpdateAndInsertEntity(req);
 				var result = new RequestErrorCode(true);
 				return Ok(result);
 			}

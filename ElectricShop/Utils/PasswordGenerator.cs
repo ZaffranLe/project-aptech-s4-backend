@@ -43,7 +43,7 @@ namespace ElectricShop.Utils
             return ThreadSafeRandom.Next(min, max);
         }
 
-        private static string GetRandomString(int size, bool lowerCase)
+        public static string GetRandomString(int size, bool lowerCase)
         {
             var builder = new StringBuilder();
             char ch;
