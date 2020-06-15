@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using Anotar.NLog;
 using Antlr.Runtime.Misc;
 using ElectricShop.Common.Config;
 using ElectricShop.Entity;
@@ -82,7 +81,7 @@ namespace ElectricShop
             catch (Exception ex)
             {
                 Logger.Write(string.Format("Init Permission voi resson:{0} that bai", reason));
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
                 return false;
             }
             return true;
@@ -118,7 +117,7 @@ namespace ElectricShop
             catch (Exception ex)
             {
                 Logger.Write(string.Format("Reload Permission voi userId:{0} that bai", userLoginId));
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
         }
 
@@ -131,18 +130,13 @@ namespace ElectricShop
                 if (!File.Exists(path))
                 {
                     var strMsg = "Not found file in path:" + path;
-                    Logger.Write(strMsg);
                     throw new Exception(strMsg);
                 }
-                else Logger.Write("path  ElectricConfig : " + path, true);
                 var fullText = File.ReadAllText(path);
-
-
-
                 ElectricConfig = JsonConvert.DeserializeObject<ElectricConfig>(fullText);
                 if (ElectricConfig == null)
                 {
-                    Logger.Write("Not get ElectricConfig", true);
+                    Logger.Write("Not get ElectricConfig");
                     Process.GetCurrentProcess().Kill();
                     return false;
                 }
@@ -152,7 +146,7 @@ namespace ElectricShop
             }
             catch (Exception ex)
             {
-                LogTo.Error(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return false;
         }

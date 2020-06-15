@@ -19,29 +19,36 @@ namespace ElectricShop
 
         public static async Task Write(string msg, bool isError = false)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            if (_logger == null)
-                _logger = LogManager.GetCurrentClassLogger();
-            if (isError)
+            try
             {
-                if (AppGlobal.ElectricConfig == null || AppGlobal.ElectricConfig.IsSendLogToBot)
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                if (_logger == null)
+                    _logger = LogManager.GetCurrentClassLogger();
+                if (isError)
                 {
-                    var values = new Dictionary<string, string>
+                    if (AppGlobal.ElectricConfig == null || AppGlobal.ElectricConfig.IsSendLogToBot)
                     {
-                        { "chat_id", "-440392150" },
-                        { "text", msg }
-                    };
+                        var values = new Dictionary<string, string>
+                        {
+                            { "chat_id", "-440392150" },
+                            { "text", msg }
+                        };
 
-                    var content = new FormUrlEncodedContent(values);
+                        var content = new FormUrlEncodedContent(values);
 
-                    var response = await client.PostAsync(URL, content);
+                        var response = await client.PostAsync(URL, content);
 
-                    var responseString = await response.Content.ReadAsStringAsync();
-                }
-                _logger.Error(msg);
-            } 
-            else
-                _logger.Info(msg);
+                        var responseString = await response.Content.ReadAsStringAsync();
+                    }
+                    _logger.Error(msg);
+                } 
+                else
+                    _logger.Info(msg);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }

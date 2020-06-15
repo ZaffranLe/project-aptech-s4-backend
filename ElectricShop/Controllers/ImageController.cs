@@ -16,7 +16,37 @@ namespace ElectricShop.Controllers
 {
 	public class ImageController: ApiController
 	{
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
+	    [EnableCors(origins: "*", headers: "*", methods: "*")]
+	    public async Task<IHttpActionResult> Get()
+	    {
+	        try
+	        {
+	            #region token
+	            var header = Request.Headers;
+	            var token = header.Authorization.Parameter;
+	            UserInfo userInfo;
+	            if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
+	            {
+	                return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+	            }
+	            #endregion
+	            var lstImages = MemoryInfo.GetAllImage();
+	            var res = new RequestErrorCode(true, null, null);
+	            foreach (var image in lstImages)
+	            {
+	                image.ImageUrl = AppGlobal.ElectricConfig.BaseUrl + image.ImageUrl;
+	                res.ListDataResult.Add(image);
+                }
+	            return Ok(res);
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Write(ex.ToString());
+	        }
+	        return BadRequest("Unknow");
+	    }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Post()
 		{
 			try
@@ -74,6 +104,7 @@ namespace ElectricShop.Controllers
 
                 #region Process
 			    var lstCommand = new List<EntityCommand>();
+                List<Image> lstResponse = new List<Image>();
                 foreach (var temp in dicUpload)
 			    {
 			        var filePath = AppGlobal.ElectricConfig.FolderSaveImages + "/" + temp.Value;
@@ -89,6 +120,10 @@ namespace ElectricShop.Controllers
 			        lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(data), EntityAction = EntityAction.Insert });
 			        // update memory
 			        MemorySet.UpdateAndInsertEntity(data);
+
+                    // gan lai response tra ve cho client
+			        data.ImageUrl = AppGlobal.ElectricConfig.BaseUrl  + temp.Value;
+                    lstResponse.Add(data);
                     newKey++;
 			    }
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
@@ -101,62 +136,7 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var result = new RequestErrorCode(true);
-				return Ok(result);
-			}
-			catch (Exception ex)
-			{
-				Logger.Write(ex.ToString());
-			}
-			return BadRequest("Unknow");
-		}
-
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
-		public async Task<IHttpActionResult> Put(int id,[FromBody]Image req)
-		{
-			try
-			{
-				string errorMessage = "UnknowError";
-				string errorCode = ErrorCodeEnum.UnknownError.ToString();
-				#region token
-				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
-				UserInfo userInfo;
-				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
-				}
-				#endregion
-
-				#region Validate
-				if (!ValidateUpdate(req, out errorCode, out errorMessage))
-				{
-					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
-				}
-				#endregion
-
-				#region Check exist
-				var obj = MemoryInfo.GetImage(id);
-				if (obj == null)
-				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
-				}
-				#endregion
-				req.Id = obj.Id; // gan lai id de update
-				#region Process
-				req.UpdatedAt = DateTime.Now;
-				req.UpdatedBy = userInfo.IdUserLogin;
-				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
-				var lstCommand = new List<EntityCommand>();
-				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
-				bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
-				if (!isOkDone)
-				{
-					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
-				}
-				#endregion
-				// update memory
-				MemorySet.UpdateAndInsertEntity(req);
-				var result = new RequestErrorCode(true);
+                result.ListDataResult.AddRange(lstResponse);
 				return Ok(result);
 			}
 			catch (Exception ex)
