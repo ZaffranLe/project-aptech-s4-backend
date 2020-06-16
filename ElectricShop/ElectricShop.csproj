@@ -151,7 +151,6 @@
     <Compile Include="Controllers\ImportReceiptController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\OrderDetailController.cs" />
-    <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
@@ -175,6 +174,8 @@
     <Compile Include="Memory\MemorySet.Entity.cs" />
     <Compile Include="Memory\MemorySet.SetAndRemove.cs" />
     <Compile Include="Models\Response\ProductResponse.cs" />
+    <Compile Include="Models\Response\ProductTypeResponse.cs" />
+    <Compile Include="Models\Response\ProviderResponse.cs" />
     <Compile Include="Models\Response\UserInfoResponse.cs" />
     <Compile Include="Models\Request\UserRegistry.cs" />
     <Compile Include="Models\Response\TokenResponse.cs" />

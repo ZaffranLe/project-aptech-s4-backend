@@ -1,4 +1,6 @@
-using System;using System.Collections.Generic;
+using System;
+using System.Net;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ElectricShop.Common.Enum;
@@ -28,8 +30,17 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var lstData = MemoryInfo.GetAllProvider();
-				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.AddRange(lstData);
+			    List<ProviderResponse> lstRes = new List<ProviderResponse>();
+			    foreach (var provider in lstData)
+			    {
+			        lstRes.Add(new ProviderResponse
+                    {
+			            Provider = provider,
+			            ListImagesUrl = ImagesUtils.GetImagesUrl(provider.ImageId)
+			        });
+			    }
+			    var res = new RequestErrorCode(true, null, null);
+			    res.ListDataResult.AddRange(lstRes);
 				return Ok(res);
 			}
 			catch (Exception ex)
@@ -53,8 +64,14 @@ namespace ElectricShop.Controllers
 					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
-				var res = MemoryInfo.GetCustomer(id);
-				return Ok(res);
+				var data = MemoryInfo.GetProvider(id);
+			    var res = new RequestErrorCode(true, null, null);
+			    res.ListDataResult.Add(new ProviderResponse
+			    {
+			        Provider = data,
+			        ListImagesUrl = ImagesUtils.GetImagesUrl(data.ImageId)
+			    });
+                return Ok(res);
 			}
 			catch (Exception ex)
 			{

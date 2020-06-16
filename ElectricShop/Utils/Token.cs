@@ -12,7 +12,7 @@ namespace ElectricShop.Utils
     public class TokenManager
     {
         private static readonly string _secret = "QirJsqTK22Q87CYnqoFHoz5GN2-zAEtVNI8sB2_9FsFmCjIAsLbVIIQhWMNqnu1RKcg_tNZ8ZF1W";//key
-        private static readonly int _expire = 60 * 60 * 60; // seconds
+        private static readonly int _expire = 60 * 60 * 60 * 600; // seconds
 
         public static string GenerateToken(UserInfo userInfo, int expire)
         {

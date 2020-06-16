@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -25,7 +26,7 @@ namespace ElectricShop.Controllers
                 UserInfo userInfo;
                 if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
                 {
-                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+                    return StatusCode(HttpStatusCode.Unauthorized);
                 }
 
 

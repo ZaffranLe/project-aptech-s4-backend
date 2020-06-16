@@ -48,7 +48,8 @@ namespace CommonicationMemory.CodeGeneration
             var stringBuild = new StringBuilder();
             {
                 #region Header
-                stringBuild.Append("using System;");
+                stringBuild.AppendLine("using System;");
+                stringBuild.AppendLine("using System.Net;");
                 stringBuild.AppendLine("using System.Collections.Generic;");
                 stringBuild.AppendLine("using System.Threading.Tasks;");
                 stringBuild.AppendLine("using System.Web.Http;");
@@ -81,7 +82,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
                 stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine($"\t\t\t\tvar lstData = MemoryInfo.GetAll{className}();");
@@ -110,10 +111,12 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
                 stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
-                stringBuild.AppendLine("\t\t\t\tvar res = MemoryInfo.GetCustomer(id);");
+                stringBuild.AppendLine($"\t\t\t\tvar data = MemoryInfo.Get{className}(id);");
+                stringBuild.AppendLine("\t\t\t\tvar res = new RequestErrorCode(true, null, null);");
+                stringBuild.AppendLine("\t\t\t\tres.ListDataResult.Add(data);");
                 stringBuild.AppendLine("\t\t\t\treturn Ok(res);");
                 stringBuild.AppendLine("\t\t\t}");
                 stringBuild.AppendLine("\t\t\tcatch (Exception ex)");
@@ -141,7 +144,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
                 stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");
@@ -199,7 +202,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
                 stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");
@@ -258,7 +261,7 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
                 stringBuild.AppendLine("\t\t\t\t{");
-                stringBuild.AppendLine("\t\t\t\t\treturn Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), \"Sai token\"));");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
                 stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\t#endregion");
                 stringBuild.AppendLine("");

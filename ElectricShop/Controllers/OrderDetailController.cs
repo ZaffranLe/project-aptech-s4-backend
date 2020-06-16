@@ -1,4 +1,6 @@
-using System;using System.Collections.Generic;
+using System;
+using System.Net;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ElectricShop.Common.Enum;
@@ -53,7 +55,9 @@ namespace ElectricShop.Controllers
 					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
-				var res = MemoryInfo.GetCustomer(id);
+				var data = MemoryInfo.GetOrderDetail(id);
+				var res = new RequestErrorCode(true, null, null);
+				res.ListDataResult.Add(data);
 				return Ok(res);
 			}
 			catch (Exception ex)

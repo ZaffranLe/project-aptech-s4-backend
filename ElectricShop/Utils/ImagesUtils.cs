@@ -28,6 +28,8 @@ namespace ElectricShop.Utils
                         continue;
                     // lay imagesObject
                     var imagesObj = MemoryInfo.GetImage(imagesId);
+                    if(imagesObj == null)
+                        continue;
                     var imagesUrl = AppGlobal.ElectricConfig.BaseUrl + imagesObj.ImageUrl;
                     lstResult.Add(imagesUrl);
                 }
