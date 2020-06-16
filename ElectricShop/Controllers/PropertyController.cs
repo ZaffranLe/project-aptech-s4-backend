@@ -24,7 +24,7 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
 				var lstData = MemoryInfo.GetAllProperty();
@@ -50,7 +50,7 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
 				var res = MemoryInfo.GetCustomer(id);
@@ -76,7 +76,7 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
 
@@ -131,7 +131,7 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
 
@@ -187,7 +187,7 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+					return StatusCode(HttpStatusCode.Unauthorized);
 				}
 				#endregion
 

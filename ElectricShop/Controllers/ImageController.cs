@@ -27,7 +27,7 @@ namespace ElectricShop.Controllers
 	            UserInfo userInfo;
 	            if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 	            {
-	                return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
+	                return StatusCode(HttpStatusCode.Unauthorized);
 	            }
 	            #endregion
 	            var lstImages = MemoryInfo.GetAllImage();
@@ -59,8 +59,8 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
-				}
+				    return StatusCode(HttpStatusCode.Unauthorized);
+                }
 				#endregion
 
 				#region Tạo key
@@ -159,8 +159,8 @@ namespace ElectricShop.Controllers
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
-					return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
-				}
+				    return StatusCode(HttpStatusCode.Unauthorized);
+                }
 				#endregion
 
 				#region Check exist
