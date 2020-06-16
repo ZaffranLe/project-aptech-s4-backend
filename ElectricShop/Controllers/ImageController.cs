@@ -122,8 +122,9 @@ namespace ElectricShop.Controllers
 			        MemorySet.UpdateAndInsertEntity(data);
 
                     // gan lai response tra ve cho client
-			        data.ImageUrl = AppGlobal.ElectricConfig.BaseUrl  + temp.Value;
-                    lstResponse.Add(data);
+			        var objRes = data.Clone() as Image;
+			        objRes.ImageUrl = AppGlobal.ElectricConfig.BaseUrl  + temp.Value;
+                    lstResponse.Add(objRes);
                     newKey++;
 			    }
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
