@@ -173,6 +173,7 @@
     <Compile Include="Memory\MemoryInfo.IsExist.cs" />
     <Compile Include="Memory\MemorySet.Entity.cs" />
     <Compile Include="Memory\MemorySet.SetAndRemove.cs" />
+    <Compile Include="Models\Request\NewOrderReq.cs" />
     <Compile Include="Models\Response\ProductResponse.cs" />
     <Compile Include="Models\Response\ProductTypeResponse.cs" />
     <Compile Include="Models\Response\ProviderResponse.cs" />
