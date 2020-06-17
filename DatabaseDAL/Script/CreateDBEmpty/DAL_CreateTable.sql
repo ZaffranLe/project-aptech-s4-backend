@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Customer](
 	[Id] [int] NOT NULL  ,
 	[Name] [nvarchar](255)  NOT NULL  ,
 	[Phone] [varchar](255)  NULL  ,
+	[Email] [varchar](255)  NULL  ,
 	[UpdatedAt] [datetime] NULL  ,
 	[UpdatedBy] [int] NOT NULL  
 CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 

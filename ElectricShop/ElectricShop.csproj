@@ -59,6 +59,9 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -145,6 +148,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\NewOrderController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RegistryController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -185,11 +189,18 @@
     <Compile Include="ReaderDatabase\ProcessReadDatabaseUtils.cs" />
     <Compile Include="Utils\CheckUtils.cs" />
     <Compile Include="Utils\ImagesUtils.cs" />
+    <Compile Include="Utils\EmailUtils.cs" />
     <Compile Include="Utils\Operator.cs" />
     <Compile Include="Utils\PasswordGenerator.cs" />
     <Compile Include="Utils\Token.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\TemplateBaogia.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\TemplateEmail.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

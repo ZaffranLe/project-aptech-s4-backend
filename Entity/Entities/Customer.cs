@@ -13,6 +13,7 @@ namespace ElectricShop.Entity.Entities
 			Address,
 			CreatedAt,
 			CreatedBy,
+			Email,
 			Id,
 			Name,
 			Phone,
@@ -39,6 +40,7 @@ namespace ElectricShop.Entity.Entities
 		public string  Address { get; set; }
 		public DateTime?  CreatedAt { get; set; }
 		public int  CreatedBy { get; set; }
+		public string  Email { get; set; }
 		public int  Id { get; set; } //Key 
 		public string  Name { get; set; }
 		public string  Phone { get; set; }
@@ -54,6 +56,9 @@ namespace ElectricShop.Entity.Entities
 
 			if (Address != null && Address.Length > 255 )
 				throw new InvalidDataException("Field: Address in entity: Customer is over-size: 255, value=" + Address);
+
+			if (Email != null && Email.Length > 255 )
+				throw new InvalidDataException("Field: Email in entity: Customer is over-size: 255, value=" + Email);
 			if (Name == null)
 				throw new NoNullAllowedException("Field: Name in entity: Customer is Null");
 

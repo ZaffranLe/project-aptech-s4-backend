@@ -20,6 +20,8 @@ namespace ElectricShop.Common.Enum
         Error_UsernameIsExist = 16,
         Error_NameIsNull = 17,
         ErrorPhoneFormat = 18,
+        ErrorAddressIsNull = 19,
+        ErrorListProductIsNull = 20,
     }
 }
 

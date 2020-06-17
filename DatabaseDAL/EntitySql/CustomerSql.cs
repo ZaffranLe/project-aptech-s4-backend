@@ -47,6 +47,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@Address", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Address));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedBy));
+				sqlCommand.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Email));
 				sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
 				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
 				sqlCommand.Parameters.Add(new SqlParameter("@Phone", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Phone));
@@ -88,6 +89,7 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 								sqlCommand.Parameters.Add(new SqlParameter("@Address", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Address));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedAt));
 				sqlCommand.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.CreatedBy));
+				sqlCommand.Parameters.Add(new SqlParameter("@Email", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Email));
 				sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int, 4, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Id));
 				sqlCommand.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Name));
 				sqlCommand.Parameters.Add(new SqlParameter("@Phone", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, businessObject.Phone));
@@ -169,6 +171,12 @@ namespace ElectricShop.DatabaseDAL.EntitySql
 
 			if (GetIndex(Customer.CustomerFields.CreatedBy.ToString()) != -1)
 				businessObject.CreatedBy = dataReader.GetInt32(GetIndex(Customer.CustomerFields.CreatedBy.ToString()));
+
+			if (GetIndex(Customer.CustomerFields.Email.ToString()) != -1)
+				if (!dataReader.IsDBNull(GetIndex(Customer.CustomerFields.Email.ToString())))
+				{
+					businessObject.Email = dataReader.GetString(GetIndex(Customer.CustomerFields.Email.ToString()));
+				}
 
 				businessObject.Id = dataReader.GetInt32(GetIndex(Customer.CustomerFields.Id.ToString()));
 

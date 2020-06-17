@@ -18,7 +18,7 @@ namespace ElectricShop
     public class AppGlobal
     {
         private const string EXTENSION_FILE_NAME = ".qes"; // quant edge setting
-        private const string DEFAULT_FOLDER_CONFIG = @"\Config\";
+        public const string DEFAULT_FOLDER_CONFIG = @"\Config\";
         public static ElectricConfig ElectricConfig { get; set; }
         public static bool InitMemory()
         {

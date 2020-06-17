@@ -9,6 +9,7 @@ CREATE PROCEDURE Customer_Insert
 	@Address nvarchar(255) = null ,
 	@CreatedAt datetime = null ,
 	@CreatedBy int ,
+	@Email varchar(255) = null ,
 	@Id int ,
 	@Name nvarchar(255) ,
 	@Phone varchar(255) = null ,
@@ -22,6 +23,7 @@ INSERT [dbo].[Customer]
 	[Address],
 	[CreatedAt],
 	[CreatedBy],
+	[Email],
 	[Id],
 	[Name],
 	[Phone],
@@ -34,6 +36,7 @@ VALUES
 	@Address,
 	@CreatedAt,
 	@CreatedBy,
+	@Email,
 	@Id,
 	@Name,
 	@Phone,
@@ -51,6 +54,7 @@ CREATE PROCEDURE Customer_Update
 	@Address nvarchar(255) = null,
 	@CreatedAt datetime = null,
 	@CreatedBy int,
+	@Email varchar(255) = null,
 	@Id int,
 	@Name nvarchar(255),
 	@Phone varchar(255) = null,
@@ -64,6 +68,7 @@ SET
 	[Address] = @Address,
 	[CreatedAt] = @CreatedAt,
 	[CreatedBy] = @CreatedBy,
+	[Email] = @Email,
 	[Id] = @Id,
 	[Name] = @Name,
 	[Phone] = @Phone,
@@ -80,7 +85,7 @@ CREATE PROCEDURE Customer_SelectAll
 AS
 
 	SELECT 
-		[Address], [CreatedAt], [CreatedBy], [Id], [Name], [Phone], [UpdatedAt], [UpdatedBy]
+		[Address], [CreatedAt], [CreatedBy], [Email], [Id], [Name], [Phone], [UpdatedAt], [UpdatedBy]
 	FROM [dbo].[Customer]
 
 GO

@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -16,26 +17,13 @@ namespace ElectricShop.Controllers
     public class NewOrderController : ApiController
     {
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public async Task<IHttpActionResult> Post([FromBody]UserInfo req)
+        public async Task<IHttpActionResult> Post([FromBody]NewOrderReq req)
         {
             try
             {
                 string errorMessage = "UnknowError";
                 string errorCode = ErrorCodeEnum.UnknownError.ToString();
-                #region token
-                var header = Request.Headers;
-                var token = header.Authorization.Parameter;
-                UserInfo userInfo;
-                if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-                {
-                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_InvalidToken.ToString(), "Sai token"));
-                }
-
-                if (userInfo == null || !Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.UpdateUser))
-                {
-                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen"));
-                }
-                #endregion
+               
 
                 #region Validate
                 if (!ValidateUpdate(req, out errorCode, out errorMessage))
@@ -44,20 +32,51 @@ namespace ElectricShop.Controllers
                 }
                 #endregion
 
-                #region Check exist
-                var obj = MemoryInfo.GetUserInfo(id);
-                if (obj == null)
+                var keyCustomer = Memory.Memory.GetMaxKey(Customer.EntityName());
+                var keyOrderDetail = Memory.Memory.GetMaxKey(OrderDetail.EntityName());
+                #region Tao ra khach hang va don hang
+
+                var customer = new Customer
                 {
-                    return Ok(new RequestErrorCode(false, ErrorCodeEnum.DataNotExist.ToString(), "Khong ton tai"));
+                    Address = req.Address,
+                    CreatedAt = DateTime.Now,
+                    Email = req.Email,
+                    CreatedBy = 1,
+                    Id = keyCustomer + 1,
+                    Name = req.Name ?? String.Format("Customer{0}", keyCustomer + 1),
+                    Phone = req.Phone,
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1
+                };
+                StringBuilder builder = new StringBuilder();
+                foreach (var id in req.ListProductId)
+                {
+                    builder.Append(id).Append(",");
                 }
+
+                builder.Remove(builder.Length - 1, 1);
+                var orderDetail = new OrderDetail
+                {
+                    Address = req.Address,
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1,
+                    Date = DateTime.Now,
+                    Id = keyOrderDetail + 1,
+                    IdCustomer = customer.Id,
+                    IdEmployee = 0,
+                    ListProductId = builder.ToString(),
+                    Name = string.Format("Order{0}", keyOrderDetail + 1),
+                    OrderStatus = OrderStatus.New.ToString(),
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1
+                };
+
                 #endregion
-                req.IdUserLogin = obj.IdUserLogin; // gan lai id de update
-                req.UpdatedBy = userInfo.IdUserLogin;
-                req.UpdatedAt = DateTime.Now;
                 #region Process
                 UpdateEntitySql updateEntitySql = new UpdateEntitySql();
                 var lstCommand = new List<EntityCommand>();
-                lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
+                lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(customer), EntityAction = EntityAction.Insert });
+                lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(orderDetail), EntityAction = EntityAction.Insert });
                 bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
                 if (!isOkDone)
                 {
@@ -65,7 +84,10 @@ namespace ElectricShop.Controllers
                 }
                 #endregion
                 // update memory
-                MemorySet.UpdateAndInsertEntity(req);
+                MemorySet.UpdateAndInsertEntity(customer);
+                MemorySet.UpdateAndInsertEntity(orderDetail);
+                // gui mail 
+                var res =  EmailUtils.SendEmailNewOrder(orderDetail, customer);
                 var result = new RequestErrorCode(true);
                 return Ok(result);
             }
@@ -93,13 +115,55 @@ namespace ElectricShop.Controllers
             return true;
         }
 
-        private bool ValidateUpdate(UserInfo obj, out string errorCode, out string errorMess)
+        private bool ValidateUpdate(NewOrderReq obj, out string errorCode, out string errorMess)
         {
             errorCode = null;
             errorMess = null;
             try
             {
+                if (obj.Email == null)
+                {
+                    errorMess = "Email khong hop le";
+                    errorCode = ErrorCodeEnum.ErrorEmailFormat.ToString();
+                    return false;
+                }
+                if (obj.Email != null)
+                {
+                    if (!CheckUtils.ValidateEmail(obj.Email))
+                    {
+                        errorMess = "Email khong hop le";
+                        errorCode = ErrorCodeEnum.ErrorEmailFormat.ToString();
+                        return false;
+                    }
+                }
 
+                if (obj.Phone == null)
+                {
+                    errorMess = "Phone khong hop le";
+                    errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+                    return false;
+                }
+                if (obj.Phone != null)
+                {
+                    if (!CheckUtils.CheckValidMobile(obj.Phone))
+                    {
+                        errorMess = "Phone khong hop le";
+                        errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+                        return false;
+                    }
+                }
+                if (obj.Address == null)
+                {
+                    errorMess = "Dia chi khong duoc de trong";
+                    errorCode = ErrorCodeEnum.ErrorAddressIsNull.ToString();
+                    return false;
+                }
+                if (obj.ListProductId == null || obj.ListProductId.Count == 0)
+                {
+                    errorMess = "San pham khong duoc de trong";
+                    errorCode = ErrorCodeEnum.ErrorListProductIsNull.ToString();
+                    return false;
+                }
             }
             catch (Exception ex)
             {
