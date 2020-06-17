@@ -9,7 +9,7 @@ namespace ElectricShop.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public List<string> ListProductId { get; set; }
+        public List<string> ListProduct { get; set; }
 
         public void Dispose()
         {

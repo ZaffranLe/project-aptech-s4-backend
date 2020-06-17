@@ -11,6 +11,8 @@ namespace ElectricShop.Utils
 
         public static bool HasPermision(int userId, RoleDefinitionEnum role)
         {
+            if (role == RoleDefinitionEnum.None)
+                return true;
             if (Memory.Memory.DicUserPermission.ContainsKey(userId))
             {
                 if (Memory.Memory.DicUserPermission[userId].Contains(role.ToString()))

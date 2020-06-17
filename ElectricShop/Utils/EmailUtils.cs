@@ -22,7 +22,7 @@ namespace ElectricShop
         private static readonly HttpClient client = new HttpClient();
         
 
-        public static IRestResponse SendEmailNewOrder(OrderDetail orderDetail, Customer customer)
+        public static IRestResponse SendEmailNewOrder(OrderDetail orderDetail, Customer customer, Dictionary<int, Product> dicProductCount)
         {
             try
             {
@@ -42,6 +42,21 @@ namespace ElectricShop
                 var customerName = customer.Name ?? "Khách hàng";
                 var fullText = File.ReadAllText(path);
                 var fullTextBaoGia = File.ReadAllText(pathBaoGia);
+                StringBuilder tableContent = new StringBuilder();
+                // tao table content
+                int stt = 1;
+                foreach (var product in dicProductCount)
+                {
+                    string content = fullTextBaoGia.Replace("#stt", stt.ToString());
+                    content = content.Replace("#productname", product.Value.Name);
+                    content = content.Replace("#quantity", product.Key.ToString());
+                    decimal unitPrice = product.Value.UnitPrice.HasValue ? product.Value.UnitPrice.Value : 0;
+                    content = content.Replace("#cost", unitPrice.ToString());
+                    decimal price = product.Key *  unitPrice;
+                    content = content.Replace("#money", price.ToString());
+                    tableContent.Append(content);
+                    stt++;
+                }
 
                 #region tao content bao gia
 
@@ -51,14 +66,13 @@ namespace ElectricShop
                 fullText = fullText.Replace("#name", customerName);
                 fullText = fullText.Replace("#phone", customer.Phone);
                 fullText = fullText.Replace("#address", customer.Address);
-                fullText = fullText.Replace("#contenttable", fullTextBaoGia);
+                fullText = fullText.Replace("#contenttable", tableContent.ToString());
                 fullText = fullText.Replace("#totalmoney", "1000000");
 
                 RestClient client = new RestClient();
                 client.BaseUrl = new Uri("https://api.mailgun.net/v3");
                 client.Authenticator =
-                    new HttpBasicAuthenticator("api",
-                        "6f1ba9d91af88c5aebb8ae1723ce66b1-a2b91229-123ec25c");
+                    new HttpBasicAuthenticator("api",AppGlobal.ElectricConfig.MailGunToken);
                 RestRequest request = new RestRequest();
                 request.AddParameter("domain", "musickid.vn", ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";

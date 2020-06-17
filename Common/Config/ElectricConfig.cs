@@ -8,6 +8,7 @@
         public string FolderSaveImages { get; set; }
         public string BaseUrl { get; set; }
         public bool IsSendLogToBot { get; set; }
+        public string MailGunToken { get; set; }
 
         public void Dispose()
         {

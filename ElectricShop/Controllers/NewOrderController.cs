@@ -49,9 +49,33 @@ namespace ElectricShop.Controllers
                     UpdatedBy = 1
                 };
                 StringBuilder builder = new StringBuilder();
-                foreach (var id in req.ListProductId)
+                Dictionary<int,Product> dicProductCount = new Dictionary<int, Product>();
+                foreach (var productCount in req.ListProduct)
                 {
-                    builder.Append(id).Append(",");
+                    // productCount dang 1-2
+                    char[] spearator = { '-' };
+                    string[] productCountArray = productCount.Split(spearator);
+                    if(productCountArray.Length == 0 || productCountArray[0] == null || productCountArray[1] == null)
+                        continue;
+                    int productId = 0;
+                    int productCountInt = 0;
+                    if (!int.TryParse(productCountArray[0], out productId) ||
+                        !int.TryParse(productCountArray[1], out productCountInt))
+                    {
+                        Logger.Write(String.Format("Dinh dang so luong san pham sai: {0}", productCount),true);
+                        continue;
+                    }
+
+                    var product = MemoryInfo.GetProduct(productId);
+                    if (product == null)
+                    {
+                        Logger.Write(String.Format("Khong lay duoc thong tin product voi productId  =  {0}", productId), true);
+                        continue;
+                    }
+                    dicProductCount[productCountInt] = product;
+
+                    // add insert to db
+                    builder.Append(productCount).Append(",");
                 }
 
                 builder.Remove(builder.Length - 1, 1);
@@ -87,7 +111,7 @@ namespace ElectricShop.Controllers
                 MemorySet.UpdateAndInsertEntity(customer);
                 MemorySet.UpdateAndInsertEntity(orderDetail);
                 // gui mail 
-                var res =  EmailUtils.SendEmailNewOrder(orderDetail, customer);
+                var res =  EmailUtils.SendEmailNewOrder(orderDetail, customer,dicProductCount);
                 var result = new RequestErrorCode(true);
                 return Ok(result);
             }
@@ -158,7 +182,7 @@ namespace ElectricShop.Controllers
                     errorCode = ErrorCodeEnum.ErrorAddressIsNull.ToString();
                     return false;
                 }
-                if (obj.ListProductId == null || obj.ListProductId.Count == 0)
+                if (obj.ListProduct == null || obj.ListProduct.Count == 0)
                 {
                     errorMess = "San pham khong duoc de trong";
                     errorCode = ErrorCodeEnum.ErrorListProductIsNull.ToString();
