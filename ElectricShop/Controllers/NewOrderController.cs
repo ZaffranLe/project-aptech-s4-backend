@@ -112,6 +112,10 @@ namespace ElectricShop.Controllers
                 MemorySet.UpdateAndInsertEntity(orderDetail);
                 // gui mail 
                 var res =  EmailUtils.SendEmailNewOrder(orderDetail, customer,dicProductCount);
+                if (res.StatusCode != HttpStatusCode.OK)
+                {
+                    Logger.Write(string.Format("Khong gui duoc mail xac nhan don hang: status = {0}, errMess = {1}",res.StatusCode.ToString(),res.Content), true);
+                }
                 var result = new RequestErrorCode(true);
                 return Ok(result);
             }
