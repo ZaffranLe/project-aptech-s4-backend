@@ -7,7 +7,7 @@ namespace ElectricShop.Models
     public class UserInfoResponse : IDisposable
     {
         public UserInfo UserInfo { get; set; }
-        public  List<string> ListImagesUrl { get; set; }
+        public  List<Image> ListImages { get; set; }
 
         public void Dispose()
         {

@@ -51,7 +51,7 @@ namespace ElectricShop.Controllers
                 var userInfoRes = new UserInfoResponse
                 {
                     UserInfo = userInfo,
-                    ListImagesUrl = ImagesUtils.GetImagesUrl(userInfo.ImageId)
+                    ListImages = ImagesUtils.GetImagesUrl(userInfo.ImageId)
                 };
                 var tokenRes = new TokenResponse(token,userInfoRes);
                 tokenRes.ListPermission.AddRange(lstPermission);

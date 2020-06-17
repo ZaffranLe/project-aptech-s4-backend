@@ -38,7 +38,7 @@ namespace ElectricShop.Controllers
                     lstUserRes.Add(new UserInfoResponse
                     {
                         UserInfo = info,
-                        ListImagesUrl = ImagesUtils.GetImagesUrl(userInfo.ImageId)
+                        ListImages = ImagesUtils.GetImagesUrl(userInfo.ImageId)
                     });
                 }
                 var res = new RequestErrorCode(true, null, null);

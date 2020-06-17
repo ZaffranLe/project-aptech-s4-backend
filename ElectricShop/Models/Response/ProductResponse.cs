@@ -7,14 +7,14 @@ namespace ElectricShop.Models
     public class ProductResponse : IDisposable
     {
         public Product Product { get; set; }
-        public  List<string> ListImagesUrl { get; set; }
+        public  List<Image> ListImages { get; set; }
 
         public void Dispose()
         {
         }
         public static string EntityName()
         {
-            return typeof(UserInfoResponse).Name;
+            return typeof(ProductResponse).Name;
         }
 
         public static string GetName()

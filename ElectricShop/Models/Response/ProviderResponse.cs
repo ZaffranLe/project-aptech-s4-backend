@@ -7,7 +7,7 @@ namespace ElectricShop.Models
     public class ProviderResponse : IDisposable
     {
         public Provider Provider{ get; set; }
-        public  List<string> ListImagesUrl { get; set; }
+        public List<Image> ListImages { get; set; }
 
         public void Dispose()
         {

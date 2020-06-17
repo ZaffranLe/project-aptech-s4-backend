@@ -36,7 +36,7 @@ namespace ElectricShop.Controllers
 			        lstRes.Add(new ProviderResponse
                     {
 			            Provider = provider,
-			            ListImagesUrl = ImagesUtils.GetImagesUrl(provider.ImageId)
+			            ListImages = ImagesUtils.GetImagesUrl(provider.ImageId)
 			        });
 			    }
 			    var res = new RequestErrorCode(true, null, null);
@@ -69,7 +69,7 @@ namespace ElectricShop.Controllers
 			    res.ListDataResult.Add(new ProviderResponse
 			    {
 			        Provider = data,
-			        ListImagesUrl = ImagesUtils.GetImagesUrl(data.ImageId)
+			        ListImages = ImagesUtils.GetImagesUrl(data.ImageId)
 			    });
                 return Ok(res);
 			}

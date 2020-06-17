@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using ElectricShop.Common.Enum;
+using ElectricShop.Entity.Entities;
 using ElectricShop.Memory;
 
 namespace ElectricShop.Utils
 {
     public class ImagesUtils
     {
-        public static List<string> GetImagesUrl(string lstImagesIdString)
+        public static List<Image> GetImagesUrl(string lstImagesIdString)
         {
-            var lstResult = new List<string>();
+            var lstResult = new List<Image>();
             try
             {
                 String[] spearator = { "," };
@@ -30,8 +31,8 @@ namespace ElectricShop.Utils
                     var imagesObj = MemoryInfo.GetImage(imagesId);
                     if(imagesObj == null)
                         continue;
-                    var imagesUrl = AppGlobal.ElectricConfig.BaseUrl + imagesObj.ImageUrl;
-                    lstResult.Add(imagesUrl);
+                    imagesObj.ImageUrl = AppGlobal.ElectricConfig.BaseUrl + imagesObj.ImageUrl;
+                    lstResult.Add(imagesObj);
                 }
 
                 return lstResult;

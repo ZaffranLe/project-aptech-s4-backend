@@ -36,8 +36,8 @@ namespace ElectricShop.Controllers
 			        lstRes.Add(new ProductResponse
 			        {
                         Product = product,
-                        ListImagesUrl = ImagesUtils.GetImagesUrl(product.ImageId)
-			        });
+			            ListImages = ImagesUtils.GetImagesUrl(userInfo.ImageId)
+                    });
                 }
 				var res = new RequestErrorCode(true, null, null);
                 res.ListDataResult.AddRange(lstRes);
@@ -69,7 +69,7 @@ namespace ElectricShop.Controllers
 				res.ListDataResult.Add(new ProductResponse
 				{
                     Product = data,
-                    ListImagesUrl = ImagesUtils.GetImagesUrl(data.ImageId)
+                    ListImages = ImagesUtils.GetImagesUrl(data.ImageId)
 				});
 				return Ok(res);
 			}
