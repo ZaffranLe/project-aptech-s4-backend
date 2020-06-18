@@ -30,9 +30,18 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var lstData = MemoryInfo.GetAllManufacturer();
-				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.AddRange(lstData);
-				return Ok(res);
+			    List<ManufacturerResponse> lstRes = new List<ManufacturerResponse>();
+			    foreach (var manufacturer in lstData)
+			    {
+			        lstRes.Add(new ManufacturerResponse
+                    {
+			            Manufacturer = manufacturer,
+			            ListImages = ImagesUtils.GetImagesUrl(manufacturer.ImageId)
+			        });
+			    }
+			    var res = new RequestErrorCode(true, null, null);
+			    res.ListDataResult.AddRange(lstRes);
+                return Ok(res);
 			}
 			catch (Exception ex)
 			{
@@ -56,7 +65,13 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var data = MemoryInfo.GetManufacturer(id);
-				var res = new RequestErrorCode(true, null, null);
+			    List<ManufacturerResponse> lstRes = new List<ManufacturerResponse>();
+			    lstRes.Add(new ManufacturerResponse
+			    {
+			        Manufacturer = data,
+			        ListImages = ImagesUtils.GetImagesUrl(data.ImageId)
+			    });
+                var res = new RequestErrorCode(true, null, null);
 				res.ListDataResult.Add(data);
 				return Ok(res);
 			}

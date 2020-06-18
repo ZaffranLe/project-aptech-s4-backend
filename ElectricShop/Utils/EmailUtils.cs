@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using NLog;
@@ -45,15 +46,18 @@ namespace ElectricShop
                 StringBuilder tableContent = new StringBuilder();
                 // tao table content
                 int stt = 1;
+                decimal totalPrice = 0;
+                CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
                 foreach (var product in dicProductCount)
                 {
                     string content = fullTextBaoGia.Replace("#stt", stt.ToString());
                     content = content.Replace("#productname", product.Value.Name);
                     content = content.Replace("#quantity", product.Key.ToString());
                     decimal unitPrice = product.Value.UnitPrice.HasValue ? product.Value.UnitPrice.Value : 0;
-                    content = content.Replace("#cost", unitPrice.ToString());
+                    content = content.Replace("#cost", unitPrice.ToString("#,###", cul.NumberFormat));
                     decimal price = product.Key *  unitPrice;
-                    content = content.Replace("#money", price.ToString());
+                    totalPrice += price;
+                    content = content.Replace("#money", price.ToString("#,###", cul.NumberFormat));
                     tableContent.Append(content);
                     stt++;
                 }
@@ -67,7 +71,7 @@ namespace ElectricShop
                 fullText = fullText.Replace("#phone", customer.Phone);
                 fullText = fullText.Replace("#address", customer.Address);
                 fullText = fullText.Replace("#contenttable", tableContent.ToString());
-                fullText = fullText.Replace("#totalmoney", "1000000");
+                fullText = fullText.Replace("#totalmoney", totalPrice.ToString("#,###", cul.NumberFormat));
 
                 RestClient client = new RestClient();
                 client.BaseUrl = new Uri("https://api.mailgun.net/v3");

@@ -4,9 +4,9 @@ using ElectricShop.Entity.Entities;
 
 namespace ElectricShop.Models
 {
-    public class ManufacturerResponse : IDisposable
+    public class ProductResponse : IDisposable
     {
-        public Manufacturer Manufacturer { get; set; }
+        public Product Product { get; set; }
         public  List<Image> ListImages { get; set; }
 
         public void Dispose()
@@ -14,7 +14,7 @@ namespace ElectricShop.Models
         }
         public static string EntityName()
         {
-            return typeof(ManufacturerResponse).Name;
+            return typeof(ProductResponse).Name;
         }
 
         public static string GetName()
