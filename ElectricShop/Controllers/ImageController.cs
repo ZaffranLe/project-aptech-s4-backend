@@ -17,7 +17,7 @@ namespace ElectricShop.Controllers
 	public class ImageController: ApiController
 	{
 	    [EnableCors(origins: "*", headers: "*", methods: "*")]
-	    public async Task<IHttpActionResult> Get()
+	    public async Task<IHttpActionResult> Get(string hehe)
 	    {
 	        try
 	        {
@@ -31,8 +31,7 @@ namespace ElectricShop.Controllers
 	            }
 	            #endregion
 	            var lstImages = MemoryInfo.GetAllImage();
-	            string hihi = EmailUtils.ObjectToString(lstImages[0]);
-                Image haha = EmailUtils.StringToObject(hihi) as Image;
+	            
 	            var res = new RequestErrorCode(true, null, null);
 	            foreach (var image in lstImages)
 	            {

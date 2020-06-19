@@ -23,7 +23,7 @@ namespace BaseUtils
                 {
                     var fileOpen = openDialog.FileName;
                     var fullText = File.ReadAllText(fileOpen);
-                    fullText = EncryptUtils.Encrypt(fullText);
+                    fullText = EncryptUtils.Encrypt(fullText, System.Text.Encoding.Unicode);
 
                     //save de len file cu
                     var fileSave = openDialog.FileName;
@@ -44,7 +44,7 @@ namespace BaseUtils
                 {
                     var fileOpen = openDialog.FileName;
                     var fullText = File.ReadAllText(fileOpen);
-                    fullText = EncryptUtils.Decrypt(fullText);
+                    fullText = EncryptUtils.Decrypt(fullText, System.Text.Encoding.Unicode);
 
                     //save de len file cu
                     var fileSave = openDialog.FileName;
@@ -81,7 +81,7 @@ namespace BaseUtils
 
                             //Thay the luon file cu
                             var fileSave = filesConfig;
-                            fullText = EncryptUtils.Encrypt(fullText);
+                            fullText = EncryptUtils.Encrypt(fullText, System.Text.Encoding.Unicode);
 
                             if (File.Exists(fileSave))
                                 File.Delete(fileSave);
@@ -124,7 +124,7 @@ namespace BaseUtils
 
                             //Thay the luon file cu
                             var fileSave = filesConfig;
-                            fullText = EncryptUtils.Decrypt(fullText);
+                            fullText = EncryptUtils.Decrypt(fullText, System.Text.Encoding.Unicode);
 
                             if (File.Exists(fileSave))
                                 File.Delete(fileSave);

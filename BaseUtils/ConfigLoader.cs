@@ -110,7 +110,7 @@ namespace BaseUtils
                     _requireEncrypt = true; //File nay dang su dung ma hoa
 
                 if (_requireEncrypt)
-                    fullText = EncryptUtils.Encrypt(fullText);
+                    fullText = EncryptUtils.Encrypt(fullText, System.Text.Encoding.Unicode);
 
                 File.WriteAllText(Path, fullText);
                 return true;

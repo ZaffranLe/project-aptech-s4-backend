@@ -49,7 +49,7 @@ namespace ElectricShop.Controllers
                     UpdatedBy = 1
                 };
                 StringBuilder builder = new StringBuilder();
-                Dictionary<int,Product> dicProductCount = new Dictionary<int, Product>();
+                Dictionary<Product,int> dicProductCount = new Dictionary<Product, int>();
                 foreach (var productCount in req.ListProduct)
                 {
                     // productCount dang 1-2
@@ -72,7 +72,7 @@ namespace ElectricShop.Controllers
                         Logger.Write(String.Format("Khong lay duoc thong tin product voi productId  =  {0}", productId), true);
                         continue;
                     }
-                    dicProductCount[productCountInt] = product;
+                    dicProductCount[product] = productCountInt;
 
                     // add insert to db
                     builder.Append(productCount).Append(",");

@@ -148,6 +148,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ConfirmOrderController.cs" />
     <Compile Include="Controllers\NewOrderController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RegistryController.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Memory\MemoryInfo.IsExist.cs" />
     <Compile Include="Memory\MemorySet.Entity.cs" />
     <Compile Include="Memory\MemorySet.SetAndRemove.cs" />
+    <Compile Include="Models\Request\ConfirmOrder.cs" />
     <Compile Include="Models\Request\NewProductReq.cs" />
     <Compile Include="Models\Request\NewOrderReq.cs" />
     <Compile Include="Models\Response\ManufacturerResponse.cs" />
@@ -197,6 +199,9 @@
     <Compile Include="Utils\Token.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\TemplateConfirmOrder.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Config\TemplateBaogia.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -270,6 +275,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BaseUtils\BaseUtils.csproj">
+      <Project>{485e3b87-b815-448b-8d29-b8804a9c4856}</Project>
+      <Name>BaseUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{6bc6ee66-df73-4dff-b3ea-6c2542c6b11e}</Project>
       <Name>Common</Name>

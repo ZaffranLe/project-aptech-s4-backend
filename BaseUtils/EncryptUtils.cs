@@ -24,79 +24,44 @@ namespace BaseUtils
         private static IDateTimeProvider provider = new UtcDateTimeProvider();
         private static IJwtValidator validator = new JwtValidator(serializer, provider);
 
-        public static string Encode(Dictionary<string, object> payload)
-        {
-            var encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
-            return encoder.Encode(payload, _secretKey);
-        }
-
-        public static Dictionary<string, object> Decode(string payload)
-        {
-            IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
-            return decoder.DecodeToObject(payload, _secretKey, true) as Dictionary<string, object>;
-        }
-
-        internal static string Encrypt(string plainText)
+       
+        public static string Encrypt(string input, System.Text.Encoding encoding)
         {
             try
             {
-                byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-
-                byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
-                var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-                var encryptor = symmetricKey.CreateEncryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
-
-                byte[] cipherTextBytes;
-
-                using (var memoryStream = new MemoryStream())
+                Byte[] stringBytes = encoding.GetBytes(input);
+                StringBuilder sbBytes = new StringBuilder(stringBytes.Length * 2);
+                foreach (byte b in stringBytes)
                 {
-                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                        cryptoStream.FlushFinalBlock();
-                        cipherTextBytes = memoryStream.ToArray();
-                        cryptoStream.Close();
-                    }
-                    memoryStream.Close();
+                    sbBytes.AppendFormat("{0:X2}", b);
                 }
-                return Convert.ToBase64String(cipherTextBytes);
+                return sbBytes.ToString();
             }
             catch (Exception ex)
             {
                 LogTo.Error(ex.ToString());
             }
-            return plainText;
+
+            return null;
         }
 
-        internal static string Decrypt(string encryptedText)
+        public static string Decrypt(string hexInput, System.Text.Encoding encoding)
         {
             try
             {
-                var cipherTextBytes = Convert.FromBase64String(encryptedText);
-                
-                var keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
-                var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
-                var decryptor = symmetricKey.CreateDecryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
-                
-                var buffer = new byte[cipherTextBytes.Length];
-                int byteCount;
-                using (var memoryStream = new MemoryStream(cipherTextBytes))
+                int numberChars = hexInput.Length;
+                byte[] bytes = new byte[numberChars / 2];
+                for (int i = 0; i < numberChars; i += 2)
                 {
-                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                    {
-                        byteCount = cryptoStream.Read(buffer, 0, buffer.Length);
-                        cryptoStream.Close();
-                    }
-                    memoryStream.Close();
+                    bytes[i / 2] = Convert.ToByte(hexInput.Substring(i, 2), 16);
                 }
-
-                return Encoding.UTF8.GetString(buffer, 0, byteCount).TrimEnd("\0".ToCharArray());
+                return encoding.GetString(bytes);
             }
             catch (Exception ex)
             {
                 LogTo.Error(ex.ToString());
             }
-            return encryptedText;
+            return null;
         }
     }
 }

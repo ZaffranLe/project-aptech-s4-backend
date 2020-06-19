@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using BaseUtils;
 using ElectricShop.Common.Config;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Models;
@@ -21,7 +22,7 @@ namespace ElectricShop
     public static class EmailUtils
     {
 
-        public static IRestResponse SendEmailNewOrder(OrderDetail orderDetail, Customer customer, Dictionary<int, Product> dicProductCount)
+        public static IRestResponse SendEmailNewOrder(OrderDetail orderDetail, Customer customer, Dictionary<Product, int> dicProductCount)
         {
             try
             {
@@ -49,11 +50,11 @@ namespace ElectricShop
                 foreach (var product in dicProductCount)
                 {
                     string content = fullTextBaoGia.Replace("#stt", stt.ToString());
-                    content = content.Replace("#productname", product.Value.Name);
-                    content = content.Replace("#quantity", product.Key.ToString());
-                    decimal unitPrice = product.Value.UnitPrice.HasValue ? product.Value.UnitPrice.Value : 0;
+                    content = content.Replace("#productname", product.Key.Name);
+                    content = content.Replace("#quantity", product.Value.ToString());
+                    decimal unitPrice = product.Key.UnitPrice.HasValue ? product.Key.UnitPrice.Value : 0;
                     content = content.Replace("#cost", unitPrice.ToString("#,###", cul.NumberFormat));
-                    decimal price = product.Key *  unitPrice;
+                    decimal price = product.Value *  unitPrice;
                     totalPrice += price;
                     content = content.Replace("#money", price.ToString("#,###", cul.NumberFormat));
                     tableContent.Append(content);
@@ -70,6 +71,13 @@ namespace ElectricShop
                 fullText = fullText.Replace("#address", customer.Address);
                 fullText = fullText.Replace("#contenttable", tableContent.ToString());
                 fullText = fullText.Replace("#totalmoney", totalPrice.ToString("#,###", cul.NumberFormat));
+
+                //set du lieu cho link confirm
+                var baseUrl = AppGlobal.ElectricConfig.BaseUrl;
+                baseUrl = baseUrl.Replace("2000", AppGlobal.ElectricConfig.Port.ToString());
+                baseUrl += "api/confirmorder?req=";
+                baseUrl += EmailUtils.ConfirmOrderToString(new ConfirmOrder {OrderId = orderDetail.Id});
+                fullText = fullText.Replace("#linkconfirm", baseUrl);
 
                 RestClient client = new RestClient();
                 client.BaseUrl = new Uri("https://api.mailgun.net/v3");
@@ -93,16 +101,13 @@ namespace ElectricShop
             }
         }
 
-        public static string ObjectToString(object obj)
+        public static string ConfirmOrderToString(ConfirmOrder obj)
         {
             try
             {
                 var stringJson = JsonConvert.SerializeObject(obj);
-                JsonSerializerSettings theJsonSerializerSettings = new JsonSerializerSettings();
+                return EncryptUtils.Encrypt(stringJson, System.Text.Encoding.Unicode);
 
-                theJsonSerializerSettings.TypeNameHandling = TypeNameHandling.None;
-                return JsonConvert.SerializeObject(stringJson, theJsonSerializerSettings);
-               
             }
             catch (Exception ex)
             {
@@ -112,14 +117,12 @@ namespace ElectricShop
             return null;
         }
 
-        public static object StringToObject(string base64String)
+        public static ConfirmOrder StringToConfirmOrder(string stringToDecrypt)
         {
             try
             {
-                JsonSerializerSettings theJsonSerializerSettings = new JsonSerializerSettings();
-
-                theJsonSerializerSettings.TypeNameHandling = TypeNameHandling.None;
-                return JsonConvert.DeserializeObject<object>(base64String, theJsonSerializerSettings);
+                var stringJson = BaseUtils.EncryptUtils.Decrypt(stringToDecrypt, System.Text.Encoding.Unicode);
+                return JsonConvert.DeserializeObject<ConfirmOrder>(stringJson);
             }
             catch (Exception e)
             {
