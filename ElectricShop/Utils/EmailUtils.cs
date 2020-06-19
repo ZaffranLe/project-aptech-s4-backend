@@ -5,12 +5,14 @@ using System.IO;
 using System.Net;
 using NLog;
 using System.Net.Http;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using ElectricShop.Common.Config;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Models;
+using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -18,10 +20,6 @@ namespace ElectricShop
 {
     public static class EmailUtils
     {
-        private static ILogger _logger;
-        private const string URL = "https://api.telegram.org/bot1294006627:AAGm4Y4UluShkNrCTkMfPWKoni62Cihaxew/sendMessage"; // token telegram
-        private static readonly HttpClient client = new HttpClient();
-        
 
         public static IRestResponse SendEmailNewOrder(OrderDetail orderDetail, Customer customer, Dictionary<int, Product> dicProductCount)
         {
@@ -95,5 +93,40 @@ namespace ElectricShop
             }
         }
 
+        public static string ObjectToString(object obj)
+        {
+            try
+            {
+                var stringJson = JsonConvert.SerializeObject(obj);
+                JsonSerializerSettings theJsonSerializerSettings = new JsonSerializerSettings();
+
+                theJsonSerializerSettings.TypeNameHandling = TypeNameHandling.None;
+                return JsonConvert.SerializeObject(stringJson, theJsonSerializerSettings);
+               
+            }
+            catch (Exception ex)
+            {
+                Logger.Write("Đã xảy ra lỗi trong quá trình mã hóa object to string: " +ex, true);
+                throw;
+            }
+            return null;
+        }
+
+        public static object StringToObject(string base64String)
+        {
+            try
+            {
+                JsonSerializerSettings theJsonSerializerSettings = new JsonSerializerSettings();
+
+                theJsonSerializerSettings.TypeNameHandling = TypeNameHandling.None;
+                return JsonConvert.DeserializeObject<object>(base64String, theJsonSerializerSettings);
+            }
+            catch (Exception e)
+            {
+                Logger.Write("Đã xảy ra lỗi trong quá trình giải mã  string to object: " + e, true);
+                throw;
+            }
+            return null;
+        }
     }
 }
