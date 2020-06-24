@@ -21,15 +21,6 @@ namespace ElectricShop.Controllers
         {
             try
             {
-                #region token
-                var header = Request.Headers;
-                var token = header.Authorization.Parameter;
-                UserInfo userInfo;
-                if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-                {
-                    return StatusCode(HttpStatusCode.Unauthorized);
-                }
-                #endregion
                 var lstData = MemoryInfo.GetAllProduct();
                 List<ProductResponse> lstRes = new List<ProductResponse>();
                 foreach (var product in lstData)
@@ -56,15 +47,6 @@ namespace ElectricShop.Controllers
         {
             try
             {
-                #region token
-                var header = Request.Headers;
-                var token = header.Authorization.Parameter;
-                UserInfo userInfo;
-                if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-                {
-                    return StatusCode(HttpStatusCode.Unauthorized);
-                }
-                #endregion
                 var data = MemoryInfo.GetProduct(id);
                 var res = new RequestErrorCode(true, null, null);
                 res.ListDataResult.Add(new ProductResponse
@@ -110,7 +92,7 @@ namespace ElectricShop.Controllers
 
                 #region Tạo key
                 var productOldKey = Memory.Memory.GetMaxKey(Product.EntityName());
-                var propertyOldKey = Memory.Memory.GetMaxKey(Product.EntityName());
+                var propertyOldKey = Memory.Memory.GetMaxKey(Property.EntityName());
                 int productNewKey =  productOldKey + 1;
                 int propertyNewKey = propertyOldKey + 1;
                 var productInsert = req.Product;

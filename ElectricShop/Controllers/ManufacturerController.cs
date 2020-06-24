@@ -20,15 +20,6 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				#region token
-				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
-				UserInfo userInfo;
-				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-				{
-					return StatusCode(HttpStatusCode.Unauthorized);
-				}
-				#endregion
 				var lstData = MemoryInfo.GetAllManufacturer();
 			    List<ManufacturerResponse> lstRes = new List<ManufacturerResponse>();
 			    foreach (var manufacturer in lstData)
@@ -55,15 +46,6 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				#region token
-				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
-				UserInfo userInfo;
-				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-				{
-					return StatusCode(HttpStatusCode.Unauthorized);
-				}
-				#endregion
 				var data = MemoryInfo.GetManufacturer(id);
 			    List<ManufacturerResponse> lstRes = new List<ManufacturerResponse>();
 			    lstRes.Add(new ManufacturerResponse

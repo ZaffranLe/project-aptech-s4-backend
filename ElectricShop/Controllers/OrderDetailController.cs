@@ -20,15 +20,6 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				#region token
-				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
-				UserInfo userInfo;
-				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-				{
-					return StatusCode(HttpStatusCode.Unauthorized);
-				}
-				#endregion
 				var lstData = MemoryInfo.GetAllOrderDetail();
 				var res = new RequestErrorCode(true, null, null);
 				res.ListDataResult.AddRange(lstData);
@@ -46,15 +37,6 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				#region token
-				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
-				UserInfo userInfo;
-				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
-				{
-					return StatusCode(HttpStatusCode.Unauthorized);
-				}
-				#endregion
 				var data = MemoryInfo.GetOrderDetail(id);
 				var res = new RequestErrorCode(true, null, null);
 				res.ListDataResult.Add(data);
