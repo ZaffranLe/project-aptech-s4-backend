@@ -139,7 +139,8 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
+                Logger.Write(string.Format("Request: {0}",req.ToString()),true);
             }
             return BadRequest("Unknow");
         }
@@ -195,7 +196,8 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(), true);
+                Logger.Write(string.Format("Request: {0}", req.ToString()), true);
             }
             return BadRequest("Unknow");
         }
@@ -248,7 +250,7 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(), true);
             }
             return BadRequest("Unknow");
         }
