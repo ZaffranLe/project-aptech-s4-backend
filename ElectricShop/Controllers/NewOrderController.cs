@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,18 +37,28 @@ namespace ElectricShop.Controllers
                 var keyOrderDetail = Memory.Memory.GetMaxKey(OrderDetail.EntityName());
                 #region Tao ra khach hang va don hang
 
-                var customer = new Customer
+                var lstCustomerByphone = MemoryInfo.GetListCustomerByField(req.Phone, Customer.CustomerFields.Phone);
+                Customer customer;
+                if (lstCustomerByphone.Count == 0)
                 {
-                    Address = req.Address,
-                    CreatedAt = DateTime.Now,
-                    Email = req.Email,
-                    CreatedBy = 1,
-                    Id = keyCustomer + 1,
-                    Name = req.Name ?? String.Format("Customer{0}", keyCustomer + 1),
-                    Phone = req.Phone,
-                    UpdatedAt = DateTime.Now,
-                    UpdatedBy = 1
-                };
+                    // neu chua co thi tao moi
+                    customer = new Customer
+                    {
+                        Address = req.Address,
+                        CreatedAt = DateTime.Now,
+                        Email = req.Email,
+                        CreatedBy = 1,
+                        Id = keyCustomer + 1,
+                        Name = req.Name ?? String.Format("Customer{0}", keyCustomer + 1),
+                        Phone = req.Phone,
+                        UpdatedAt = DateTime.Now,
+                        UpdatedBy = 1
+                    };
+                }
+                else
+                {
+                    customer = lstCustomerByphone.FirstOrDefault();
+                }
                 StringBuilder builder = new StringBuilder();
                 Dictionary<Product,int> dicProductCount = new Dictionary<Product, int>();
                 foreach (var productCount in req.ListProduct)

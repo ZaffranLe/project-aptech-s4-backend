@@ -18,20 +18,10 @@ namespace ElectricShop.Controllers
     public class ImageController : ApiController
     {
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public async Task<IHttpActionResult> Get(string hehe)
+        public async Task<IHttpActionResult> Get()
         {
             try
             {
-                bool result = false;
-                object obj = "String";
-                string str2 = "String";
-                string str3 = typeof(string).Name;
-                string str4 = "String";
-                object obj2 = str3;
-                // Comparision between object obj and object obj2 -- Com 7
-                result = String.Equals(obj, obj2);// true
-                result = String.ReferenceEquals(obj, obj2); // false
-                result = (obj == obj2);// false
                 #region token
                 var header = Request.Headers;
                 var token = header.Authorization.Parameter;

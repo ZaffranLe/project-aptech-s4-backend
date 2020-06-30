@@ -55,6 +55,7 @@ namespace ElectricShop
                 var lstUserInfo = MemoryInfo.GetAllUserInfo();
                 foreach (var userInfo in lstUserInfo)
                 {
+                    Memory.Memory.DicUserPermission[userInfo.IdUserLogin] = new List<string>(); // khoi tao
                     // check xem user thuoc nhom quyen nao
                     var lstUserRole =
                         MemoryInfo.GetListUserRoleByField(userInfo.IdUserLogin.ToString(), UserRole.UserRoleFields.IdUserLogin);
@@ -72,7 +73,6 @@ namespace ElectricShop
                         dicPermissionRole[rolePermission.IdPermission] = 1;
                     }
                     var lstPermission = MemoryInfo.GetAllPermission().Where(x => dicPermissionRole.ContainsKey(x.Id)).Select(x => x.Name).ToList();
-                    Memory.Memory.DicUserPermission[userInfo.IdUserLogin] = new List<string>();
                     if (lstPermission.Count == 0)
                         continue; // khong co permission nao ca
                     Memory.Memory.DicUserPermission[userInfo.IdUserLogin].AddRange(lstPermission);
@@ -80,7 +80,7 @@ namespace ElectricShop
             }
             catch (Exception ex)
             {
-                Logger.Write(string.Format("Init Permission voi resson:{0} that bai", reason));
+                Logger.Write(string.Format("Init Permission voi resson:{0} that bai", reason),true);
                 Logger.Write(ex.ToString(),true);
                 return false;
             }

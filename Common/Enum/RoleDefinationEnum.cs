@@ -45,6 +45,7 @@ namespace ElectricShop.Common.Enum
 	    UpdateUser = 41,
 	    AssignRoleForUser = 42,
 	    DeleteUser = 43,
+	    ViewListPermission = 44,
     }
 }
 

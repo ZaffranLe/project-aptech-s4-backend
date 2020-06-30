@@ -88,6 +88,7 @@
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="ConsoleLog.cs" />
     <Compile Include="Enum\DataOperator.cs" />
+    <Compile Include="Enum\RoleAction.cs" />
     <Compile Include="Enum\EntityAction.cs" />
     <Compile Include="Enum\EntityGet.cs" />
     <Compile Include="Enum\OrderStatus.cs" />
