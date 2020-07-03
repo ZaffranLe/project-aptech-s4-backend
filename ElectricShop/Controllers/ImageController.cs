@@ -24,6 +24,10 @@ namespace ElectricShop.Controllers
             {
                 #region token
                 var header = Request.Headers;
+                if (header.Authorization == null)
+                {
+                    return StatusCode(HttpStatusCode.Unauthorized);
+                }
                 var token = header.Authorization.Parameter;
                 UserInfo userInfo;
                 if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
@@ -57,6 +61,10 @@ namespace ElectricShop.Controllers
                 string errorCode = ErrorCodeEnum.UnknownError.ToString();
                 #region token
                 var header = Request.Headers;
+                if (header.Authorization == null)
+                {
+                    return StatusCode(HttpStatusCode.Unauthorized);
+                }
                 var token = header.Authorization.Parameter;
                 UserInfo userInfo;
                 if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
@@ -158,6 +166,10 @@ namespace ElectricShop.Controllers
                 string errorCode = ErrorCodeEnum.UnknownError.ToString();
                 #region token
                 var header = Request.Headers;
+                if (header.Authorization == null)
+                {
+                    return StatusCode(HttpStatusCode.Unauthorized);
+                }
                 var token = header.Authorization.Parameter;
                 UserInfo userInfo;
                 if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))

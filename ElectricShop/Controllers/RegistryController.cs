@@ -33,10 +33,6 @@ namespace ElectricShop.Controllers
                     return StatusCode(HttpStatusCode.Unauthorized);
                 }
                 // chi co admin moi co quyen tao tai khoan khac
-                var lstPermission = MemoryInfo.GetListPermission(userInfo.IdUserLogin);
-
-
-
                 if(!Operator.HasPermision(userInfo.IdUserLogin,RoleDefinitionEnum.CreateUser))
                     return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen tao user"));
                 #endregion
@@ -47,7 +43,7 @@ namespace ElectricShop.Controllers
                     return Ok(new RequestErrorCode(false, errorCode, errorMessage));
                 }
                 #endregion
-
+                
                 #region Tạo object UserInfo va UserLogin
                 var oldKey = Memory.Memory.GetMaxKey(UserLogin.EntityName());
                 int newKey = oldKey + 1;
@@ -105,6 +101,11 @@ namespace ElectricShop.Controllers
             errorMess = null;
             try
             {
+                if (userRegistry == null)
+                {
+                    errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+                    return false;
+                }
                 if (string.IsNullOrEmpty(userRegistry.Username))
                 {
                     errorMess = "Username is null";
@@ -159,6 +160,14 @@ namespace ElectricShop.Controllers
                     errorMess = "Đã tồn tại tài khoản";
                     errorCode = ErrorCodeEnum.Error_UsernameIsExist.ToString();
                     return false;
+                }
+
+                // check email
+                var userInfoWithEmail = MemoryInfo.GetListUserInfoByField(userRegistry.Email, UserInfo.UserInfoFields.Email);
+                if (userInfoWithEmail.Count > 0)
+                {
+                    errorMess = "Đã tồn tại tài email";
+                    errorCode = ErrorCodeEnum.Error_EmailIsExist.ToString();
                 }
             }
             catch (Exception ex)

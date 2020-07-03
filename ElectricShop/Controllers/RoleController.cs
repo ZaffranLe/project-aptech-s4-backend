@@ -29,8 +29,22 @@ namespace ElectricShop.Controllers
                 }
                 #endregion
                 var lstData = MemoryInfo.GetAllRole();
+                var lstRes = new List<RoleResponse>();
+                foreach (var role in lstData)
+                {
+                    var roleRes = new RoleResponse
+                    {
+                        Role = role,
+                        ListPermission = new List<Permission>()
+                    };
+                    // lay ra lstPermission
+                    var lstPermission = Memory.Memory.DicRoleMapping[role.Id];
+                    roleRes.ListPermission = new List<Permission>();
+                    roleRes.ListPermission.AddRange(lstPermission);
+                    lstRes.Add(roleRes);
+                }
                 var res = new RequestErrorCode(true, null, null);
-                res.ListDataResult.AddRange(lstData);
+                res.ListDataResult.AddRange(lstRes);
                 return Ok(res);
             }
             catch (Exception ex)

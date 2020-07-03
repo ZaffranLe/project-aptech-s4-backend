@@ -22,7 +22,11 @@ namespace ElectricShop.Controllers
 			{
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -48,7 +52,11 @@ namespace ElectricShop.Controllers
 			{
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -76,7 +84,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -131,7 +143,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -187,7 +203,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -238,8 +258,38 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
 
-			}
+			    if (obj.Date == null || obj.Date == DateTime.MinValue || obj.Date == DateTime.MaxValue)
+			    {
+			        errorCode = ErrorCodeEnum.Error_DateIsNull.ToString();
+			        errorMess = "Date is not null";
+			        return false;
+                }
+
+			    if (obj.IdEmployee == 0)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "IdEmployee  is not null";
+			        return false;
+                }
+			    if (obj.IdProvider == 0)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "IdProvider  is not null";
+			        return false;
+                }
+			    if (string.IsNullOrEmpty(obj.ListProductId))
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "ListProductId  is not null";
+			        return false;
+                }
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());
@@ -254,8 +304,38 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
 
-			}
+			    if (obj.Date == null || obj.Date == DateTime.MinValue || obj.Date == DateTime.MaxValue)
+			    {
+			        errorCode = ErrorCodeEnum.Error_DateIsNull.ToString();
+			        errorMess = "Date is not null";
+			        return false;
+			    }
+
+			    if (obj.IdEmployee == 0)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "IdEmployee  is not null";
+			        return false;
+			    }
+			    if (obj.IdProvider == 0)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "IdProvider  is not null";
+			        return false;
+			    }
+			    if (string.IsNullOrEmpty(obj.ListProductId))
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "ListProductId  is not null";
+			        return false;
+			    }
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());

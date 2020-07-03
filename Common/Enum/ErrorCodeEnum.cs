@@ -22,6 +22,11 @@ namespace ElectricShop.Common.Enum
         ErrorPhoneFormat = 18,
         ErrorAddressIsNull = 19,
         ErrorListProductIsNull = 20,
+        Error_EmailIsExist = 21,
+        Error_PasswordIsNull = 22,
+        Error_NewPasswordIsSamePassword = 23,
+        Error_CustomerNameIsNull = 24,
+        Error_DateIsNull = 25,
     }
 }
 

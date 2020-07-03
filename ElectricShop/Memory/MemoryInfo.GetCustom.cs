@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Anotar.NLog;
 using ElectricShop.Entity.Entities;
 using ElectricShop.Entity.Keys;
@@ -11,7 +12,7 @@ namespace ElectricShop.Memory
         {
             if (DicUserPermission != null && DicUserPermission.ContainsKey(userId))
             {
-                return DicUserPermission[userId];
+                return DicUserPermission[userId].Select(x => x.Name).ToList();
             }
             return  new List<string>();
         }

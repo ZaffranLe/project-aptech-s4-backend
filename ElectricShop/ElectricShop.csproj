@@ -152,6 +152,7 @@
     <Compile Include="Controllers\NewOrderController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\RegistryController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImportReceiptController.cs" />
@@ -181,12 +182,14 @@
     <Compile Include="Memory\MemoryInfo.IsExist.cs" />
     <Compile Include="Memory\MemorySet.Entity.cs" />
     <Compile Include="Memory\MemorySet.SetAndRemove.cs" />
+    <Compile Include="Models\Request\ChangePasswordReq.cs" />
     <Compile Include="Models\Request\ConfirmOrder.cs" />
     <Compile Include="Models\Request\UserRoleReq.cs" />
     <Compile Include="Models\Request\RolePermissionReq.cs" />
     <Compile Include="Models\Request\NewProductReq.cs" />
     <Compile Include="Models\Request\NewOrderReq.cs" />
     <Compile Include="Models\Response\ManufacturerResponse.cs" />
+    <Compile Include="Models\Response\RoleResponse.cs" />
     <Compile Include="Models\Response\ProductResponse.cs" />
     <Compile Include="Models\Response\ProductTypeResponse.cs" />
     <Compile Include="Models\Response\ProviderResponse.cs" />

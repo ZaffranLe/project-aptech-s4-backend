@@ -78,6 +78,10 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t{");
                 stringBuild.AppendLine("\t\t\t\t#region token");
                 stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
+                stringBuild.AppendLine("\t\t\t\tif (header.Authorization == null)");
+                stringBuild.AppendLine("\t\t\t\t{");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
+                stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
@@ -107,6 +111,10 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t{");
                 stringBuild.AppendLine("\t\t\t\t#region token");
                 stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
+                stringBuild.AppendLine("\t\t\t\tif (header.Authorization == null)");
+                stringBuild.AppendLine("\t\t\t\t{");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
+                stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
@@ -140,6 +148,10 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tstring errorCode = ErrorCodeEnum.UnknownError.ToString();");
                 stringBuild.AppendLine("\t\t\t\t#region token");
                 stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
+                stringBuild.AppendLine("\t\t\t\tif (header.Authorization == null)");
+                stringBuild.AppendLine("\t\t\t\t{");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
+                stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
@@ -198,6 +210,10 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tstring errorCode = ErrorCodeEnum.UnknownError.ToString();");
                 stringBuild.AppendLine("\t\t\t\t#region token");
                 stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
+                stringBuild.AppendLine("\t\t\t\tif (header.Authorization == null)");
+                stringBuild.AppendLine("\t\t\t\t{");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
+                stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");
@@ -257,6 +273,10 @@ namespace CommonicationMemory.CodeGeneration
                 stringBuild.AppendLine("\t\t\t\tstring errorCode = ErrorCodeEnum.UnknownError.ToString();");
                 stringBuild.AppendLine("\t\t\t\t#region token");
                 stringBuild.AppendLine("\t\t\t\tvar header = Request.Headers;");
+                stringBuild.AppendLine("\t\t\t\tif (header.Authorization == null)");
+                stringBuild.AppendLine("\t\t\t\t{");
+                stringBuild.AppendLine("\t\t\t\t\treturn StatusCode(HttpStatusCode.Unauthorized);");
+                stringBuild.AppendLine("\t\t\t\t}");
                 stringBuild.AppendLine("\t\t\t\tvar token = header.Authorization.Parameter;");
                 stringBuild.AppendLine("\t\t\t\tUserInfo userInfo;");
                 stringBuild.AppendLine("\t\t\t\tif (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))");

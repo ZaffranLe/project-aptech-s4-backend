@@ -22,7 +22,11 @@ namespace ElectricShop.Controllers
 			{
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -48,7 +52,11 @@ namespace ElectricShop.Controllers
 			{
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -76,7 +84,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -131,7 +143,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -187,7 +203,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -238,7 +258,32 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+                }
 
+			    if (obj.Email == null || !CheckUtils.ValidateEmail(obj.Email))
+			    {
+			        errorMess = "Email khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorEmailFormat.ToString();
+			        return false;
+                }
+
+			    if (obj.Phone == null || !CheckUtils.CheckValidMobile(obj.Phone))
+			    {
+			        errorMess = "Phone khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			        return false;
+                }
+
+			    if (obj.Name == null)
+			    {
+			        errorMess = "Ten khach hang khong duoc de trong";
+			        errorCode = ErrorCodeEnum.Error_CustomerNameIsNull.ToString();
+			        return false;
+                }
 			}
 			catch (Exception ex)
 			{
@@ -254,8 +299,33 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
 
-			}
+			    if (obj.Email == null || !CheckUtils.ValidateEmail(obj.Email))
+			    {
+			        errorMess = "Email khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorEmailFormat.ToString();
+			        return false;
+			    }
+
+			    if (obj.Phone == null || !CheckUtils.CheckValidMobile(obj.Phone))
+			    {
+			        errorMess = "Phone khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			        return false;
+			    }
+
+			    if (obj.Name == null)
+			    {
+			        errorMess = "Ten khach hang khong duoc de trong";
+			        errorCode = ErrorCodeEnum.Error_CustomerNameIsNull.ToString();
+			        return false;
+			    }
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());

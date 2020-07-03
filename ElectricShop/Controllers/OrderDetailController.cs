@@ -58,7 +58,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -113,7 +117,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -169,7 +177,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -220,9 +232,46 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
-
-			}
-			catch (Exception ex)
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
+			    if (obj.Phone == null)
+			    {
+			        errorMess = "Phone khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			        return false;
+			    }
+			    if (obj.Phone != null)
+			    {
+			        if (!CheckUtils.CheckValidMobile(obj.Phone))
+			        {
+			            errorMess = "Phone khong hop le";
+			            errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			            return false;
+			        }
+			    }
+			    if (obj.Address == null)
+			    {
+			        errorMess = "Dia chi khong duoc de trong";
+			        errorCode = ErrorCodeEnum.ErrorAddressIsNull.ToString();
+			        return false;
+			    }
+			    if (string.IsNullOrEmpty(obj.ListProductId))
+			    {
+			        errorMess = "San pham khong duoc de trong";
+			        errorCode = ErrorCodeEnum.ErrorListProductIsNull.ToString();
+			        return false;
+			    }
+                if (obj.Date == DateTime.MaxValue || obj.Date == DateTime.MinValue)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "Date is not null";
+                    return false;
+                }
+            }
+            catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());
 				throw;
@@ -236,8 +285,45 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
-
-			}
+			    if (obj == null)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
+			    if (obj.Phone == null)
+			    {
+			        errorMess = "Phone khong hop le";
+			        errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			        return false;
+			    }
+			    if (obj.Phone != null)
+			    {
+			        if (!CheckUtils.CheckValidMobile(obj.Phone))
+			        {
+			            errorMess = "Phone khong hop le";
+			            errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+			            return false;
+			        }
+			    }
+			    if (obj.Address == null)
+			    {
+			        errorMess = "Dia chi khong duoc de trong";
+			        errorCode = ErrorCodeEnum.ErrorAddressIsNull.ToString();
+			        return false;
+			    }
+			    if (string.IsNullOrEmpty(obj.ListProductId))
+			    {
+			        errorMess = "San pham khong duoc de trong";
+			        errorCode = ErrorCodeEnum.ErrorListProductIsNull.ToString();
+			        return false;
+			    }
+			    if (obj.Date == DateTime.MaxValue || obj.Date == DateTime.MinValue)
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        errorMess = "Date is not null";
+			        return false;
+			    }
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());

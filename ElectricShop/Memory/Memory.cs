@@ -10,7 +10,8 @@ namespace ElectricShop.Memory
     public class Memory
     {
         #region DicRole
-        public static Dictionary<int,List<string>> DicUserPermission = new Dictionary<int, List<string>>();
+        public static Dictionary<int,List<Permission>> DicUserPermission = new Dictionary<int, List<Permission>>();
+        public static Dictionary<int,List<Permission>> DicRoleMapping = new Dictionary<int, List<Permission>>(); // key la id role, value la list permission
         
 
         #endregion

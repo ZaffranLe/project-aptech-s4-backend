@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using ElectricShop.Common.Enum;
@@ -15,7 +16,7 @@ namespace ElectricShop.Utils
                 return true;
             if (Memory.Memory.DicUserPermission.ContainsKey(userId))
             {
-                if (Memory.Memory.DicUserPermission[userId].Contains(role.ToString()))
+                if (Memory.Memory.DicUserPermission[userId].Any(x => x.Name == role.ToString()))
                 {
                     return true;
                 }

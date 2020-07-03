@@ -73,7 +73,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -128,7 +132,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -184,7 +192,11 @@ namespace ElectricShop.Controllers
 				string errorCode = ErrorCodeEnum.UnknownError.ToString();
 				#region token
 				var header = Request.Headers;
-				var token = header.Authorization.Parameter;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
 				UserInfo userInfo;
 				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
 				{
@@ -235,8 +247,13 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
+			    if (obj == null || string.IsNullOrEmpty(obj.Name)) 
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
 
-			}
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());
@@ -251,8 +268,12 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
-
-			}
+			    if (obj == null || string.IsNullOrEmpty(obj.Name))
+			    {
+			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
+			        return false;
+			    }
+            }
 			catch (Exception ex)
 			{
 				Logger.Write(ex.ToString());
