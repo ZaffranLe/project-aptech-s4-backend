@@ -49,7 +49,7 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return BadRequest("Unknow");
         }
@@ -73,7 +73,7 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return BadRequest("Unknow");
         }
@@ -123,12 +123,15 @@ namespace ElectricShop.Controllers
                 #endregion
                 // update memory
                 MemorySet.UpdateAndInsertEntity(req);
+                // reload memory role
+                AppGlobal.InitUserPermission("Tao moi role");
                 var result = new RequestErrorCode(true);
+                result.ListDataResult.Add(req);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return BadRequest("Unknow");
         }
@@ -184,7 +187,7 @@ namespace ElectricShop.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return BadRequest("Unknow");
         }
@@ -232,12 +235,14 @@ namespace ElectricShop.Controllers
                 #endregion
                 // update memory
                 MemorySet.RemoveEntity(obj);
+                // reload memory role
+                AppGlobal.InitUserPermission("Tao moi role");
                 var result = new RequestErrorCode(true);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Logger.Write(ex.ToString());
+                Logger.Write(ex.ToString(),true);
             }
             return BadRequest("Unknow");
         }

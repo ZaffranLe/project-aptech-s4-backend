@@ -82,6 +82,7 @@ namespace ElectricShop.Controllers
                 MemorySet.UpdateAndInsertEntity(userLogin);
                 MemorySet.UpdateAndInsertEntity(userInfoRegis);
                 var result = new RequestErrorCode(true);
+                result.ListDataResult.Add(userInfoRegis);
                 return Ok(result);
             }
             catch (Exception ex)
