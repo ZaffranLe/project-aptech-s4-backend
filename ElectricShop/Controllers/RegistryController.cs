@@ -127,7 +127,7 @@ namespace ElectricShop.Controllers
                     return false;
                 }
 
-                if (userRegistry.Email != null)
+                if (!string.IsNullOrEmpty(userRegistry.Email))
                 {
                     if (!CheckUtils.ValidateEmail(userRegistry.Email))
                     {
@@ -136,8 +136,14 @@ namespace ElectricShop.Controllers
                         return false;
                     }
                 }
+                else
+                {
+                    errorMess = "Email khong duoc de trong";
+                    errorCode = ErrorCodeEnum.ErrorEmailFormat.ToString();
+                    return false;
+                }
 
-                if (userRegistry.Phone != null)
+                if (!string.IsNullOrEmpty(userRegistry.Phone))
                 {
                     if (!CheckUtils.CheckValidMobile(userRegistry.Phone))
                     {
@@ -145,6 +151,12 @@ namespace ElectricShop.Controllers
                         errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
                         return false;
                     }
+                }
+                else
+                {
+                    errorMess = "Phone khong duoc de trong";
+                    errorCode = ErrorCodeEnum.ErrorPhoneFormat.ToString();
+                    return false;
                 }
                 if (userRegistry.Name == null )
                 {
