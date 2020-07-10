@@ -4,7 +4,7 @@ namespace ElectricShop.Common.Enum
     {
         New = 1,
         Approval = 2,
-        Done
+        Done = 3
     }
 }
 

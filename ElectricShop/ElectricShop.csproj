@@ -188,6 +188,8 @@
     <Compile Include="Models\Request\RolePermissionReq.cs" />
     <Compile Include="Models\Request\NewProductReq.cs" />
     <Compile Include="Models\Request\NewOrderReq.cs" />
+    <Compile Include="Models\Response\OrderDetailResponse.cs" />
+    <Compile Include="Models\Response\ImportReceiptResponse.cs" />
     <Compile Include="Models\Response\ManufacturerResponse.cs" />
     <Compile Include="Models\Response\RoleResponse.cs" />
     <Compile Include="Models\Response\ProductResponse.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Models\ErrorCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderDatabase\ProcessReadDatabaseUtils.cs" />
+    <Compile Include="Utils\ProductUtils.cs" />
     <Compile Include="Utils\CheckUtils.cs" />
     <Compile Include="Utils\ImagesUtils.cs" />
     <Compile Include="Utils\EmailUtils.cs" />

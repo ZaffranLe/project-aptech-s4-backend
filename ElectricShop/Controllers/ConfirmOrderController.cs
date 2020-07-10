@@ -30,24 +30,24 @@ namespace ElectricShop.Controllers
                 string Html = File.ReadAllText(path);
                 if (req == null)
                 {
-                    Html = Html.Replace("#title", "Rất tiếc!");
-                    Html = Html.Replace("#content", "Đã xảy ra sự cố trong quá trình tự động xác thực đơn hàng vui long liên hệ quản trị viên để xử lí.");
+                    Html = Html.Replace("#title", "Sorry!");
+                    Html = Html.Replace("#content", "There was a problem during auto-order verification, please contact administrator for processing.");
                 }
                 else
                 {
                     var cfOrderObj = EmailUtils.StringToConfirmOrder(req);
                     if (cfOrderObj == null)
                     {
-                        Html = Html.Replace("#title", "Rất tiếc!");
-                        Html = Html.Replace("#content", "Đã xảy ra sự cố trong quá trình tự động xác thực đơn hàng vui long liên hệ quản trị viên để xử lí.");
+                        Html = Html.Replace("#title", "Sorry!");
+                        Html = Html.Replace("#content", "There was a problem during auto-order verification, please contact administrator for processing.");
                     }
                     else
                     {
                         var orderDetail = MemoryInfo.GetOrderDetail(cfOrderObj.OrderId);
                         if (orderDetail == null)
                         {
-                            Html = Html.Replace("#title", "Rất tiếc!");
-                            Html = Html.Replace("#content", "Đã xảy ra sự cố trong quá trình tự động xác thực đơn hàng vui long liên hệ quản trị viên để xử lí.");
+                            Html = Html.Replace("#title", "Sorry!");
+                            Html = Html.Replace("#content", "There was a problem during auto-order verification, please contact administrator for processing.");
                         }
                         else
                         {
@@ -59,15 +59,15 @@ namespace ElectricShop.Controllers
                             bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
                             if (!isOkDone)
                             {
-                                Html = Html.Replace("#title", "Rất tiếc!");
-                                Html = Html.Replace("#content", "Đã xảy ra sự cố trong quá trình tự động xác thực đơn hàng vui long liên hệ quản trị viên để xử lí.");
+                                Html = Html.Replace("#title", "Sorry!");
+                                Html = Html.Replace("#content", "There was a problem during auto-order verification, please contact administrator for processing.");
                             }
                             else
                             {
                                 // update memory
                                 MemorySet.UpdateAndInsertEntity(orderDetail);
-                                Html = Html.Replace("#title", "Tuyệt vời!");
-                                Html = Html.Replace("#content", "Xác nhận đơn hàng thành công");
+                                Html = Html.Replace("#title", "Great!");
+                                Html = Html.Replace("#content", "Confirm Order Succces!");
                             }
                         }
                     }

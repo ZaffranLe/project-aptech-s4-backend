@@ -75,6 +75,37 @@ namespace ElectricShop.Controllers
 			return BadRequest("Unknow");
 		}
 
+	    [EnableCors(origins: "*", headers: "*", methods: "*")]
+		public async Task<IHttpActionResult> Get(string phone)
+		{
+			try
+			{
+				#region token
+				var header = Request.Headers;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+                var token = header.Authorization.Parameter;
+				UserInfo userInfo;
+				if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo) || string.IsNullOrEmpty(phone))
+				{
+					return StatusCode(HttpStatusCode.Unauthorized);
+				}
+				#endregion
+				var data = MemoryInfo.GetAllCustomer();
+			    var response = data.Find(x => !string.IsNullOrEmpty(x.Phone) && x.Phone == phone);
+				var res = new RequestErrorCode(true, null, null);
+				res.ListDataResult.Add(response);
+				return Ok(res);
+			}
+			catch (Exception ex)
+			{
+				Logger.Write(ex.ToString());
+			}
+			return BadRequest("Unknow");
+		}
+
 		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public async Task<IHttpActionResult> Post([FromBody]Customer req)
 		{

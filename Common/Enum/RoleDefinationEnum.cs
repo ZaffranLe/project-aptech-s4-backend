@@ -46,6 +46,9 @@ namespace ElectricShop.Common.Enum
 	    AssignRoleForUser = 42,
 	    DeleteUser = 43,
 	    ViewListPermission = 44,
+	    ViewMenuConfig = 45,
+	    ViewListManufacturer = 46,
+	    CreateManufacturer = 47,
     }
 }
 

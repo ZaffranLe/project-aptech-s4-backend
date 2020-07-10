@@ -1,3 +1,3 @@
 ﻿{
-  "ConnectionString": "Data Source=34.92.152.57;Initial Catalog=AptechProjectS4;User ID=lemon;Password=admin;Persist Security Info=True"
+  "ConnectionString": "Data Source=203.171.21.11;Initial Catalog=AptechProjectS4;User ID=lemon;Password=admin;Persist Security Info=True"
 }

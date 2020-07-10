@@ -20,7 +20,26 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				var lstData = MemoryInfo.GetAllManufacturer();
+			    #region token
+			    var header = Request.Headers;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    var token = header.Authorization.Parameter;
+			    UserInfo userInfo;
+			    if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    #endregion
+
+			    // check role 
+			    if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.ViewListManufacturer))
+			    {
+			        return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen xem"));
+			    }
+                var lstData = MemoryInfo.GetAllManufacturer();
 			    List<ManufacturerResponse> lstRes = new List<ManufacturerResponse>();
 			    foreach (var manufacturer in lstData)
 			    {
@@ -83,10 +102,14 @@ namespace ElectricShop.Controllers
 				{
 					return StatusCode(HttpStatusCode.Unauthorized);
 				}
-				#endregion
-
-				#region Validate
-				if (!Validate(req, out errorCode, out errorMessage))
+			    #endregion
+			    // check role 
+			    if (!Operator.HasPermision(userInfo.IdUserLogin, RoleDefinitionEnum.CreateManufacturer))
+			    {
+			        return Ok(new RequestErrorCode(false, ErrorCodeEnum.Error_NotHavePermision.ToString(), "Khong co quyen tao"));
+			    }
+                #region Validate
+                if (!Validate(req, out errorCode, out errorMessage))
 				{
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
 				}

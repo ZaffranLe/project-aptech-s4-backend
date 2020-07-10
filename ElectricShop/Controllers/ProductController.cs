@@ -25,10 +25,19 @@ namespace ElectricShop.Controllers
                 List<ProductResponse> lstRes = new List<ProductResponse>();
                 foreach (var product in lstData)
                 {
+                    var lstProperties =
+                        MemoryInfo.GetListPropertyByField(product.Id.ToString(), Property.PropertyFields.IdProduct);
+                    var manufacturer = MemoryInfo.GetManufacturer(product.IdManufacturer);
+                    var productType = MemoryInfo.GetProductType(product.IdProductType);
+                    string manufacturerName = manufacturer?.Name;
+                    string productTypeName = productType?.Name;
                     lstRes.Add(new ProductResponse
                     {
                         Product = product,
-                        ListImages = ImagesUtils.GetImagesUrl(product.ImageId)
+                        ListImages = ImagesUtils.GetImagesUrl(product.ImageId),
+                        ListProperties = lstProperties,
+                        ProductTypeName = productTypeName,
+                        ManufacturerName = manufacturerName
                     });
                 }
                 var res = new RequestErrorCode(true, null, null);
@@ -49,10 +58,21 @@ namespace ElectricShop.Controllers
             {
                 var data = MemoryInfo.GetProduct(id);
                 var res = new RequestErrorCode(true, null, null);
+                if (data == null)
+                    return Ok(res);
+                var lstProperties =
+                    MemoryInfo.GetListPropertyByField(data.Id.ToString(), Property.PropertyFields.IdProduct);
+                var manufacturer = MemoryInfo.GetManufacturer(data.IdManufacturer);
+                var productType = MemoryInfo.GetProductType(data.IdProductType);
+                string manufacturerName = manufacturer?.Name;
+                string productTypeName = productType?.Name;
                 res.ListDataResult.Add(new ProductResponse
                 {
                     Product = data,
-                    ListImages = ImagesUtils.GetImagesUrl(data.ImageId)
+                    ListImages = ImagesUtils.GetImagesUrl(data.ImageId),
+                    ListProperties = lstProperties,
+                    ProductTypeName = productTypeName,
+                    ManufacturerName = manufacturerName
                 });
                 return Ok(res);
             }

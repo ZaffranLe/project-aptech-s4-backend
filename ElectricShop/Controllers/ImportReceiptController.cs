@@ -34,8 +34,30 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var lstData = MemoryInfo.GetAllImportReceipt();
+                var lstResponse = new List<ImportReceiptResponse>();
+			    foreach (var importReceipt in lstData)
+			    {
+			        // lay them du lieu
+			        var provider = MemoryInfo.GetProvider(importReceipt.IdProvider);
+			        var employee = MemoryInfo.GetUserInfo(importReceipt.IdEmployee);
+			        string providerName = provider?.Name;
+			        string employeeName = employee?.Name;
+                    lstResponse.Add(new ImportReceiptResponse
+                    {
+                        CreatedAt = importReceipt.CreatedAt,
+                        CreatedBy = importReceipt.CreatedBy,
+                        Date = importReceipt.Date,
+                        EmployeeName = employeeName,
+                        Id = importReceipt.Id,
+                        IdEmployee = importReceipt.IdEmployee,
+                        IdProvider = importReceipt.IdProvider,
+                        ListProductId = importReceipt.ListProductId,
+                        ProviderName = providerName,
+                        TotalPrice = importReceipt.TotalPrice
+                    });
+			    }
 				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.AddRange(lstData);
+				res.ListDataResult.AddRange(lstResponse);
 				return Ok(res);
 			}
 			catch (Exception ex)
@@ -64,8 +86,27 @@ namespace ElectricShop.Controllers
 				}
 				#endregion
 				var data = MemoryInfo.GetImportReceipt(id);
-				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.Add(data);
+			    if (data == null)
+			        return Ok(new RequestErrorCode(true, null, null));
+			    // lay them du lieu
+			    var provider = MemoryInfo.GetProvider(data.IdProvider);
+			    var employee = MemoryInfo.GetUserInfo(data.IdEmployee);
+			    string providerName = provider?.Name;
+			    string employeeName = employee?.Name;
+                var res = new RequestErrorCode(true, null, null);
+                res.ListDataResult.Add(new ImportReceiptResponse
+			    {
+			        CreatedAt = data.CreatedAt,
+			        CreatedBy = data.CreatedBy,
+			        Date = data.Date,
+			        EmployeeName = employeeName,
+			        Id = data.Id,
+			        IdEmployee = data.IdEmployee,
+			        IdProvider = data.IdProvider,
+			        ListProductId = data.ListProductId,
+			        ProviderName = providerName,
+			        TotalPrice = data.TotalPrice
+			    });
 				return Ok(res);
 			}
 			catch (Exception ex)

@@ -20,9 +20,48 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				var lstData = MemoryInfo.GetAllOrderDetail();
+			    #region token
+			    var header = Request.Headers;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    var token = header.Authorization.Parameter;
+			    UserInfo userInfo;
+			    if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    #endregion
+                var lstData = MemoryInfo.GetAllOrderDetail();
+                List<OrderDetailResponse> lstResponse = new List<OrderDetailResponse>();
+			    foreach (var orderDetail in lstData)
+			    {
+			        // lay them employee Name
+			        var employee =  MemoryInfo.GetUserInfo(orderDetail.IdEmployee);
+			        var customer =  MemoryInfo.GetCustomer(orderDetail.IdCustomer ?? 0);
+			        string employeeName = employee?.Name;
+			        string customerName = customer?.Name;
+			        lstResponse.Add(new OrderDetailResponse
+			        {
+                        Address = orderDetail.Address,
+                        CreatedAt = orderDetail.CreatedAt,
+                        CreatedBy = orderDetail.CreatedBy,
+                        Date = orderDetail.Date,
+                        EmployeeName = employeeName,
+                        Id = orderDetail.Id,
+                        IdCustomer = orderDetail.IdCustomer,
+                        CustomerName = customerName,
+                        IdEmployee = orderDetail.IdEmployee,
+                        ListProductId = orderDetail.ListProductId,
+                        OrderStatus = orderDetail.OrderStatus,
+                        Name = orderDetail.Name,
+                        UpdatedAt = orderDetail.UpdatedAt,
+                        UpdatedBy = orderDetail.UpdatedBy
+			        });
+                }
 				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.AddRange(lstData);
+				res.ListDataResult.AddRange(lstResponse);
 				return Ok(res);
 			}
 			catch (Exception ex)
@@ -37,10 +76,46 @@ namespace ElectricShop.Controllers
 		{
 			try
 			{
-				var data = MemoryInfo.GetOrderDetail(id);
-				var res = new RequestErrorCode(true, null, null);
-				res.ListDataResult.Add(data);
-				return Ok(res);
+			    #region token
+			    var header = Request.Headers;
+			    if (header.Authorization == null)
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    var token = header.Authorization.Parameter;
+			    UserInfo userInfo;
+			    if (string.IsNullOrWhiteSpace(token) || !TokenManager.ValidateToken(token, out userInfo))
+			    {
+			        return StatusCode(HttpStatusCode.Unauthorized);
+			    }
+			    #endregion
+                var data = MemoryInfo.GetOrderDetail(id);
+			    if (data == null)
+			        return Ok(new RequestErrorCode(true, null, null));
+			    // lay them employee Name
+			    var employee = MemoryInfo.GetUserInfo(data.IdEmployee);
+			    var customer = MemoryInfo.GetCustomer(data.IdCustomer ?? 0);
+			    string employeeName = employee?.Name;
+			    string customerName = customer?.Name;
+                var res = new RequestErrorCode(true, null, null);
+				res.ListDataResult.Add(new OrderDetailResponse
+				{
+				    Address = data.Address,
+				    CreatedAt = data.CreatedAt,
+				    CreatedBy = data.CreatedBy,
+				    Date = data.Date,
+				    EmployeeName = employeeName,
+				    Id = data.Id,
+				    IdCustomer = data.IdCustomer,
+				    CustomerName = customerName,
+				    IdEmployee = data.IdEmployee,
+				    ListProductId = data.ListProductId,
+				    OrderStatus = data.OrderStatus,
+                    Name = data.Name,
+                    UpdatedAt = data.UpdatedAt,
+                    UpdatedBy = data.UpdatedBy
+                });
+                return Ok(res);
 			}
 			catch (Exception ex)
 			{
@@ -150,6 +225,12 @@ namespace ElectricShop.Controllers
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
+                // Neu chuyen trang thai tu khac done sang done thi cap nhap so luong
+			    if (obj.OrderStatus != OrderStatus.Done.ToString() && req.OrderStatus.ToString() == OrderStatus.Done.ToString())
+			    {
+			        var lstCommandProduct = ProductUtils.UpdateProductCount(req.ListProductId, false);
+			        lstCommand.AddRange(lstCommandProduct);
+                }
 				bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
 				if (!isOkDone)
 				{

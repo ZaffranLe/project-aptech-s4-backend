@@ -22,6 +22,8 @@ namespace ElectricShop.Controllers
         {
             try
             {
+                UpdateEntitySql updateEntitySql = new UpdateEntitySql();
+                var lstCommand = new List<EntityCommand>();
                 string errorMessage = "UnknowError";
                 string errorCode = ErrorCodeEnum.UnknownError.ToString();
                
@@ -54,6 +56,7 @@ namespace ElectricShop.Controllers
                         UpdatedAt = DateTime.Now,
                         UpdatedBy = 1
                     };
+                    lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(customer), EntityAction = EntityAction.Insert });
                 }
                 else
                 {
@@ -95,6 +98,7 @@ namespace ElectricShop.Controllers
                     Address = req.Address,
                     CreatedAt = DateTime.Now,
                     CreatedBy = 1,
+                    Phone = req.Phone,
                     Date = DateTime.Now,
                     Id = keyOrderDetail + 1,
                     IdCustomer = customer.Id,
@@ -108,9 +112,8 @@ namespace ElectricShop.Controllers
 
                 #endregion
                 #region Process
-                UpdateEntitySql updateEntitySql = new UpdateEntitySql();
-                var lstCommand = new List<EntityCommand>();
-                lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(customer), EntityAction = EntityAction.Insert });
+                
+                
                 lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(orderDetail), EntityAction = EntityAction.Insert });
                 bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
                 if (!isOkDone)
