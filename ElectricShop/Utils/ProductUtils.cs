@@ -12,9 +12,10 @@ namespace ElectricShop.Utils
 {
     public class ProductUtils
     {
-        public static List<EntityCommand> UpdateProductCount(string listProductId, bool isImport = true)
+        public static List<EntityCommand> UpdateProductCount(string listProductId, bool isImport,out List<Product> lstProducts)
         {
             var lstCommandResult = new List<EntityCommand>();
+            lstProducts = new List<Product>();
             try
             {
                 //listProductId co dang 1-2,2-1,3-4
@@ -49,6 +50,7 @@ namespace ElectricShop.Utils
                     {
                         product.Quantity = oldQuantity - productCountInt;
                     }
+                    lstProducts.Add(product);
                     lstCommandResult.Add(new EntityCommand { BaseEntity = new Entity.Entity(product), EntityAction = EntityAction.Update });
                 }
                 

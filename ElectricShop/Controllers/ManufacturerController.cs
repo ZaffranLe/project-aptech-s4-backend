@@ -125,6 +125,10 @@ namespace ElectricShop.Controllers
 				#region Process
 				req.CreatedAt = DateTime.Now;
 				req.CreatedBy = userInfo.IdUserLogin;
+			    if (string.IsNullOrEmpty(req.Name))
+			    {
+			        req.Name = $"ImportOrder{newKey}";
+			    }
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
@@ -270,7 +274,7 @@ namespace ElectricShop.Controllers
 			errorMess = null;
 			try
 			{
-			    if (obj == null || string.IsNullOrEmpty(obj.Name)) 
+			    if (obj == null) 
 			    {
 			        errorCode = ErrorCodeEnum.DataInputWrong.ToString();
 			        return false;

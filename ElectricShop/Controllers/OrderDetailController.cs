@@ -225,10 +225,11 @@ namespace ElectricShop.Controllers
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Update });
+                List<Product> lstProductUpdate = new List<Product>();
                 // Neu chuyen trang thai tu khac done sang done thi cap nhap so luong
 			    if (obj.OrderStatus != OrderStatus.Done.ToString() && req.OrderStatus.ToString() == OrderStatus.Done.ToString())
 			    {
-			        var lstCommandProduct = ProductUtils.UpdateProductCount(req.ListProductId, false);
+			        var lstCommandProduct = ProductUtils.UpdateProductCount(req.ListProductId, false,out lstProductUpdate);
 			        lstCommand.AddRange(lstCommandProduct);
                 }
 				bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
@@ -239,7 +240,11 @@ namespace ElectricShop.Controllers
 				#endregion
 				// update memory
 				MemorySet.UpdateAndInsertEntity(req);
-				var result = new RequestErrorCode(true);
+			    foreach (var product in lstProductUpdate)
+			    {
+			        MemorySet.UpdateAndInsertEntity(product);
+			    }
+                var result = new RequestErrorCode(true);
 				return Ok(result);
 			}
 			catch (Exception ex)

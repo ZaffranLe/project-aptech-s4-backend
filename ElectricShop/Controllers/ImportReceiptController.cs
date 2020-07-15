@@ -157,7 +157,10 @@ namespace ElectricShop.Controllers
 				UpdateEntitySql updateEntitySql = new UpdateEntitySql();
 				var lstCommand = new List<EntityCommand>();
 				lstCommand.Add(new EntityCommand { BaseEntity = new Entity.Entity(req), EntityAction = EntityAction.Insert });
-				bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
+                List<Product> lstProductUpdate = new List<Product>();
+			    var lstCommandProduct = ProductUtils.UpdateProductCount(req.ListProductId,true,out lstProductUpdate);
+			    lstCommand.AddRange(lstCommandProduct);
+                bool isOkDone = updateEntitySql.UpdateDefault(lstCommand);
 				if (!isOkDone)
 				{
 					return Ok(new RequestErrorCode(false, errorCode, errorMessage));
@@ -165,6 +168,10 @@ namespace ElectricShop.Controllers
 				#endregion
 				// update memory
 				MemorySet.UpdateAndInsertEntity(req);
+			    foreach (var product in lstProductUpdate)
+			    {
+			        MemorySet.UpdateAndInsertEntity(product);
+                }
 				var result = new RequestErrorCode(true);
 				return Ok(result);
 			}
